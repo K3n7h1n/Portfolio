@@ -1,0 +1,103 @@
+---
+/**
+ * Composant VideoCard
+ * 
+ * Carte vidéo avec effet parallaxe
+ * 
+ * Props:
+ * - titre: string - Titre de la vidéo
+ * - videoSrc: string - Chemin vers la vidéo (ex: /videos/ma-video.mp4)
+ * - speed: number - Vitesse du parallaxe (0.1 à 1.0)
+ * - placeholderGradient: string - Gradient de fond si pas de vidéo
+ * - borderColor: 'pink' | 'blue' - Couleur de la bordure
+ */
+
+interface Props {
+  titre: string;
+  videoSrc?: string;
+  speed?: number;
+  placeholderGradient?: string;
+  borderColor?: 'pink' | 'blue';
+}
+
+const { 
+  titre, 
+  videoSrc,
+  speed = 0.5,
+  placeholderGradient = 'from-blue-600/80 to-purple-500/60',
+  borderColor = 'pink'
+} = Astro.props;
+
+const borderClass = borderColor === 'pink' 
+  ? 'border-primary-pink/30 hover:border-primary-pink' 
+  : 'border-primary-blue/30 hover:border-primary-blue';
+
+const hasVideo = videoSrc && videoSrc.trim() !== '';
+---
+
+<div class="video-card parallax-item" data-speed={speed}>
+  <div class={`relative overflow-hidden rounded-2xl border-2 ${borderClass} transition-all duration-300 group`}>
+    {hasVideo ? (
+      <!-- Vraie vidéo -->
+      <video 
+        autoplay 
+        muted 
+        loop 
+        playsinline 
+        class="w-full h-full object-cover aspect-video"
+      >
+        <source src={videoSrc} type="video/mp4">
+        Votre navigateur ne supporte pas la lecture vidéo.
+      </video>
+    ) : (
+      <!-- Placeholder avec dégradé -->
+      <div class={`aspect-video bg-gradient-to-br ${placeholderGradient} backdrop-blur-sm flex items-center justify-center`}>
+        <div class={`absolute inset-0 bg-gradient-to-br ${placeholderGradient} group-hover:scale-110 transition-transform duration-500`}></div>
+        <div class="relative z-10 text-center">
+          <svg class="w-20 h-20 text-white mx-auto mb-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+        </div>
+      </div>
+    )}
+    
+    <!-- Overlay avec titre -->
+    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-4">
+      <h4 class="text-white font-semibold text-lg" set:html={titre} />
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Styles des cartes vidéo */
+  .video-card {
+    transition: transform 0.3s ease;
+    will-change: transform;
+  }
+
+  .video-card:hover {
+    transform: scale(1.02);
+  }
+
+  /* Effet parallaxe - smooth */
+  .parallax-item {
+    transition: transform 0.1s ease-out;
+  }
+
+  /* Animation du bouton play */
+  .video-card svg {
+    transition: transform 0.3s ease;
+  }
+
+  .video-card:hover svg {
+    transform: scale(1.1);
+  }
+
+  /* Overlay au hover */
+  .video-card .group:hover .absolute.bottom-0 {
+    background: linear-gradient(to top, 
+      rgba(0, 0, 0, 0.9), 
+      rgba(0, 0, 0, 0.6), 
+      transparent);
+  }
+</style>

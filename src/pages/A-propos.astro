@@ -1,0 +1,484 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SkillCard from '../components/SkillCard.astro';
+import { competences } from '../config/competences.config';
+---
+
+<Layout title="À propos - Enzo Locatelli">
+	<!-- Section d'introduction -->
+	<section id="intro" class="min-h-screen flex items-center px-4 py-20">
+		<div class="max-w-7xl mx-auto w-full">
+			<div class="grid md:grid-cols-2 gap-12 items-center">
+				<!-- Texte à gauche -->
+				<div class="animate-fade-in text-left">
+					<h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
+						<span class="block text-white mb-2">Enchanté,</span>
+						<span class="block text-white mb-2">moi c'est</span>
+						<span class="neon-pink text-6xl md:text-7xl lg:text-8xl">Enzo</span>
+					</h1>
+					
+					<h2 class="text-2xl md:text-3xl mb-8 text-white">
+						✨ <span class="neon-pink font-semibold">Étudiant en MMI</span> & <span class="neon-pink font-semibold">designer graphique</span>
+					</h2>
+					
+					<p class="text-base md:text-lg leading-relaxed text-gray-300 max-w-xl mb-6">
+						Passionné par le design graphique, la communication visuelle et le développement web, 
+						je transforme les idées en créations visuelles modernes et impactantes.
+					</p>
+					
+					<p class="text-base md:text-lg leading-relaxed text-gray-300 max-w-xl">
+						Mon objectif ? Allier esthétique et fonctionnalité pour créer des expériences 
+						numériques qui marquent les esprits.
+					</p>
+				</div>
+
+				<!-- Photo à droite avec halo néon -->
+				<div class="relative animate-zoom-in flex justify-center md:justify-end">
+					<div class="relative">
+						<!-- Halo rose/bleu -->
+						<div class="absolute inset-0 rounded-full bg-gradient-to-br from-primary-pink via-purple-500 to-primary-blue blur-3xl opacity-60 animate-pulse-glow"></div>
+						
+						<!-- Cadre avec dégradé -->
+						<div class="relative w-80 h-80 md:w-96 md:h-96 rounded-full bg-gradient-to-br from-primary-pink via-purple-600 to-primary-blue p-1">
+							<div class="w-full h-full rounded-full overflow-hidden bg-black">
+								<!-- Photo en noir et blanc -->
+								<img src="/ia-photo1.webp" alt="Photo de Enzo Locatelli" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Section "Mon parcours" - Timeline -->
+	<section id="parcours" class="py-24 px-4 overflow-hidden">
+		<div class="max-w-7xl mx-auto">
+			<div class="text-center mb-16 scroll-reveal">
+				<h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+					<span class="text-white">MON </span><span class="neon-pink">PARCOURS</span>
+				</h2>
+			</div>
+
+			<!-- Timeline horizontale -->
+			<div class="relative">
+				<!-- Ligne de connexion animée -->
+				<div class="absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-primary-pink via-primary-blue to-primary-pink hidden md:block timeline-wave"></div>
+				
+				<!-- Cartes du parcours -->
+				<div class="flex flex-col md:flex-row justify-between items-center gap-8 md:gap-4 relative z-10">
+					<!-- 2019 -->
+					<div class="timeline-card scroll-reveal w-full md:w-1/4" style="animation-delay: 0.1s;">
+						<div class="card bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-sm border-2 border-primary-pink/30 hover:border-primary-pink transition-all duration-300 card-hover">
+							<div class="card-body p-6 text-center">
+								<div class="text-5xl font-bold neon-pink mb-4">2019</div>
+								<div class="w-12 h-12 rounded-full bg-primary-pink mx-auto mb-4 flex items-center justify-center">
+									<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+									</svg>
+								</div>
+								<p class="text-gray-300 text-sm">
+									Découverte de la <span class="text-primary-pink font-semibold">typographie</span> et premières créations graphiques
+								</p>
+							</div>
+						</div>
+					</div>
+
+					<!-- 2020-2021 -->
+					<div class="timeline-card scroll-reveal w-full md:w-1/4" style="animation-delay: 0.2s;">
+						<div class="card bg-gradient-to-br from-primary-blue/20 to-purple-900/30 backdrop-blur-sm border-2 border-primary-blue/30 hover:border-primary-blue transition-all duration-300 card-hover">
+							<div class="card-body p-6 text-center">
+								<div class="text-4xl font-bold neon-blue mb-4">2020-2021</div>
+								<div class="w-12 h-12 rounded-full bg-primary-blue mx-auto mb-4 flex items-center justify-center">
+									<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+									</svg>
+								</div>
+								<p class="text-gray-300 text-sm">
+									Intérêt croissant pour le <span class="text-primary-blue font-semibold">développement web</span> et premières lignes de code
+								</p>
+							</div>
+						</div>
+					</div>
+
+					<!-- 2024 -->
+					<div class="timeline-card scroll-reveal w-full md:w-1/4" style="animation-delay: 0.3s;">
+						<div class="card bg-gradient-to-br from-primary-pink/20 to-purple-900/30 backdrop-blur-sm border-2 border-primary-pink/30 hover:border-primary-pink transition-all duration-300 card-hover">
+							<div class="card-body p-6 text-center">
+								<div class="text-5xl font-bold neon-pink mb-4">2024</div>
+								<div class="w-12 h-12 rounded-full bg-primary-pink mx-auto mb-4 flex items-center justify-center">
+									<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+									</svg>
+								</div>
+								<p class="text-gray-300 text-sm">
+									Entrée en <span class="text-primary-pink font-semibold">MMI</span>, découverte approfondie du design et de la communication
+								</p>
+							</div>
+						</div>
+					</div>
+
+					<!-- 2025 -->
+					<div class="timeline-card scroll-reveal w-full md:w-1/4" style="animation-delay: 0.4s;">
+						<div class="card bg-gradient-to-br from-primary-blue/20 to-purple-900/30 backdrop-blur-sm border-2 border-primary-blue/30 hover:border-primary-blue transition-all duration-300 card-hover">
+							<div class="card-body p-6 text-center">
+								<div class="text-5xl font-bold neon-blue mb-4">2025</div>
+								<div class="w-12 h-12 rounded-full bg-primary-blue mx-auto mb-4 flex items-center justify-center">
+									<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+									</svg>
+								</div>
+								<p class="text-gray-300 text-sm">
+									Réalisation de <span class="text-primary-blue font-semibold">projets associatifs</span> et audiovisuels professionnels
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Section "Mes compétences" -->
+	<section id="competences" class="py-24 px-4">
+		<div class="max-w-7xl mx-auto">
+			<div class="text-center mb-8 scroll-reveal">
+				<h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+					<span class="text-white">MES </span><span class="neon-pink">COMPÉTENCES</span>
+				</h2>
+				<p class="text-gray-300 text-lg max-w-3xl mx-auto">
+					Grâce à ce parcours, j'ai développé des compétences en <span class="text-primary-pink font-semibold">design</span>, 
+					<span class="text-primary-blue font-semibold">développement web</span> et 
+					<span class="text-primary-pink font-semibold">communication digitale</span>.
+				</p>
+			</div>
+
+			<!-- Mosaïque de compétences -->
+			<div class="skills-grid grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6 mt-16 scroll-reveal">
+				{competences.map((competence, index) => (
+					<SkillCard 
+						nom={competence.nom}
+						logo={competence.logo}
+						taille={competence.taille}
+						couleur={competence.couleur}
+					/>
+				))}
+			</div>
+
+			<!-- Légende des catégories -->
+			<div class="mt-12 flex flex-wrap justify-center gap-6 scroll-reveal">
+				<div class="flex items-center gap-2">
+					<div class="w-3 h-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-500"></div>
+					<span class="text-gray-400 text-sm">Design</span>
+				</div>
+				<div class="flex items-center gap-2">
+					<div class="w-3 h-3 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500"></div>
+					<span class="text-gray-400 text-sm">Développement</span>
+				</div>
+				<div class="flex items-center gap-2">
+					<div class="w-3 h-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500"></div>
+					<span class="text-gray-400 text-sm">Vidéo</span>
+				</div>
+				<div class="flex items-center gap-2">
+					<div class="w-3 h-3 rounded-full bg-gradient-to-r from-pink-500 to-rose-500"></div>
+					<span class="text-gray-400 text-sm">Autres</span>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Section "Mes passions" -->
+	<section id="passions" class="py-24 px-4">
+		<div class="max-w-7xl mx-auto">
+			<div class="text-center mb-16 scroll-reveal">
+				<h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+					<span class="text-white">MES </span><span class="neon-pink">PASSIONS</span>
+				</h2>
+			</div>
+
+			<div class="grid md:grid-cols-2 gap-12 items-center">
+				<!-- Colonne gauche - Vidéos avec parallaxe -->
+				<div class="space-y-8 scroll-reveal">
+					<!-- Vidéo 1 -->
+					<div class="video-card parallax-item" data-speed="0.3">
+						<div class="relative overflow-hidden rounded-2xl border-2 border-primary-pink/30 hover:border-primary-pink transition-all duration-300 group">
+							<div class="aspect-video bg-gradient-to-br from-red-600/80 to-orange-500/60 backdrop-blur-sm flex items-center justify-center">
+								<!-- Placeholder pour vidéo -->
+								<div class="absolute inset-0 bg-gradient-to-br from-red-500/30 to-pink-500/30 group-hover:scale-110 transition-transform duration-500"></div>
+								<div class="relative z-10 text-center">
+									<svg class="w-20 h-20 text-white mx-auto mb-4" fill="currentColor" viewBox="0 0 24 24">
+										<path d="M8 5v14l11-7z"/>
+									</svg>
+								</div>
+							</div>
+							<div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-4">
+								<h4 class="text-white font-semibold text-lg">TikTok Pour Le Compte MMI</h4>
+							</div>
+						</div>
+					</div>
+
+					<!-- Vidéo 2 -->
+					<div class="video-card parallax-item" data-speed="0.5">
+						<div class="relative overflow-hidden rounded-2xl border-2 border-primary-blue/30 hover:border-primary-blue transition-all duration-300 group">
+							<div class="aspect-video bg-gradient-to-br from-blue-600/80 to-purple-500/60 backdrop-blur-sm flex items-center justify-center">
+								<!-- Placeholder pour vidéo -->
+								<div class="absolute inset-0 bg-gradient-to-br from-blue-500/30 to-purple-500/30 group-hover:scale-110 transition-transform duration-500"></div>
+								<div class="relative z-10 text-center">
+									<svg class="w-20 h-20 text-white mx-auto mb-4" fill="currentColor" viewBox="0 0 24 24">
+										<path d="M8 5v14l11-7z"/>
+									</svg>
+								</div>
+							</div>
+							<div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-4">
+								<h4 class="text-white font-semibold text-lg">On Vous<br/>Les Animes "Parlons Au Vrai De Vue OR Du Serveur"</h4>
+							</div>
+						</div>
+					</div>
+
+					<!-- Vidéo 3 -->
+					<div class="video-card parallax-item" data-speed="0.7">
+						<div class="relative overflow-hidden rounded-2xl border-2 border-primary-pink/30 hover:border-primary-pink transition-all duration-300 group">
+							<div class="aspect-video bg-gradient-to-br from-purple-600/80 to-pink-500/60 backdrop-blur-sm flex items-center justify-center">
+								<!-- Placeholder pour vidéo -->
+								<div class="absolute inset-0 bg-gradient-to-br from-purple-500/30 to-pink-500/30 group-hover:scale-110 transition-transform duration-500"></div>
+								<div class="relative z-10 text-center">
+									<svg class="w-20 h-20 text-white mx-auto mb-4" fill="currentColor" viewBox="0 0 24 24">
+										<path d="M8 5v14l11-7z"/>
+									</svg>
+								</div>
+							</div>
+							<div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-4">
+								<h4 class="text-white font-semibold text-lg">Les Jeux Vidéos</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Colonne droite - Texte explicatif -->
+				<div class="scroll-reveal space-y-6">
+					<p class="text-gray-300 text-lg leading-relaxed">
+						<span class="text-primary-pink font-semibold text-xl">Au-delà de mes études,</span> 
+						je suis passionné par les <span class="text-primary-pink font-semibold">jeux vidéo</span>, 
+						un univers où je trouve une source d'inspiration inépuisable pour le 
+						<span class="text-primary-blue font-semibold">storytelling</span> et la 
+						<span class="text-primary-pink font-semibold">création visuelle</span>.
+					</p>
+
+					<p class="text-gray-300 text-lg leading-relaxed">
+						Je m'intéresse également à la <span class="text-primary-blue font-semibold">création de contenu vidéo</span>, 
+						que ce soit pour des réseaux sociaux ou des projets associatifs. 
+						Le <span class="text-primary-pink font-semibold">montage</span> et la 
+						<span class="text-primary-blue font-semibold">réalisation</span> me permettent d'exprimer ma créativité 
+						tout en perfectionnant mes compétences techniques.
+					</p>
+
+					<p class="text-gray-300 text-lg leading-relaxed">
+						L'<span class="text-primary-pink font-semibold">intelligence artificielle</span> est un autre domaine qui m'attire, 
+						notamment pour son potentiel à révolutionner le design et la communication. 
+						J'aime explorer comment ces nouvelles technologies peuvent enrichir mes projets 
+						et ouvrir de nouvelles perspectives créatives.
+					</p>
+
+					<p class="text-gray-300 text-lg leading-relaxed">
+						<span class="text-primary-blue font-semibold">Ma curiosité naturelle</span> me pousse à découvrir constamment 
+						de nouveaux outils, techniques et tendances pour rester à la pointe de mon domaine 
+						et proposer des solutions innovantes.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<script>
+	// Animation au scroll (Intersection Observer)
+	const observerOptions = {
+		threshold: 0.1,
+		rootMargin: '0px 0px -100px 0px'
+	};
+
+	const observer = new IntersectionObserver((entries) => {
+		entries.forEach(entry => {
+			if (entry.isIntersecting) {
+				entry.target.classList.add('animate-fade-in');
+				observer.unobserve(entry.target);
+			}
+		});
+	}, observerOptions);
+
+	// Observer tous les éléments avec la classe scroll-reveal
+	document.addEventListener('DOMContentLoaded', () => {
+		const elements = document.querySelectorAll('.scroll-reveal');
+		elements.forEach(el => observer.observe(el));
+
+		// Smooth scroll pour les liens d'ancrage
+		document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+			anchor.addEventListener('click', function (e: Event) {
+				e.preventDefault();
+				const href = (e.currentTarget as HTMLAnchorElement).getAttribute('href');
+				if (href) {
+					const target = document.querySelector(href);
+					if (target) {
+						target.scrollIntoView({
+							behavior: 'smooth',
+							block: 'start'
+						});
+					}
+				}
+			});
+		});
+
+		// Effet parallaxe fluide sur les vidéos
+		let ticking = false;
+		
+		window.addEventListener('scroll', () => {
+			if (!ticking) {
+				window.requestAnimationFrame(() => {
+					handleParallax();
+					ticking = false;
+				});
+				ticking = true;
+			}
+		});
+
+		function handleParallax() {
+			const scrolled = window.pageYOffset;
+			const parallaxItems = document.querySelectorAll('.parallax-item');
+			
+			parallaxItems.forEach((item) => {
+				const speed = parseFloat((item as HTMLElement).dataset.speed || '0.3');
+				const rect = item.getBoundingClientRect();
+				const elementTop = rect.top + scrolled;
+				const elementBottom = elementTop + rect.height;
+				
+				// Calculer si l'élément est dans la zone visible
+				if (elementBottom > scrolled && elementTop < scrolled + window.innerHeight) {
+					const yPos = -(scrolled - elementTop) * speed;
+					(item as HTMLElement).style.transform = `translateY(${yPos}px)`;
+				}
+			});
+		}
+
+		// Animation de la timeline
+		animateTimeline();
+	});
+
+	function animateTimeline() {
+		const timeline = document.querySelector('.timeline-wave');
+		if (timeline) {
+			let position = 0;
+			setInterval(() => {
+				position += 1;
+				(timeline as HTMLElement).style.backgroundPosition = `${position}px 0`;
+			}, 50);
+		}
+	}
+</script>
+
+<style>
+	/* Styles pour la page À propos */
+	.scroll-reveal {
+		opacity: 0;
+		transform: translateY(30px);
+		transition: opacity 0.8s ease, transform 0.8s ease;
+	}
+
+	.scroll-reveal.animate-fade-in {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	/* Animation de la timeline */
+	.timeline-wave {
+		background: linear-gradient(90deg, 
+			#D019D0 0%, 
+			#1974D1 25%, 
+			#D019D0 50%, 
+			#1974D1 75%, 
+			#D019D0 100%);
+		background-size: 200% 100%;
+		animation: waveFlow 3s linear infinite;
+	}
+
+	@keyframes waveFlow {
+		0% {
+			background-position: 0% 0%;
+		}
+		100% {
+			background-position: 200% 0%;
+		}
+	}
+
+	/* Styles des cartes timeline */
+	.timeline-card {
+		position: relative;
+	}
+
+	.timeline-card::before {
+		content: '';
+		position: absolute;
+		top: -20px;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 16px;
+		height: 16px;
+		background: linear-gradient(135deg, #D019D0, #1974D1);
+		border-radius: 50%;
+		box-shadow: 0 0 20px rgba(208, 25, 208, 0.6);
+		display: none;
+	}
+
+	@media (min-width: 768px) {
+		.timeline-card::before {
+			display: block;
+		}
+	}
+
+	/* Grid responsive pour les compétences */
+	.skills-grid {
+		display: grid;
+		grid-auto-flow: dense;
+	}
+
+	/* Styles des cartes vidéo */
+	.video-card {
+		transition: transform 0.3s ease;
+	}
+
+	.video-card:hover {
+		transform: scale(1.02);
+	}
+
+	/* Effet parallaxe - smooth */
+	.parallax-item {
+		will-change: transform;
+		transition: transform 0.1s ease-out;
+	}
+
+	/* Animation supplémentaire pour les éléments */
+	@media (prefers-reduced-motion: no-preference) {
+		.scroll-reveal {
+			animation-play-state: running;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.scroll-reveal,
+		.parallax-item {
+			animation: none !important;
+			transition: none !important;
+			transform: none !important;
+		}
+	}
+
+	/* Responsive adjustments */
+	@media (max-width: 768px) {
+		.timeline-card::before {
+			display: none;
+		}
+		
+		.skills-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+</style>

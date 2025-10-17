@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# ne pas push l'architecture.md de mon site
+architecture.md

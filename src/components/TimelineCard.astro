@@ -1,0 +1,92 @@
+---
+/**
+ * Composant TimelineCard
+ * 
+ * Carte animée pour la timeline du parcours
+ * 
+ * Props:
+ * - annee: string - L'année à afficher
+ * - titre: string - Titre court
+ * - description: string - Description complète
+ * - couleur: 'rose' | 'bleu' - Couleur du thème
+ * - delay: number - Délai d'animation (en secondes)
+ */
+
+interface Props {
+  annee: string;
+  titre: string;
+  description: string;
+  couleur?: 'rose' | 'bleu';
+  delay?: number;
+}
+
+const { 
+  annee, 
+  titre, 
+  description, 
+  couleur = 'rose',
+  delay = 0 
+} = Astro.props;
+
+const isRose = couleur === 'rose';
+const cardClasses = isRose 
+  ? 'bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-sm border-2 border-primary-pink/30 hover:border-primary-pink'
+  : 'bg-gradient-to-br from-primary-blue/20 to-purple-900/30 backdrop-blur-sm border-2 border-primary-blue/30 hover:border-primary-blue';
+
+const anneeClasses = isRose ? 'neon-pink' : 'neon-blue';
+const bgClasses = isRose ? 'bg-primary-pink' : 'bg-primary-blue';
+---
+
+<div 
+  class="timeline-card scroll-reveal w-full md:w-1/4" 
+  style={`animation-delay: ${delay}s;`}
+>
+  <div class={`card ${cardClasses} transition-all duration-300 card-hover`}>
+    <div class="card-body p-6 text-center">
+      <!-- Année -->
+      <div class={`text-4xl md:text-5xl font-bold ${anneeClasses} mb-4`}>
+        {annee}
+      </div>
+      
+      <!-- Icône -->
+      <div class={`w-12 h-12 rounded-full ${bgClasses} mx-auto mb-4 flex items-center justify-center`}>
+        <slot name="icon">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+          </svg>
+        </slot>
+      </div>
+      
+      <!-- Description -->
+      <p class="text-gray-300 text-sm">
+        {description}
+      </p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .timeline-card {
+    position: relative;
+  }
+
+  .timeline-card::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 16px;
+    background: linear-gradient(135deg, #D019D0, #1974D1);
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(208, 25, 208, 0.6);
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .timeline-card::before {
+      display: block;
+    }
+  }
+</style>

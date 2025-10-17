@@ -1,0 +1,137 @@
+---
+/**
+ * Composant FolderCard
+ * 
+ * Dossier stylisé 3D pour les compétences
+ * 
+ * Props:
+ * - titre: string - Titre de la compétence
+ * - gradient: number - Variante du dégradé (1, 2 ou 3)
+ * - delay: number - Délai d'animation (en secondes)
+ */
+
+interface Props {
+  titre: string;
+  gradient?: 1 | 2 | 3;
+  delay?: number;
+}
+
+const { 
+  titre, 
+  gradient = 1,
+  delay = 0 
+} = Astro.props;
+
+// Définir le dégradé selon la variante
+const gradients = {
+  1: 'from-[#D019D0] to-[#8B008B]',
+  2: 'from-[#D019D0] to-[#9D4EDD]',
+  3: 'from-[#D019D0] to-[#C75FD0]',
+};
+
+const gradientClass = gradients[gradient];
+---
+
+<div 
+  class="scroll-reveal folder-card" 
+  style={`animation-delay: ${delay}s;`}
+>
+  <div class="relative group cursor-pointer">
+    <!-- Dossier avec effet 3D -->
+    <div class="folder-3d">
+      <!-- Onglet du dossier -->
+      <div class={`folder-tab bg-gradient-to-r ${gradientClass}`}></div>
+      
+      <!-- Corps du dossier -->
+      <div class={`folder-body bg-gradient-to-br ${gradientClass}`}>
+        <!-- Icône -->
+        <div class="flex justify-center mb-6 mt-8">
+          <div class="w-24 h-24 rounded-full bg-gradient-to-br from-primary-pink to-purple-600 flex items-center justify-center icon-container">
+            <slot name="icon">
+              <!-- Icône par défaut -->
+              <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+              </svg>
+            </slot>
+          </div>
+        </div>
+        
+        <!-- Titre -->
+        <h3 class="text-2xl md:text-3xl font-bold text-white text-center mb-4">
+          {titre}
+        </h3>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Styles des dossiers 3D */
+  .folder-3d {
+    perspective: 1000px;
+    transition: transform 0.4s ease;
+  }
+
+  .folder-card:hover .folder-3d {
+    transform: translateY(-10px);
+  }
+
+  .folder-tab {
+    width: 35%;
+    height: 30px;
+    border-radius: 12px 12px 0 0;
+    margin-bottom: -2px;
+    box-shadow: 0 -4px 20px rgba(208, 25, 208, 0.3);
+  }
+
+  .folder-body {
+    border-radius: 12px;
+    padding: 2rem;
+    min-height: 280px;
+    box-shadow: 
+      0 10px 40px rgba(208, 25, 208, 0.4),
+      0 0 60px rgba(139, 0, 139, 0.3),
+      inset 0 2px 0 rgba(255, 255, 255, 0.1);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .folder-body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, 
+      transparent, 
+      rgba(255, 255, 255, 0.3), 
+      transparent);
+  }
+
+  .folder-card:hover .folder-body {
+    box-shadow: 
+      0 20px 60px rgba(208, 25, 208, 0.6),
+      0 0 80px rgba(139, 0, 139, 0.5),
+      inset 0 2px 0 rgba(255, 255, 255, 0.2);
+    transform: translateZ(20px);
+  }
+
+  /* Animation de l'icône au hover */
+  .icon-container {
+    transition: transform 0.3s ease;
+  }
+
+  .folder-card:hover .icon-container {
+    transform: scale(1.1) rotate(5deg);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .folder-body {
+      min-height: 240px;
+      padding: 1.5rem;
+    }
+  }
+</style>

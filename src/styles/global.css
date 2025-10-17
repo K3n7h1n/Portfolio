@@ -1,0 +1,344 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  height: 100%;
+  max-width: 100vw;
+}
+
+body {
+  background: linear-gradient(135deg, #000000 0%, #0a0514 50%, #000000 100%);
+  color: #ffffff;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+}
+
+/* Empêcher le scroll au-delà du footer */
+main {
+  flex: 1 0 auto;
+}
+
+footer {
+  flex-shrink: 0;
+}
+
+/* Effets de néon globaux */
+.neon-pink {
+  color: #D019D0;
+  text-shadow: 0 0 10px #D019D0, 0 0 20px #D019D0, 0 0 30px #D019D0;
+}
+
+.neon-blue {
+  color: #1974D1;
+  text-shadow: 0 0 10px #1974D1, 0 0 20px #1974D1, 0 0 30px #1974D1;
+}
+
+.glow-pink {
+  box-shadow: 0 0 20px rgba(208, 25, 208, 0.5), 0 0 40px rgba(208, 25, 208, 0.3);
+}
+
+.glow-blue {
+  box-shadow: 0 0 20px rgba(25, 116, 209, 0.5), 0 0 40px rgba(25, 116, 209, 0.3);
+}
+
+.gradient-border {
+  border: 2px solid transparent;
+  background: linear-gradient(#000, #000) padding-box,
+              linear-gradient(135deg, #D019D0, #1974D1) border-box;
+}
+
+/* Animations personnalisées */
+@layer utilities {
+  .animate-fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+  
+  .animate-slide-up {
+    opacity: 0;
+    transform: translateY(40px);
+    animation: slideUp 1s 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+  
+  .animate-zoom-in {
+    opacity: 0;
+    transform: scale(0.9);
+    animation: zoomIn 1s 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+  
+  .animate-gradient-text {
+    background: linear-gradient(90deg, #D019D0, #1974D1, #D019D0);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientFlow 3s linear infinite;
+  }
+  
+  .animate-pulse-glow {
+    animation: pulseGlow 2s ease-in-out infinite;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes zoomIn {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes gradientFlow {
+  0%, 100% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 100% center;
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(208, 25, 208, 0.4), 0 0 40px rgba(25, 116, 209, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(208, 25, 208, 0.6), 0 0 60px rgba(25, 116, 209, 0.4);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* Effets de hover sur les boutons */
+.btn-neon {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.btn-neon::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn-neon:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.btn-neon:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(208, 25, 208, 0.6), 0 0 60px rgba(25, 116, 209, 0.4);
+}
+
+/* Boutons avec couleur rose forcée */
+.btn-primary {
+  background-color: #D019D0 !important;
+  border-color: #D019D0 !important;
+  color: white !important;
+  padding: 0.75rem 2rem !important;
+  min-height: 3rem !important;
+  border-radius: 0.5rem !important;
+}
+
+.btn-primary:hover {
+  background-color: #ff00ff !important;
+  border-color: #ff00ff !important;
+  box-shadow: 0 0 20px rgba(208, 25, 208, 0.8), 0 0 40px rgba(208, 25, 208, 0.4) !important;
+}
+
+.btn-secondary {
+  background-color: #D019D0 !important;
+  border-color: #D019D0 !important;
+  color: white !important;
+  padding: 0.75rem 2rem !important;
+  min-height: 3rem !important;
+  border-radius: 0.5rem !important;
+}
+
+.btn-secondary:hover {
+  background-color: #ff00ff !important;
+  border-color: #ff00ff !important;
+  box-shadow: 0 0 20px rgba(208, 25, 208, 0.8), 0 0 40px rgba(208, 25, 208, 0.4) !important;
+}
+
+.btn-info {
+  background-color: #D019D0 !important;
+  border-color: #D019D0 !important;
+  color: white !important;
+  padding: 0.75rem 2rem !important;
+  min-height: 3rem !important;
+  border-radius: 0.5rem !important;
+}
+
+.btn-info:hover {
+  background-color: #ff00ff !important;
+  border-color: #ff00ff !important;
+  box-shadow: 0 0 20px rgba(208, 25, 208, 0.8), 0 0 40px rgba(208, 25, 208, 0.4) !important;
+}
+
+/* Style général pour tous les boutons DaisyUI */
+.btn {
+  background-color: #D019D0 !important;
+  border-color: #D019D0 !important;
+  color: white !important;
+  padding: 0.75rem 2rem !important;
+  min-height: 3rem !important;
+  border-radius: 0.5rem !important;
+  font-weight: 500 !important;
+  line-height: 1.5 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+}
+
+.btn:hover {
+  background-color: #ff00ff !important;
+  border-color: #ff00ff !important;
+}
+
+/* Tailles de boutons */
+.btn-sm {
+  padding: 0.5rem 1.5rem !important;
+  min-height: 2.5rem !important;
+  font-size: 0.875rem !important;
+}
+
+.btn-lg {
+  padding: 1rem 2.5rem !important;
+  min-height: 3.5rem !important;
+  font-size: 1.125rem !important;
+}
+
+/* Cards avec effets */
+.card-hover {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 60px rgba(208, 25, 208, 0.3), 0 0 40px rgba(25, 116, 209, 0.2);
+}
+
+/* Cercles lumineux en arrière-plan */
+.bg-circle {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Scrollbar personnalisée */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #D019D0, #1974D1);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #ff00ff, #00bfff);
+}
+
+/* Responsive optimisations */
+@media (max-width: 768px) {
+  .neon-pink, .neon-blue {
+    text-shadow: 0 0 5px #D019D0, 0 0 10px #D019D0;
+  }
+}
+
+/* Styles pour la page À propos */
+@layer utilities {
+  .text-shadow-glow {
+    text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+  }
+}
+
+/* Animation de particules flottantes */
+@keyframes particleFloat {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0.3;
+  }
+  25% {
+    transform: translate(10px, -20px) rotate(90deg);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(-10px, -40px) rotate(180deg);
+    opacity: 0.3;
+  }
+  75% {
+    transform: translate(-20px, -20px) rotate(270deg);
+    opacity: 0.6;
+  }
+}
+
+/* Navigation styles */
+nav {
+  transition: background-color 0.3s ease;
+}
+
+nav a {
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}

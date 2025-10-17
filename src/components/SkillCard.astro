@@ -1,0 +1,174 @@
+---
+/**
+ * Composant SkillCard
+ * 
+ * Carte interactive pour afficher un logiciel/compétence
+ * Effet d'agrandissement au survol avec rétractation des cartes voisines
+ * 
+ * Props:
+ * - nom: string - Nom du logiciel
+ * - logo: string - Chemin vers le logo
+ * - taille: 'small' | 'medium' | 'large' - Taille de la carte
+ * - couleur: string - Couleur d'accent (hex)
+ */
+
+interface Props {
+  nom: string;
+  logo: string;
+  taille?: 'small' | 'medium' | 'large';
+  couleur?: string;
+}
+
+const { 
+  nom, 
+  logo, 
+  taille = 'medium',
+  couleur = '#D019D0'
+} = Astro.props;
+
+// Classes pour les différentes tailles
+const tailleClasses = {
+  small: 'col-span-1 row-span-1 aspect-square',
+  medium: 'col-span-2 row-span-1 aspect-[2/1]',
+  large: 'col-span-2 row-span-2 aspect-square'
+};
+
+const cardClass = tailleClasses[taille];
+---
+
+<div 
+  class={`skill-card ${cardClass} group relative overflow-hidden rounded-2xl cursor-pointer transition-all duration-500 ease-out`}
+  data-skill={nom}
+>
+  <!-- Gradient de fond animé -->
+  <div 
+    class="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900 opacity-90"
+    style={`background: linear-gradient(135deg, ${couleur}15 0%, #00000090 50%, ${couleur}10 100%);`}
+  ></div>
+  
+  <!-- Bordure néon -->
+  <div 
+    class="absolute inset-0 rounded-2xl border-2 transition-all duration-500"
+    style={`border-color: ${couleur}40;`}
+  ></div>
+  
+  <!-- Effet de glow au survol -->
+  <div 
+    class="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"
+    style={`background: ${couleur}30;`}
+  ></div>
+  
+  <!-- Contenu -->
+  <div class="relative h-full flex flex-col items-center justify-center p-6 z-10">
+    <!-- Logo -->
+    <div class="logo-container mb-4 transform transition-transform duration-500 group-hover:scale-110">
+      <img 
+        src={logo} 
+        alt={`Logo ${nom}`}
+        class="w-16 h-16 md:w-20 md:h-20 object-contain filter drop-shadow-lg"
+      />
+    </div>
+    
+    <!-- Nom du logiciel -->
+    <h3 
+      class="text-white font-semibold text-center text-sm md:text-base lg:text-lg transition-all duration-300 group-hover:scale-105"
+      style={`text-shadow: 0 0 10px ${couleur}80;`}
+    >
+      {nom}
+    </h3>
+    
+    <!-- Badge de niveau (optionnel) -->
+    <div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+      <div 
+        class="w-2 h-2 rounded-full animate-pulse"
+        style={`background: ${couleur};`}
+      ></div>
+    </div>
+  </div>
+  
+  <!-- Effet de particules au survol (optionnel) -->
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="particle particle-1"></div>
+    <div class="particle particle-2"></div>
+    <div class="particle particle-3"></div>
+  </div>
+</div>
+
+<style>
+  .skill-card {
+    will-change: transform;
+    transform-origin: center;
+  }
+  
+  /* État par défaut */
+  .skill-card {
+    transform: scale(1);
+  }
+  
+  /* Au survol : agrandir la carte */
+  .skill-card:hover {
+    transform: scale(1.05);
+    z-index: 20;
+  }
+  
+  /* Rétracter légèrement les cartes adjacentes */
+  .skills-grid:hover .skill-card:not(:hover) {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+  
+  /* Animation des bordures au survol */
+  .skill-card:hover .absolute.inset-0.rounded-2xl.border-2 {
+    border-color: currentColor !important;
+    box-shadow: 0 0 30px currentColor;
+  }
+  
+  /* Particules décoratives */
+  .particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(208, 25, 208, 0.6);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .skill-card:hover .particle {
+    opacity: 1;
+  }
+  
+  .particle-1 {
+    top: 20%;
+    left: 10%;
+    animation: float-particle 2s ease-in-out infinite;
+  }
+  
+  .particle-2 {
+    top: 70%;
+    right: 15%;
+    animation: float-particle 2.5s ease-in-out infinite 0.5s;
+  }
+  
+  .particle-3 {
+    bottom: 30%;
+    left: 80%;
+    animation: float-particle 3s ease-in-out infinite 1s;
+  }
+  
+  @keyframes float-particle {
+    0%, 100% {
+      transform: translateY(0) translateX(0);
+    }
+    50% {
+      transform: translateY(-10px) translateX(5px);
+    }
+  }
+  
+  /* Optimisation GPU */
+  .skill-card,
+  .logo-container {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+</style>
