@@ -24,79 +24,79 @@ import Layout from '../layouts/Layout.astro';
 						<!-- Halo lumineux derrière le formulaire -->
 						<div class="absolute inset-0 bg-gradient-to-br from-primary-pink/10 to-primary-blue/10 blur-3xl -z-10"></div>
 						
-						<form id="contact-form" class="bg-gradient-to-br from-gray-900/50 to-black/50 backdrop-blur-sm rounded-3xl p-8 md:p-12 border border-primary-pink/30 space-y-6">
-							<div class="grid md:grid-cols-2 gap-6">
+						<form id="contact-form" class="bg-gradient-to-br from-gray-900/50 to-black/50 backdrop-blur-sm rounded-3xl p-8 md:p-12 border border-primary-pink/30 space-y-8">
+							<div class="grid md:grid-cols-2 gap-8">
 								<!-- Prénom -->
 								<div class="form-control">
-									<label for="prenom" class="label">
-										<span class="label-text text-gray-300 font-medium">Prénom *</span>
+									<label for="prenom" class="label pb-3">
+										<span class="label-text text-gray-300 font-medium text-base">Prénom *</span>
 									</label>
 									<input 
 										type="text" 
 										id="prenom" 
 										name="prenom"
 										placeholder="Votre prénom" 
-										class="input input-bordered w-full bg-gray-800/80 border-primary-pink/30 focus:border-primary-pink text-white placeholder-gray-500" 
+										class="input input-bordered w-full h-14 text-lg bg-gray-800/80 border-primary-pink/30 focus:border-primary-pink text-white placeholder-gray-500 px-5" 
 										required 
 									/>
 								</div>
 
 								<!-- Nom -->
 								<div class="form-control">
-									<label for="nom" class="label">
-										<span class="label-text text-gray-300 font-medium">Nom *</span>
+									<label for="nom" class="label pb-3">
+										<span class="label-text text-gray-300 font-medium text-base">Nom *</span>
 									</label>
 									<input 
 										type="text" 
 										id="nom" 
 										name="nom"
 										placeholder="Votre nom" 
-										class="input input-bordered w-full bg-gray-800/80 border-primary-pink/30 focus:border-primary-pink text-white placeholder-gray-500" 
+										class="input input-bordered w-full h-14 text-lg bg-gray-800/80 border-primary-pink/30 focus:border-primary-pink text-white placeholder-gray-500 px-5" 
 										required 
 									/>
 								</div>
 							</div>
 
-							<div class="grid md:grid-cols-2 gap-6">
+							<div class="grid md:grid-cols-2 gap-8">
 								<!-- Email -->
 								<div class="form-control">
-									<label for="email" class="label">
-										<span class="label-text text-gray-300 font-medium">Email *</span>
+									<label for="email" class="label pb-3">
+										<span class="label-text text-gray-300 font-medium text-base">Email *</span>
 									</label>
 									<input 
 										type="email" 
 										id="email" 
 										name="email"
 										placeholder="votre.email@exemple.com" 
-										class="input input-bordered w-full bg-gray-800/80 border-primary-pink/30 focus:border-primary-pink text-white placeholder-gray-500" 
+										class="input input-bordered w-full h-14 text-lg bg-gray-800/80 border-primary-pink/30 focus:border-primary-pink text-white placeholder-gray-500 px-5" 
 										required 
 									/>
 								</div>
 
 								<!-- Téléphone -->
 								<div class="form-control">
-									<label for="telephone" class="label">
-										<span class="label-text text-gray-300 font-medium">Téléphone</span>
+									<label for="telephone" class="label pb-3">
+										<span class="label-text text-gray-300 font-medium text-base">Téléphone</span>
 									</label>
 									<input 
 										type="tel" 
 										id="telephone" 
 										name="telephone"
 										placeholder="+33 6 12 34 56 78" 
-										class="input input-bordered w-full bg-gray-800/80 border-primary-pink/30 focus:border-primary-pink text-white placeholder-gray-500" 
+										class="input input-bordered w-full h-14 text-lg bg-gray-800/80 border-primary-pink/30 focus:border-primary-pink text-white placeholder-gray-500 px-5" 
 									/>
 								</div>
 							</div>
 
 							<!-- Sujet -->
 							<div class="form-control">
-								<label for="sujet" class="label">
-									<span class="label-text text-gray-300 font-medium">Sujet *</span>
+								<label for="sujet" class="label pb-3">
+									<span class="label-text text-gray-300 font-medium text-base">Sujet *</span>
 								</label>
 								<select 
 									id="sujet" 
 									name="sujet"
-									class="select select-bordered w-full bg-gray-800/80 border-primary-pink/30 focus:border-primary-pink text-white" 
+									class="select select-bordered w-full h-14 text-lg bg-gray-800/80 border-primary-pink/30 focus:border-primary-pink text-white px-5" 
 									required
 								>
 									<option value="" disabled selected>Sélectionnez un sujet</option>
@@ -111,40 +111,44 @@ import Layout from '../layouts/Layout.astro';
 
 							<!-- Message -->
 							<div class="form-control">
-								<label for="message" class="label">
-									<span class="label-text text-gray-300 font-medium">Message *</span>
-								</label>
+								<div class="mb-3">
+									<label for="message" class="text-gray-300 font-medium text-base block">
+										Message *
+									</label>
+								</div>
 								<textarea 
 									id="message" 
 									name="message"
-									class="textarea textarea-bordered h-40 bg-gray-800/80 border-primary-pink/30 focus:border-primary-pink text-white placeholder-gray-500 resize-none" 
-									placeholder="Décrivez votre projet ou votre demande..." 
+									rows="8"
+									class="textarea textarea-bordered min-h-[200px] text-lg leading-relaxed bg-gray-800/80 border-primary-pink/30 focus:border-primary-pink text-white placeholder-gray-500 resize-none p-5 w-full" 
+									placeholder="Décrivez votre projet ou votre demande en détail..." 
 									required
 								></textarea>
-								<label class="label">
-									<span class="label-text-alt text-gray-500">Minimum 20 caractères</span>
-								</label>
+								<div class="flex justify-between items-center mt-2">
+									<span class="text-gray-500 text-sm">Minimum 20 caractères</span>
+									<span id="char-count" class="text-gray-500 text-sm">0 / 2000</span>
+								</div>
 							</div>
 
 							<!-- Message d'erreur/succès -->
 							<div id="form-message" class="hidden"></div>
 
 							<!-- Bouton d'envoi -->
-							<div class="text-center pt-4">
+							<div class="text-center pt-6">
 								<button 
 									type="submit" 
 									id="submit-btn"
-									class="btn btn-primary btn-lg btn-neon w-full md:w-auto px-12"
+									class="btn btn-primary btn-lg btn-neon w-full md:w-auto px-16 h-16 text-lg"
 								>
-									<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
 									</svg>
 									Envoyer le message
 								</button>
 							</div>
 
-							<p class="text-center text-gray-500 text-sm mt-4">
-								* Champs obligatoires
+							<p class="text-center text-gray-400 text-sm mt-6">
+								<span class="text-primary-pink">*</span> Champs obligatoires
 							</p>
 						</form>
 					</div>
@@ -335,6 +339,29 @@ import Layout from '../layouts/Layout.astro';
 	document.addEventListener('DOMContentLoaded', () => {
 		const elements = document.querySelectorAll('.scroll-reveal');
 		elements.forEach(el => observer.observe(el));
+
+		// Compteur de caractères pour le message
+		const messageField = document.getElementById('message') as HTMLTextAreaElement;
+		const charCount = document.getElementById('char-count');
+		
+		if (messageField && charCount) {
+			messageField.addEventListener('input', () => {
+				const count = messageField.value.length;
+				charCount.textContent = `${count} / 2000`;
+				
+				// Changer la couleur selon le nombre de caractères
+				if (count < 20) {
+					charCount.classList.add('text-red-400');
+					charCount.classList.remove('text-green-400', 'text-gray-500');
+				} else if (count >= 20 && count <= 2000) {
+					charCount.classList.add('text-green-400');
+					charCount.classList.remove('text-red-400', 'text-gray-500');
+				} else {
+					charCount.classList.add('text-red-400');
+					charCount.classList.remove('text-green-400', 'text-gray-500');
+				}
+			});
+		}
 	});
 
 	// Gestion du formulaire de contact
@@ -452,7 +479,36 @@ import Layout from '../layouts/Layout.astro';
 	/* Amélioration des champs de formulaire */
 	input:focus, textarea:focus, select:focus {
 		outline: none;
-		box-shadow: 0 0 0 2px rgba(208, 25, 208, 0.2);
+		box-shadow: 0 0 0 3px rgba(208, 25, 208, 0.2);
+		transform: translateY(-1px);
+		transition: all 0.2s ease;
+	}
+
+	input, textarea, select {
+		transition: all 0.2s ease;
+	}
+
+	/* Style des labels */
+	.label-text {
+		font-size: 0.95rem;
+		letter-spacing: 0.01em;
+	}
+
+	/* Meilleur espacement pour les champs */
+	.form-control {
+		position: relative;
+	}
+
+	/* Style du placeholder */
+	input::placeholder, textarea::placeholder {
+		opacity: 0.6;
+		font-size: 0.95rem;
+	}
+
+	/* Style des options du select */
+	select option {
+		background-color: #1f2937;
+		padding: 1rem;
 	}
 
 	/* Animation du bouton lors du survol */

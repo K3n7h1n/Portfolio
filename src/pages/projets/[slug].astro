@@ -1,0 +1,423 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PocketBase from 'pocketbase';
+
+export const prerender = false; // Active le SSR pour cette page
+
+// Configuration PocketBase
+const pb = new PocketBase('http://127.0.0.1:8090');
+
+// Récupérer le slug depuis l'URL
+const { slug } = Astro.params;
+
+// Récupérer le projet
+let projet: any = null;
+
+try {
+	const projets = await pb.collection('projets').getFullList({
+		filter: `slug = "${slug}" && afficher = true`
+	});
+	
+	console.log(`Recherche du projet avec slug: "${slug}"`);
+	console.log(`Projets trouvés:`, projets.length);
+	
+	if (projets.length > 0) {
+		projet = projets[0];
+		console.log(`✅ Projet trouvé: ${projet.nom}`);
+	} else {
+		console.log(`❌ Aucun projet trouvé avec le slug: "${slug}"`);
+	}
+} catch (e) {
+	console.error('Erreur lors de la récupération du projet:', e);
+}
+
+// Si le projet n'existe pas, rediriger
+if (!projet) {
+	return Astro.redirect('/Projets');
+}
+
+// Construire les URLs des images
+const imageUrl = `http://127.0.0.1:8090/api/files/${projet.collectionId}/${projet.id}/${projet.photo_principale}`;
+const galerieUrls = projet.galerie_photos ? projet.galerie_photos.map((photo: string) => 
+	`http://127.0.0.1:8090/api/files/${projet.collectionId}/${projet.id}/${photo}`
+) : [];
+
+// Parser les informations JSON
+let infos: any = {};
+try {
+	infos = typeof projet.informations === 'string' ? JSON.parse(projet.informations) : projet.informations || {};
+} catch {
+	infos = {};
+}
+---
+
+<Layout title={`${projet.nom} - Projets`} description={projet.description_courte}>
+	<!-- Hero du projet -->
+	<section class="min-h-screen px-4 py-20">
+		<div class="max-w-7xl mx-auto">
+			<!-- Bouton retour -->
+			<div class="mb-8 scroll-reveal">
+				<a href="/Projets" class="inline-flex items-center gap-2 text-primary-pink hover:text-primary-pink/80 transition-colors">
+					<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+					</svg>
+					Retour aux projets
+				</a>
+			</div>
+
+			<!-- Titre et infos principales -->
+			<div class="text-center mb-16 scroll-reveal">
+				<div class="inline-flex items-center gap-2 mb-4 px-4 py-2 rounded-full bg-primary-pink/20 border border-primary-pink/30">
+					<span class="text-primary-pink font-semibold">
+						{projet.type === 'design' && '🎨 Design Graphique'}
+						{projet.type === 'web' && '💻 Développement Web'}
+						{projet.type === 'communication' && '📱 Communication Digitale'}
+						{projet.type === 'video' && '🎬 Vidéo'}
+						{projet.type === 'autre' && '✨ Autre'}
+					</span>
+				</div>
+				
+				<h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
+					<span class="neon-pink">{projet.nom}</span>
+				</h1>
+				
+				<p class="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto">
+					{projet.description_courte}
+				</p>
+			</div>
+
+			<!-- Image principale avec effet -->
+			<div class="relative mb-20 scroll-reveal">
+				<div class="absolute inset-0 bg-gradient-to-br from-primary-pink/20 to-primary-blue/20 blur-3xl"></div>
+				<div class="relative rounded-3xl overflow-hidden border-2 border-primary-pink/30 hover:border-primary-pink transition-all duration-300 shadow-2xl">
+					<img 
+						src={imageUrl} 
+						alt={projet.nom}
+						class="w-full h-auto max-h-[600px] object-cover"
+					/>
+				</div>
+			</div>
+
+			<!-- Grille informations et description -->
+			<div class="grid lg:grid-cols-3 gap-12 mb-20">
+				<!-- Colonne gauche - Informations -->
+				<div class="lg:col-span-1 space-y-6 scroll-reveal">
+					<!-- Card Informations -->
+					<div class="card bg-gradient-to-br from-gray-900/50 to-black/50 backdrop-blur-sm border border-primary-pink/30 hover:border-primary-pink transition-all">
+						<div class="card-body p-8">
+							<h3 class="text-2xl font-bold text-primary-pink mb-6 flex items-center gap-3">
+								<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+								</svg>
+								Informations
+							</h3>
+							<div class="space-y-5">
+								{infos.duree && (
+									<div class="info-item">
+										<span class="info-label">Durée</span>
+										<span class="info-value">{infos.duree}</span>
+									</div>
+								)}
+								{infos.equipe && (
+									<div class="info-item">
+										<span class="info-label">Équipe</span>
+										<span class="info-value">{infos.equipe}</span>
+									</div>
+								)}
+								{infos.contexte && (
+									<div class="info-item">
+										<span class="info-label">Contexte</span>
+										<span class="info-value">{infos.contexte}</span>
+									</div>
+								)}
+								{infos.role && (
+									<div class="info-item">
+										<span class="info-label">Rôle</span>
+										<span class="info-value">{infos.role}</span>
+									</div>
+								)}
+								{projet.client && (
+									<div class="info-item">
+										<span class="info-label">Client</span>
+										<span class="info-value">{projet.client}</span>
+									</div>
+								)}
+								{projet.date_realisation && (
+									<div class="info-item">
+										<span class="info-label">Date</span>
+										<span class="info-value">
+											{new Date(projet.date_realisation).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })}
+										</span>
+									</div>
+								)}
+							</div>
+						</div>
+					</div>
+
+					<!-- Card Technologies -->
+					{projet.technologies && projet.technologies.length > 0 && (
+						<div class="card bg-gradient-to-br from-gray-900/50 to-black/50 backdrop-blur-sm border border-primary-blue/30 hover:border-primary-blue transition-all">
+							<div class="card-body p-8">
+								<h3 class="text-2xl font-bold text-primary-blue mb-6 flex items-center gap-3">
+									<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+									</svg>
+									Technologies
+								</h3>
+								<div class="flex flex-wrap gap-3">
+									{projet.technologies.map((tech: string) => (
+										<span class="px-4 py-2 bg-primary-blue/20 text-primary-blue border border-primary-blue/30 rounded-lg text-base font-medium hover:bg-primary-blue/30 transition-all">
+											{tech}
+										</span>
+									))}
+								</div>
+							</div>
+						</div>
+					)}
+
+					<!-- Card Liens -->
+					<div class="card bg-gradient-to-br from-gray-900/50 to-black/50 backdrop-blur-sm border border-primary-pink/30 hover:border-primary-pink transition-all">
+						<div class="card-body p-8">
+							<h3 class="text-2xl font-bold text-primary-pink mb-6 flex items-center gap-3">
+								<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+								</svg>
+								Liens
+							</h3>
+							<div class="space-y-4">
+								{projet.lien_figma && (
+									<a 
+										href={projet.lien_figma} 
+										target="_blank"
+										class="flex items-center gap-3 text-gray-300 hover:text-primary-pink transition-colors text-base p-3 rounded-lg hover:bg-primary-pink/10"
+									>
+										<svg class="w-6 h-6 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+											<path d="M12 12a4 4 0 1 1 8 0 4 4 0 0 1-8 0zM8 0a4 4 0 0 0 0 8h4V0H8zm0 8a4 4 0 1 0 0 8h4V8H8zm0 8a4 4 0 0 0 0 8 4 4 0 0 0 4-4v-4H8z"/>
+										</svg>
+										<span>Voir sur Figma</span>
+									</a>
+								)}
+								{projet.lien_demo && (
+									<a 
+										href={projet.lien_demo} 
+										target="_blank"
+										class="flex items-center gap-3 text-gray-300 hover:text-primary-pink transition-colors text-base p-3 rounded-lg hover:bg-primary-pink/10"
+									>
+										<svg class="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+										</svg>
+										<span>Voir la démo</span>
+									</a>
+								)}
+								{projet.lien_github && (
+									<a 
+										href={projet.lien_github} 
+										target="_blank"
+										class="flex items-center gap-3 text-gray-300 hover:text-primary-pink transition-colors text-base p-3 rounded-lg hover:bg-primary-pink/10"
+									>
+										<svg class="w-6 h-6 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+											<path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+										</svg>
+										<span>Voir sur GitHub</span>
+									</a>
+								)}
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Colonne droite - Description et détails -->
+				<div class="lg:col-span-2 space-y-8 scroll-reveal" style="animation-delay: 0.2s;">
+					<!-- Description complète -->
+					<div class="prose prose-invert max-w-none">
+						<div class="bg-gradient-to-br from-gray-900/50 to-black/50 backdrop-blur-sm border border-primary-pink/30 rounded-2xl p-8">
+							<h2 class="text-3xl font-bold text-white mb-6 flex items-center gap-2">
+								<svg class="w-8 h-8 text-primary-pink" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+								</svg>
+								Description du projet
+							</h2>
+							<div class="text-gray-300 leading-relaxed">
+								<Fragment set:html={projet.description_complete} />
+							</div>
+						</div>
+					</div>
+
+					<!-- Détails (si présents) -->
+					{projet.details && (
+						<div class="prose prose-invert max-w-none">
+							<div class="bg-gradient-to-br from-gray-900/50 to-black/50 backdrop-blur-sm border border-primary-blue/30 rounded-2xl p-8">
+								<h2 class="text-3xl font-bold text-white mb-6 flex items-center gap-2">
+									<svg class="w-8 h-8 text-primary-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+									</svg>
+									Détails techniques
+								</h2>
+								<div class="text-gray-300 leading-relaxed">
+									<Fragment set:html={projet.details} />
+								</div>
+							</div>
+						</div>
+					)}
+				</div>
+			</div>
+
+			<!-- Galerie d'images -->
+			{galerieUrls.length > 0 && (
+				<div class="mb-20 scroll-reveal">
+					<h2 class="text-3xl md:text-4xl font-bold text-center mb-12">
+						<span class="text-white">GALERIE </span><span class="neon-pink">D'IMAGES</span>
+					</h2>
+					<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+						{galerieUrls.map((url: string, index: number) => (
+							<div class="gallery-item rounded-2xl overflow-hidden border-2 border-primary-pink/20 hover:border-primary-pink transition-all cursor-pointer">
+								<img 
+									src={url} 
+									alt={`${projet.nom} - Image ${index + 1}`}
+									class="w-full h-64 object-cover hover:scale-110 transition-transform duration-500"
+								/>
+							</div>
+						))}
+					</div>
+				</div>
+			)}
+
+			<!-- Navigation vers autres projets -->
+			<div class="text-center scroll-reveal">
+				<a href="/Projets" class="btn btn-primary btn-lg btn-neon">
+					<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+					</svg>
+					Voir tous les projets
+				</a>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<script>
+	// Animation au scroll
+	const observerOptions = {
+		threshold: 0.1,
+		rootMargin: '0px 0px -100px 0px'
+	};
+
+	const observer = new IntersectionObserver((entries) => {
+		entries.forEach(entry => {
+			if (entry.isIntersecting) {
+				entry.target.classList.add('animate-fade-in');
+				observer.unobserve(entry.target);
+			}
+		});
+	}, observerOptions);
+
+	document.addEventListener('DOMContentLoaded', () => {
+		const elements = document.querySelectorAll('.scroll-reveal');
+		elements.forEach(el => observer.observe(el));
+
+		// Lightbox simple pour la galerie
+		const galleryItems = document.querySelectorAll('.gallery-item');
+		galleryItems.forEach(item => {
+			item.addEventListener('click', () => {
+				const img = item.querySelector('img');
+				if (img) {
+					window.open(img.src, '_blank');
+				}
+			});
+		});
+	});
+</script>
+
+<style>
+	.scroll-reveal {
+		opacity: 0;
+		transform: translateY(30px);
+		transition: opacity 0.8s ease, transform 0.8s ease;
+	}
+
+	.scroll-reveal.animate-fade-in {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	/* Styles pour le contenu HTML riche */
+	.prose {
+		font-size: 1.125rem;
+		line-height: 1.75;
+	}
+
+	.prose h3 {
+		color: #D019D0;
+		font-size: 1.5rem;
+		font-weight: 700;
+		margin-top: 2rem;
+		margin-bottom: 1rem;
+	}
+
+	.prose p {
+		margin-bottom: 1rem;
+	}
+
+	.prose ul, .prose ol {
+		margin-left: 1.5rem;
+		margin-bottom: 1rem;
+	}
+
+	.prose li {
+		margin-bottom: 0.5rem;
+	}
+
+	.prose strong {
+		color: #fff;
+		font-weight: 600;
+	}
+
+	.prose a {
+		color: #1974D1;
+		text-decoration: underline;
+	}
+
+	.prose a:hover {
+		color: #D019D0;
+	}
+
+	/* Galerie */
+	.gallery-item {
+		position: relative;
+		overflow: hidden;
+		background: #1f2937;
+	}
+
+	.gallery-item img {
+		display: block;
+	}
+
+	/* Styles pour les blocs d'informations */
+	.info-item {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		padding-bottom: 1.25rem;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	}
+
+	.info-item:last-child {
+		border-bottom: none;
+		padding-bottom: 0;
+	}
+
+	.info-label {
+		font-size: 0.875rem;
+		font-weight: 500;
+		color: #9ca3af;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+
+	.info-value {
+		font-size: 1.125rem;
+		font-weight: 600;
+		color: #ffffff;
+		line-height: 1.5;
+	}
+</style>
