@@ -68,6 +68,14 @@ export const competences: Competence[] = [
     couleur: '#06B6D4',
     categorie: 'dev'
   },
+
+  {
+    nom: 'Astro',
+    logo: '/logos/astro.jpg',
+    taille: 'small',
+    couleur: '#FF5D01',
+    categorie: 'dev'
+  },
   
   // Vidéo & Animation
   {
@@ -95,7 +103,7 @@ export const competences: Competence[] = [
   // Autres
   {
     nom: 'Notion',
-    logo: '/logos/notion.svg',
+    logo: '/logos/notion.png',
     taille: 'small',
     couleur: '#000000',
     categorie: 'autre'
