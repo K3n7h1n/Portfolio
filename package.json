@@ -9,7 +9,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.14.5"
+    "astro": "^5.14.5",
+    "pocketbase": "^0.26.2"
   },
   "devDependencies": {
     "@astrojs/tailwind": "^6.0.2",

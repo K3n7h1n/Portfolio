@@ -311,6 +311,11 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <script>
+	import PocketBase from 'pocketbase';
+
+	// Configuration PocketBase (local)
+	const pb = new PocketBase('http://127.0.0.1:8090');
+
 	// Animation au scroll (Intersection Observer)
 	const observerOptions = {
 		threshold: 0.1,
@@ -360,15 +365,23 @@ import Layout from '../layouts/Layout.astro';
 
 			// Récupérer les données du formulaire
 			const formData = new FormData(contactForm);
-			const data = Object.fromEntries(formData);
+			
+			// Préparer les données pour PocketBase
+			const data = {
+				prenom: formData.get('prenom') as string,
+				nom: formData.get('nom') as string,
+				email: formData.get('email') as string,
+				telephone: formData.get('telephone') as string || '',
+				sujet: formData.get('sujet') as string,
+				message: formData.get('message') as string,
+				statut: 'nouveau' // Statut par défaut
+			};
 
 			try {
-				// Simulation d'envoi (remplacez par votre service d'email)
-				// Pour utiliser Formspree: action="https://formspree.io/f/YOUR_FORM_ID"
-				// Pour EmailJS: voir documentation EmailJS
+				// Envoyer les données à PocketBase
+				const record = await pb.collection('messages_contact').create(data);
 				
-				// Simulation d'un délai d'envoi
-				await new Promise(resolve => setTimeout(resolve, 1500));
+				console.log('Message envoyé avec succès:', record);
 
 				// Succès
 				showMessage('✨ Message envoyé avec succès ! Je vous répondrai dans les plus brefs délais.', 'success');
@@ -380,6 +393,8 @@ import Layout from '../layouts/Layout.astro';
 				}, 2000);
 
 			} catch (error) {
+				console.error('Erreur lors de l\'envoi:', error);
+				
 				// Erreur
 				showMessage('❌ Une erreur s\'est produite. Veuillez réessayer ou me contacter directement par email.', 'error');
 				resetButton();
