@@ -13,8 +13,7 @@
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
-  height: 100%;
-  max-width: 100vw;
+  width: 100%;
 }
 
 body {
@@ -23,21 +22,16 @@ body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   position: relative;
   overflow-x: hidden;
-  overflow-y: auto;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  width: 100%;
   margin: 0;
   padding: 0;
 }
 
-/* Empêcher le scroll au-delà du footer */
-main {
-  flex: 1 0 auto;
-}
-
-footer {
-  flex-shrink: 0;
+/* Supprimer les marges et padding par défaut */
+main, section {
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 /* Effets de néon globaux */

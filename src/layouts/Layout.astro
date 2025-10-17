@@ -21,7 +21,15 @@ const { title = "Enzo Locatelli - Portfolio", description = "Designer Graphique 
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 		<title>{title}</title>
 	</head>
-	<body class="bg-black text-white overflow-x-hidden">
+	<body class="bg-black text-white overflow-x-hidden min-h-screen flex flex-col">
+		<!-- Conteneur pour les cercles lumineux -->
+		<div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+			<!-- Cercles lumineux d'arrière-plan -->
+			<div class="bg-circle" style="width: 800px; height: 800px; background: #D019D0; top: 0%; right: -10%;"></div>
+			<div class="bg-circle" style="width: 600px; height: 600px; background: #1974D1; top: 60%; left: -10%;"></div>
+			<div class="bg-circle" style="width: 500px; height: 500px; background: #1974D1; bottom: 20%; right: 10%;"></div>
+		</div>
+
 		<!-- Navigation -->
 		<nav class="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-md border-b border-white/10">
 			<div class="max-w-7xl mx-auto px-6 lg:px-8">
@@ -33,10 +41,10 @@ const { title = "Enzo Locatelli - Portfolio", description = "Designer Graphique 
 					
 					<!-- Menu Desktop -->
 					<div class="hidden md:flex space-x-12 text-sm">
-						<a href="/" class="text-white hover:text-white/70 transition-colors">Accueil</a>
-						<a href="/A-propos" class="text-white hover:text-white/70 transition-colors">A Propos</a>
-						<a href="/Projets" class="text-white hover:text-white/70 transition-colors">Projets</a>
-						<a href="/Contact" class="text-white hover:text-white/70 transition-colors">Contact</a>
+						<a href="/" class="text-white hover:text-primary-pink transition-colors">Accueil</a>
+						<a href="/A-propos" class="text-white hover:text-primary-pink transition-colors">A Propos</a>
+						<a href="/Projets" class="text-white hover:text-primary-pink transition-colors">Projets</a>
+						<a href="/Contact" class="text-white hover:text-primary-pink transition-colors">Contact</a>
 					</div>
 
 					<!-- Menu Burger Mobile -->
@@ -51,26 +59,21 @@ const { title = "Enzo Locatelli - Portfolio", description = "Designer Graphique 
 			<!-- Menu Mobile -->
 			<div id="mobile-menu" class="hidden md:hidden bg-black/95 backdrop-blur-md border-t border-white/10">
 				<div class="px-4 py-4 space-y-3">
-					<a href="/" class="block text-white hover:text-white/70 transition-colors py-2">Accueil</a>
-					<a href="/A-propos" class="block text-white hover:text-white/70 transition-colors py-2">A Propos</a>
-					<a href="/Projets" class="block text-white hover:text-white/70 transition-colors py-2">Projets</a>
-					<a href="/Contact" class="block text-white hover:text-white/70 transition-colors py-2">Contact</a>
+					<a href="/" class="block text-white hover:text-primary-pink transition-colors py-2">Accueil</a>
+					<a href="/A-propos" class="block text-white hover:text-primary-pink transition-colors py-2">A Propos</a>
+					<a href="/Projets" class="block text-white hover:text-primary-pink transition-colors py-2">Projets</a>
+					<a href="/Contact" class="block text-white hover:text-primary-pink transition-colors py-2">Contact</a>
 				</div>
 			</div>
 		</nav>
 		
-		<!-- Cercles lumineux d'arrière-plan -->
-		<div class="bg-circle" style="width: 800px; height: 800px; background: #D019D0; top: 0%; right: -10%;"></div>
-		<div class="bg-circle" style="width: 600px; height: 600px; background: #1974D1; top: 60%; left: -10%;"></div>
-		<div class="bg-circle" style="width: 500px; height: 500px; background: #1974D1; bottom: 20%; right: 10%;"></div>
-
 		<!-- Main Content -->
-		<main class="relative z-10 pt-20 flex-grow">
+		<main class="relative z-10 pt-20 flex-1">
 			<slot />
 		</main>
 
 		<!-- Footer -->
-		<footer class="bg-black border-t border-primary-pink/20 py-12 px-4 mt-auto">
+		<footer class="relative z-10 bg-black border-t border-primary-pink/20 py-12 px-4 mt-auto">
 			<div class="max-w-6xl mx-auto">
 				<div class="grid md:grid-cols-2 gap-8 mb-8">
 					<!-- Colonne gauche - Navigation -->
@@ -87,12 +90,12 @@ const { title = "Enzo Locatelli - Portfolio", description = "Designer Graphique 
 					<div class="space-y-4">
 						<h3 class="text-xl font-bold text-primary-pink mb-4">Réseaux sociaux</h3>
 						<div class="flex gap-4">
-							<a href="https://www.linkedin.com" target="_blank" class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary-pink/20 hover:bg-primary-pink transition-all hover:scale-110">
+							<a href="https://www.linkedin.com/in/enzo-locatelli-a414b2337" target="_blank" class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary-pink/20 hover:bg-primary-pink transition-all hover:scale-110">
 								<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-pink hover:text-white" fill="currentColor" viewBox="0 0 24 24">
 									<path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
 								</svg>
 							</a>
-							<a href="https://www.tiktok.com" target="_blank" class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary-pink/20 hover:bg-primary-pink transition-all hover:scale-110">
+							<a href="https://www.tiktok.com/@romance.wrld?lang=fr" target="_blank" class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary-pink/20 hover:bg-primary-pink transition-all hover:scale-110">
 								<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-pink hover:text-white" fill="currentColor" viewBox="0 0 24 24">
 									<path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
 								</svg>
@@ -107,9 +110,9 @@ const { title = "Enzo Locatelli - Portfolio", description = "Designer Graphique 
 						<span class="animate-gradient-text">Enzo Locatelli</span>
 					</h3>
 					<div class="flex justify-center gap-8 text-sm text-gray-500 mb-4">
-						<a href="#" class="hover:text-primary-pink transition-colors">Mentions légales</a>
+						<a href="/Mentions-legales" class="hover:text-primary-pink transition-colors">Mentions légales</a>
 						<span>•</span>
-						<a href="#" class="hover:text-primary-pink transition-colors">Politique de confidentialité</a>
+						<a href="/Politique-confidentialite" class="hover:text-primary-pink transition-colors">Politique de confidentialité</a>
 					</div>
 					<p class="text-gray-600 text-sm">
 						© 2025 Enzo Locatelli. Tous droits réservés.
