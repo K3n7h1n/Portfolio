@@ -1,0 +1,822 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PocketBase from 'pocketbase';
+
+// Configuration PocketBase (local)
+const pb = new PocketBase('http://127.0.0.1:8090');
+
+interface Projet {
+	id: string;
+	titre: string;
+	description: string;
+	description_courte?: string;
+	photo_principale?: string;
+	image?: string;
+	tags?: string[];
+	categorie?: string;
+	slug?: string;
+	collectionId?: string;
+	ordre_affichage?: number;
+	date_realisation?: string;
+	afficher?: boolean;
+}
+
+// Récupérer les projets
+let projets: Projet[] = [];
+try {
+	projets = await pb.collection('projets').getFullList({
+		filter: 'afficher = true',
+		sort: 'ordre_affichage,date_realisation'
+	});
+} catch (error) {
+	console.error('Erreur lors de la récupération des projets:', error);
+}
+---
+
+<Layout title="Mes Projets - Enzo Locatelli" description="Découvrez mes projets de design graphique et développement web">
+	<!-- Hero Section -->
+	<section id="projets-hero" class="min-h-screen flex items-center px-4 py-20">
+		<div class="max-w-7xl mx-auto w-full">
+			<!-- Titre principal -->
+			<div class="text-center mb-20 scroll-reveal">
+				<h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
+					<span class="text-white">MES </span><span class="neon-pink">PROJETS</span>
+				</h1>
+				<p class="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto">
+					Explorez mes réalisations en design graphique, développement web et communication digitale
+				</p>
+			</div>
+
+			<!-- Carrousel 3D -->
+			<div class="carousel-3d-container relative" style="perspective: 2000px;">
+				<!-- Boutons de navigation -->
+				<button 
+					id="carousel-prev" 
+					class="carousel-nav-btn left-4 md:left-8"
+					aria-label="Projet précédent"
+				>
+					<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+					</svg>
+				</button>
+
+				<button 
+					id="carousel-next" 
+					class="carousel-nav-btn right-4 md:right-8"
+					aria-label="Projet suivant"
+				>
+					<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+					</svg>
+				</button>
+
+				<!-- Conteneur du carrousel -->
+				<div id="carousel-3d" class="carousel-3d" data-projets={JSON.stringify(projets)}>
+					{projets.map((projet, index) => {
+						const imageUrl = `http://127.0.0.1:8090/api/files/${projet.collectionId}/${projet.id}/${projet.photo_principale}`;
+						
+						return (
+							<div 
+								class="carousel-card" 
+								data-index={index}
+								data-categorie={projet.categorie}
+							>
+								<div class="card-inner">
+									<!-- Image du projet -->
+									<div class="card-image-container">
+										<img 
+											src={imageUrl} 
+											alt={projet.titre}
+											class="card-image"
+											loading="lazy"
+										/>
+										<div class="card-overlay"></div>
+									</div>
+
+									<!-- Contenu de la carte -->
+									<div class="card-content">
+										<h3 class="card-title">{projet.titre}</h3>
+										<p class="card-description">{projet.description_courte || projet.description}</p>
+										
+										<!-- Tags -->
+										{projet.tags && projet.tags.length > 0 && (
+											<div class="card-tags">
+												{projet.tags.map((tag: string) => (
+													<span class="tag">{tag}</span>
+												))}
+											</div>
+										)}
+
+										<!-- Bouton voir plus -->
+										<a 
+											href={`/projets/${projet.slug || projet.id}`}
+											class="card-btn"
+										>
+											Voir le projet
+											<svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+											</svg>
+										</a>
+									</div>
+								</div>
+							</div>
+						);
+					})}
+				</div>
+
+				<!-- Indicateurs -->
+				<div id="carousel-indicators" class="carousel-indicators">
+					{projets.map((_, index) => (
+						<button 
+							class={`indicator ${index === 0 ? 'active' : ''}`}
+							data-index={index}
+							aria-label={`Aller au projet ${index + 1}`}
+						></button>
+					))}
+				</div>
+			</div>
+
+			<!-- Compteur de projets -->
+			<div class="text-center mt-12 text-gray-400">
+				<span id="current-project">1</span> / <span id="total-projects">{projets.length}</span>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<script>
+	interface Projet {
+		id: string;
+		titre: string;
+		description: string;
+		description_courte?: string;
+		image?: string;
+		tags?: string[];
+		categorie?: string;
+		slug?: string;
+		collectionId?: string;
+	}
+
+	// Variables globales du carrousel
+	let currentIndex = 0;
+	let totalItems = 0;
+	let isAnimating = false;
+	let isDragging = false;
+	let startX = 0;
+	let currentX = 0;
+	let dragOffset = 0;
+	let rotationOffset = 0; // Offset de rotation pendant le drag
+	let velocity = 0;
+	let lastMoveTime = 0;
+	let lastMoveX = 0;
+
+	// Configuration du carrousel
+	const config = {
+		radius: 600, // Rayon du cercle 3D
+		itemWidth: 400, // Largeur des cartes
+		itemHeight: 500, // Hauteur des cartes
+		animationDuration: 600, // Durée de l'animation (ms)
+	};
+
+	document.addEventListener('DOMContentLoaded', () => {
+		initCarousel3D();
+	});
+
+	function initCarousel3D() {
+		const carousel = document.getElementById('carousel-3d');
+		if (!carousel) return;
+
+		const cards = carousel.querySelectorAll('.carousel-card');
+		totalItems = cards.length;
+
+		if (totalItems === 0) return;
+
+		// Mettre à jour le compteur
+		updateCounter();
+
+		// Positionner les cartes
+		updateCarousel();
+
+		// Navigation par boutons
+		const prevBtn = document.getElementById('carousel-prev');
+		const nextBtn = document.getElementById('carousel-next');
+
+		prevBtn?.addEventListener('click', (e) => {
+			e.stopPropagation();
+			navigateCarousel(-1);
+		});
+
+		nextBtn?.addEventListener('click', (e) => {
+			e.stopPropagation();
+			navigateCarousel(1);
+		});
+
+		// Navigation par indicateurs
+		const indicators = document.querySelectorAll('.indicator');
+		indicators.forEach((indicator, index) => {
+			indicator.addEventListener('click', () => {
+				if (!isAnimating) {
+					currentIndex = index;
+					updateCarousel();
+					updateIndicators();
+					updateCounter();
+				}
+			});
+		});
+
+		// Navigation au clavier
+		document.addEventListener('keydown', (e) => {
+			if (e.key === 'ArrowLeft') {
+				navigateCarousel(-1);
+			} else if (e.key === 'ArrowRight') {
+				navigateCarousel(1);
+			}
+		});
+
+		// Drag & Swipe
+		carousel.addEventListener('mousedown', handleDragStart);
+		carousel.addEventListener('touchstart', handleDragStart, { passive: true });
+
+		document.addEventListener('mousemove', handleDragMove);
+		document.addEventListener('touchmove', handleDragMove, { passive: false });
+
+		document.addEventListener('mouseup', handleDragEnd);
+		document.addEventListener('touchend', handleDragEnd);
+
+		// Scroll wheel
+		carousel.addEventListener('wheel', (e) => {
+			e.preventDefault();
+			if (!isAnimating) {
+				const direction = e.deltaY > 0 ? 1 : -1;
+				navigateCarousel(direction);
+			}
+		}, { passive: false });
+
+		// Responsive
+		window.addEventListener('resize', () => {
+			updateCarousel();
+		});
+	}
+
+	function navigateCarousel(direction: number) {
+		if (isAnimating) return;
+
+		isAnimating = true;
+		currentIndex = (currentIndex + direction + totalItems) % totalItems;
+
+		updateCarousel();
+		updateIndicators();
+		updateCounter();
+
+		setTimeout(() => {
+			isAnimating = false;
+		}, config.animationDuration);
+	}
+
+	function updateCarousel() {
+		const cards = document.querySelectorAll('.carousel-card');
+		const angleIncrement = 360 / totalItems;
+
+		cards.forEach((card, index) => {
+			const element = card as HTMLElement;
+			const relativeIndex = index - currentIndex;
+			
+			// Ajouter l'offset de rotation pendant le drag
+			const angle = (relativeIndex * angleIncrement) + rotationOffset;
+			const radians = (angle * Math.PI) / 180;
+
+			// Calcul de la position 3D selon CARROUSEL-3D-SCHEMA.md
+			const radius = getRadius();
+			
+			// X = sin(angle) × radius
+			const x = Math.sin(radians) * radius;
+			
+			// Z = cos(angle) × radius - radius
+			// Z varie de 0 (avant, angle 0°) à -2×radius (arrière, angle 180°)
+			const z = (Math.cos(radians) * radius) - radius;
+			
+			// Rotation de la carte pour qu'elle regarde le centre
+			const rotateY = -angle;
+
+			// Normaliser Z pour les calculs d'opacité et scale
+			// Z varie de 0 (avant) à -2×radius (arrière)
+			// normalizedZ: 1 (avant) à 0 (arrière)
+			const normalizedZ = (z + (2 * radius)) / (2 * radius);
+			
+			// Opacité: max(0.3, min(1, normalizedZ × 1.5))
+			const opacity = Math.max(0.3, Math.min(1, normalizedZ * 1.5));
+			
+			// Échelle: 0.6 + (normalizedZ × 0.4)
+			const scale = 0.6 + (normalizedZ * 0.4);
+			
+			// Blur: flouter les cartes éloignées
+			const blur = normalizedZ < 0.5 ? 3 : (normalizedZ < 0.8 ? 1 : 0);
+			
+			// Brightness: assombrir les cartes éloignées
+			const brightness = 0.5 + (normalizedZ * 0.5);
+			
+			// Z-index basé sur Z (plus Z est grand, plus c'est devant)
+			const zIndex = Math.round(1000 + z);
+
+			// Appliquer les transformations
+			element.style.transform = `translateX(${x}px) translateZ(${z}px) rotateY(${rotateY}deg) scale(${scale})`;
+			element.style.opacity = opacity.toString();
+			element.style.zIndex = zIndex.toString();
+			element.style.filter = `blur(${blur}px) brightness(${brightness})`;
+
+			// Ajouter la classe active (carte au centre)
+			// Normaliser l'angle entre -180 et 180
+			let normalizedAngle = angle % 360;
+			if (normalizedAngle > 180) normalizedAngle -= 360;
+			if (normalizedAngle < -180) normalizedAngle += 360;
+			
+			const isActive = Math.abs(normalizedAngle) < angleIncrement / 2;
+			
+			if (isActive) {
+				element.classList.add('active');
+			} else {
+				element.classList.remove('active');
+			}
+		});
+	}
+
+	function getRadius(): number {
+		const width = window.innerWidth;
+		if (width < 768) return 350; // Mobile
+		if (width < 1024) return 450; // Tablet
+		return 600; // Desktop
+	}
+
+	function updateIndicators() {
+		const indicators = document.querySelectorAll('.indicator');
+		indicators.forEach((indicator, index) => {
+			if (index === currentIndex) {
+				indicator.classList.add('active');
+			} else {
+				indicator.classList.remove('active');
+			}
+		});
+	}
+
+	function updateCounter() {
+		const currentEl = document.getElementById('current-project');
+		const totalEl = document.getElementById('total-projects');
+		
+		if (currentEl) currentEl.textContent = (currentIndex + 1).toString();
+		if (totalEl) totalEl.textContent = totalItems.toString();
+	}
+
+	// Gestion du drag
+	function handleDragStart(e: MouseEvent | TouchEvent) {
+		isDragging = true;
+		startX = getClientX(e);
+		currentX = startX;
+		dragOffset = 0;
+		lastMoveX = startX;
+		lastMoveTime = Date.now();
+		velocity = 0;
+
+		const carousel = document.getElementById('carousel-3d');
+		const cards = document.querySelectorAll('.carousel-card') as NodeListOf<HTMLElement>;
+		
+		if (carousel) {
+			carousel.style.cursor = 'grabbing';
+		}
+
+		// Désactiver les transitions pendant le drag
+		cards.forEach(card => {
+			card.style.transition = 'none';
+		});
+	}
+
+	function handleDragMove(e: MouseEvent | TouchEvent) {
+		if (!isDragging) return;
+
+		e.preventDefault();
+		currentX = getClientX(e);
+		const now = Date.now();
+		const deltaTime = now - lastMoveTime;
+		
+		if (deltaTime > 0) {
+			const deltaX = currentX - lastMoveX;
+			velocity = deltaX / deltaTime; // pixels par milliseconde
+			lastMoveX = currentX;
+			lastMoveTime = now;
+		}
+
+		dragOffset = currentX - startX;
+
+		// Convertir le drag en rotation
+		// Plus on drag, plus on tourne
+		const screenWidth = window.innerWidth;
+		const angleIncrement = 360 / totalItems;
+		rotationOffset = (dragOffset / screenWidth) * angleIncrement * 2;
+
+		updateCarousel();
+	}
+
+	function handleDragEnd() {
+		if (!isDragging) return;
+
+		isDragging = false;
+		
+		const carousel = document.getElementById('carousel-3d');
+		const cards = document.querySelectorAll('.carousel-card') as NodeListOf<HTMLElement>;
+		
+		if (carousel) {
+			carousel.style.cursor = 'grab';
+		}
+
+		// Réactiver les transitions
+		cards.forEach(card => {
+			card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+		});
+
+		// Calculer le momentum
+		const angleIncrement = 360 / totalItems;
+		let direction = 0;
+
+		// Si la vélocité est élevée, appliquer un momentum
+		if (Math.abs(velocity) > 0.5) {
+			// Momentum: plusieurs slides selon la vitesse
+			const momentumSlides = Math.round(velocity * 1000 / angleIncrement);
+			direction = -momentumSlides; // Inverser car drag gauche = next
+		} else {
+			// Sinon, snap au plus proche
+			const rotationDegrees = rotationOffset;
+			if (Math.abs(rotationDegrees) > angleIncrement / 3) {
+				direction = rotationDegrees > 0 ? -1 : 1;
+			}
+		}
+
+		// Réinitialiser l'offset de rotation
+		rotationOffset = 0;
+
+		// Naviguer si nécessaire
+		if (direction !== 0) {
+			navigateCarousel(direction);
+		} else {
+			// Juste mettre à jour pour réinitialiser la position
+			updateCarousel();
+		}
+
+		dragOffset = 0;
+		velocity = 0;
+	}
+
+	function getClientX(e: MouseEvent | TouchEvent): number {
+		if (e instanceof MouseEvent) {
+			return e.clientX;
+		} else if (e instanceof TouchEvent && e.touches.length > 0) {
+			return e.touches[0].clientX;
+		}
+		return 0;
+	}
+
+	// Animation au scroll (Intersection Observer)
+	const observerOptions = {
+		threshold: 0.1,
+		rootMargin: '0px 0px -100px 0px'
+	};
+
+	const observer = new IntersectionObserver((entries) => {
+		entries.forEach(entry => {
+			if (entry.isIntersecting) {
+				entry.target.classList.add('animate-fade-in');
+				observer.unobserve(entry.target);
+			}
+		});
+	}, observerOptions);
+
+	document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+</script>
+
+<style>
+	/* Conteneur principal du carrousel */
+	.carousel-3d-container {
+		position: relative;
+		width: 100%;
+		height: 700px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		overflow: visible; /* Changé de hidden à visible pour voir toutes les cartes */
+		perspective: 2000px;
+		perspective-origin: center center;
+	}
+
+	.carousel-3d {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		transform-style: preserve-3d;
+		cursor: grab;
+	}
+
+	.carousel-3d:active {
+		cursor: grabbing;
+	}
+
+	/* Cartes du carrousel */
+	.carousel-card {
+		position: absolute;
+		width: 400px;
+		height: 550px;
+		left: 50%;
+		top: 50%;
+		margin-left: -200px;
+		margin-top: -275px;
+		transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+		transform-style: preserve-3d;
+		will-change: transform, opacity;
+		pointer-events: none; /* Désactiver par défaut */
+	}
+
+	.carousel-card.active {
+		pointer-events: auto; /* Activer seulement pour la carte active */
+		cursor: default;
+	}
+
+	.card-inner {
+		width: 100%;
+		height: 100%;
+		background: linear-gradient(135deg, rgba(17, 17, 17, 0.7), rgba(30, 30, 30, 0.8));
+		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);
+		border: 2px solid rgba(208, 25, 208, 0.3);
+		border-radius: 24px;
+		overflow: hidden;
+		box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+					0 0 40px rgba(208, 25, 208, 0.2);
+		transition: all 0.3s ease;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.carousel-card.active .card-inner {
+		border-color: rgba(208, 25, 208, 0.8);
+		box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6),
+					0 0 60px rgba(208, 25, 208, 0.4);
+		animation: pulse-glow 3s ease-in-out infinite;
+	}
+
+	@keyframes pulse-glow {
+		0%, 100% {
+			box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6),
+						0 0 60px rgba(208, 25, 208, 0.4);
+		}
+		50% {
+			box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6),
+						0 0 80px rgba(208, 25, 208, 0.6);
+		}
+	}
+
+	.carousel-card.active .card-inner:hover {
+		border-color: #D019D0;
+		transform: translateY(-5px);
+	}
+
+	.card-inner:hover {
+		border-color: rgba(208, 25, 208, 0.5);
+	}
+
+	/* Image de la carte */
+	.card-image-container {
+		position: relative;
+		width: 100%;
+		height: 250px;
+		overflow: hidden;
+	}
+
+	.card-image {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.5s ease;
+	}
+
+	.card-inner:hover .card-image {
+		transform: scale(1.1);
+	}
+
+	.card-overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
+		pointer-events: none;
+	}
+
+	/* Contenu de la carte */
+	.card-content {
+		padding: 24px;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		flex: 1;
+	}
+
+	.card-title {
+		font-size: 1.75rem;
+		font-weight: bold;
+		background: linear-gradient(135deg, #D019D0, #1974D1);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		margin: 0;
+	}
+
+	.card-description {
+		color: #D1D5DB;
+		font-size: 0.95rem;
+		line-height: 1.6;
+		flex: 1;
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+	}
+
+	.card-tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		margin-top: auto;
+	}
+
+	.tag {
+		padding: 4px 12px;
+		background: rgba(208, 25, 208, 0.2);
+		border: 1px solid rgba(208, 25, 208, 0.4);
+		border-radius: 12px;
+		font-size: 0.75rem;
+		color: #D019D0;
+		font-weight: 500;
+	}
+
+	.card-btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 12px 24px;
+		background: linear-gradient(135deg, #D019D0, #1974D1);
+		color: white;
+		border-radius: 12px;
+		font-weight: 600;
+		text-decoration: none;
+		transition: all 0.3s ease;
+		margin-top: 12px;
+	}
+
+	.card-btn:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 10px 30px rgba(208, 25, 208, 0.4);
+	}
+
+	/* Boutons de navigation */
+	.carousel-nav-btn {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		z-index: 301;
+		width: 56px;
+		height: 56px;
+		border-radius: 50%;
+		background: linear-gradient(135deg, rgba(208, 25, 208, 0.8), rgba(25, 116, 209, 0.8));
+		border: 2px solid rgba(255, 255, 255, 0.2);
+		color: white;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		backdrop-filter: blur(10px);
+	}
+
+	.carousel-nav-btn:hover {
+		transform: translateY(-50%) scale(1.1);
+		box-shadow: 0 10px 30px rgba(208, 25, 208, 0.5);
+		border-color: rgba(255, 255, 255, 0.4);
+	}
+
+	.carousel-nav-btn:active {
+		transform: translateY(-50%) scale(0.95);
+	}
+
+	/* Indicateurs */
+	.carousel-indicators {
+		position: absolute;
+		bottom: -60px;
+		left: 50%;
+		transform: translateX(-50%);
+		display: flex;
+		gap: 12px;
+		z-index: 100;
+	}
+
+	.indicator {
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		background: rgba(255, 255, 255, 0.3);
+		border: none;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		padding: 0;
+	}
+
+	.indicator:hover {
+		background: rgba(255, 255, 255, 0.5);
+		transform: scale(1.2);
+	}
+
+	.indicator.active {
+		background: linear-gradient(135deg, #D019D0, #1974D1);
+		width: 32px;
+		border-radius: 6px;
+	}
+
+	/* Animation de révélation */
+	.scroll-reveal {
+		opacity: 0;
+		transform: translateY(30px);
+		transition: opacity 0.8s ease, transform 0.8s ease;
+	}
+
+	.scroll-reveal.animate-fade-in {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	/* Responsive */
+	@media (max-width: 768px) {
+		.carousel-3d-container {
+			height: 600px;
+			perspective: 1500px;
+		}
+
+		.carousel-card {
+			width: 320px;
+			height: 480px;
+			margin-left: -160px;
+			margin-top: -240px;
+		}
+
+		.card-image-container {
+			height: 200px;
+		}
+
+		.card-content {
+			padding: 20px;
+		}
+
+		.card-title {
+			font-size: 1.5rem;
+		}
+
+		.carousel-nav-btn {
+			width: 48px;
+			height: 48px;
+		}
+
+		.carousel-indicators {
+			bottom: -50px;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.carousel-3d-container {
+			height: 550px;
+			perspective: 1200px;
+		}
+
+		.carousel-card {
+			width: 280px;
+			height: 450px;
+			margin-left: -140px;
+			margin-top: -225px;
+		}
+
+		.carousel-nav-btn {
+			width: 40px;
+			height: 40px;
+		}
+
+		.carousel-nav-btn svg {
+			width: 20px;
+			height: 20px;
+		}
+	}
+
+	/* Désactiver les animations si l'utilisateur préfère */
+	@media (prefers-reduced-motion: reduce) {
+		.carousel-card,
+		.card-inner,
+		.card-image {
+			transition: none !important;
+			animation: none !important;
+		}
+	}
+</style>
