@@ -187,104 +187,140 @@ import { competences } from '../config/competences.config';
 		</div>
 	</section>
 
-	<!-- Section "Mes passions" -->
-	<section id="passions" class="py-24 px-4">
-		<div class="max-w-7xl mx-auto">
-			<div class="text-center mb-16 scroll-reveal">
-				<h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+	<!-- Section "Mes passions" avec parallaxe GSAP -->
+	<section id="passions" class="relative min-h-[300vh] overflow-hidden">
+		<!-- Conteneur du texte (disparaît au scroll) -->
+		<div id="passions-text-container" class="fixed inset-0 flex items-center justify-center z-20 pointer-events-none opacity-0">
+			<div class="max-w-4xl mx-auto px-6 text-center">
+				<h2 id="passions-title" class="text-5xl md:text-7xl lg:text-8xl font-bold mb-8">
 					<span class="text-white">MES </span><span class="neon-pink">PASSIONS</span>
 				</h2>
+				<div id="passions-description" class="space-y-6">
+					<p class="text-gray-200 text-xl md:text-2xl leading-relaxed">
+						<span class="text-primary-pink font-semibold">Au-delà de mes études,</span> 
+						je suis passionné par les <span class="text-primary-pink font-semibold">jeux vidéo</span>, 
+						la <span class="text-primary-blue font-semibold">création de contenu vidéo</span> 
+						et l'<span class="text-primary-pink font-semibold">intelligence artificielle</span>.
+					</p>
+					<p class="text-gray-300 text-lg md:text-xl">
+						Ces univers nourrissent ma créativité et me permettent d'explorer de nouvelles 
+						perspectives pour mes projets de <span class="text-primary-blue font-semibold">design</span> 
+						et de <span class="text-primary-pink font-semibold">communication</span>.
+					</p>
+				</div>
 			</div>
+		</div>
 
-			<div class="grid md:grid-cols-2 gap-12 items-center">
-				<!-- Colonne gauche - Vidéos avec parallaxe -->
-				<div class="space-y-8 scroll-reveal">
-					<!-- Vidéo 1 -->
-					<div class="video-card parallax-item" data-speed="0.3">
-						<div class="relative overflow-hidden rounded-2xl border-2 border-primary-pink/30 hover:border-primary-pink transition-all duration-300 group">
-							<div class="aspect-video bg-gradient-to-br from-red-600/80 to-orange-500/60 backdrop-blur-sm flex items-center justify-center">
-								<!-- Placeholder pour vidéo -->
-								 
-								<div class="absolute inset-0 bg-gradient-to-br from-red-500/30 to-pink-500/30 group-hover:scale-110 transition-transform duration-500"></div>
-								<div class="relative z-10 text-center">
-									<svg class="w-20 h-20 text-white mx-auto mb-4" fill="currentColor" viewBox="0 0 24 24">
-										<path d="M8 5v14l11-7z"/>
-									</svg>
-								</div>
-							</div>
-							<div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-4">
-								<h4 class="text-white font-semibold text-lg">TikTok Pour Le Compte MMI</h4>
-							</div>
+		<!-- Conteneur des vidéos parallaxe (apparaissent après le texte) -->
+		<div id="passions-videos-container" class="absolute inset-0 opacity-0">
+			<!-- Calque 1 : Vidéo la plus éloignée (fond) -->
+			<div class="parallax-layer parallax-layer-1 absolute inset-0 flex items-center justify-center">
+				<div class="relative w-[300px] md:w-[400px] lg:w-[500px] opacity-60 group">
+					<div class="relative overflow-hidden rounded-2xl border-2 border-primary-blue/20 shadow-2xl" style="aspect-ratio: 9/16;">
+						<video 
+							class="w-full h-full object-cover video-player" 
+							autoplay
+							loop 
+							muted 
+							playsinline
+							data-video-id="video-1"
+						>
+							<source src="/videos/tiktok-rwld.mp4" type="video/mp4">
+						</video>
+						
+						<!-- Contrôles personnalisés -->
+						<div class="absolute top-4 right-4 flex gap-2 z-20">
+							<button class="video-sound-btn bg-black/60 hover:bg-primary-blue/80 text-white p-2 rounded-full transition-all" data-video="video-1" title="Activer/Désactiver le son">
+								<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+									<path class="sound-off" d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+									<path class="sound-on hidden" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+								</svg>
+							</button>
+							<button class="video-fullscreen-btn bg-black/60 hover:bg-primary-pink/80 text-white p-2 rounded-full transition-all" data-video="video-1" title="Plein écran">
+								<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+									<path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+								</svg>
+							</button>
 						</div>
-					</div>
 
-					<!-- Vidéo 2 -->
-					<div class="video-card parallax-item" data-speed="0.5">
-						<div class="relative overflow-hidden rounded-2xl border-2 border-primary-blue/30 hover:border-primary-blue transition-all duration-300 group">
-							<div class="aspect-video bg-gradient-to-br from-blue-600/80 to-purple-500/60 backdrop-blur-sm flex items-center justify-center">
-								<!-- Placeholder pour vidéo -->
-								<div class="absolute inset-0 bg-gradient-to-br from-blue-500/30 to-purple-500/30 group-hover:scale-110 transition-transform duration-500"></div>
-								<div class="relative z-10 text-center">
-									<svg class="w-20 h-20 text-white mx-auto mb-4" fill="currentColor" viewBox="0 0 24 24">
-										<path d="M8 5v14l11-7z"/>
-									</svg>
-								</div>
-							</div>
-							<div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-4">
-								<h4 class="text-white font-semibold text-lg">On Vous<br/>Les Animes "Parlons Au Vrai De Vue OR Du Serveur"</h4>
-							</div>
-						</div>
-					</div>
-
-					<!-- Vidéo 3 -->
-					<div class="video-card parallax-item" data-speed="0.7">
-						<div class="relative overflow-hidden rounded-2xl border-2 border-primary-pink/30 hover:border-primary-pink transition-all duration-300 group">
-							<div class="aspect-video bg-gradient-to-br from-purple-600/80 to-pink-500/60 backdrop-blur-sm flex items-center justify-center">
-								<!-- Placeholder pour vidéo -->
-								<div class="absolute inset-0 bg-gradient-to-br from-purple-500/30 to-pink-500/30 group-hover:scale-110 transition-transform duration-500"></div>
-								<div class="relative z-10 text-center">
-									<svg class="w-20 h-20 text-white mx-auto mb-4" fill="currentColor" viewBox="0 0 24 24">
-										<path d="M8 5v14l11-7z"/>
-									</svg>
-								</div>
-							</div>
-							<div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-4">
-								<h4 class="text-white font-semibold text-lg">Les Jeux Vidéos</h4>
-							</div>
+						<div class="absolute bottom-0 left-0 right-0 p-3 z-10 pointer-events-none bg-gradient-to-t from-black/80 to-transparent">
+							<h4 class="text-white font-semibold text-xs md:text-sm">On Vous Les Animes</h4>
 						</div>
 					</div>
 				</div>
+			</div>
 
-				<!-- Colonne droite - Texte explicatif -->
-				<div class="scroll-reveal space-y-6">
-					<p class="text-gray-300 text-lg leading-relaxed">
-						<span class="text-primary-pink font-semibold text-xl">Au-delà de mes études,</span> 
-						je suis passionné par les <span class="text-primary-pink font-semibold">jeux vidéo</span>, 
-						un univers où je trouve une source d'inspiration inépuisable pour le 
-						<span class="text-primary-blue font-semibold">storytelling</span> et la 
-						<span class="text-primary-pink font-semibold">création visuelle</span>.
-					</p>
+			<!-- Calque 2 : Vidéo intermédiaire (milieu gauche) -->
+			<div class="parallax-layer parallax-layer-2 absolute inset-0 flex items-center justify-start pl-8 md:pl-16 lg:pl-24">
+				<div class="relative w-[280px] md:w-[360px] lg:w-[450px] opacity-80 group">
+					<div class="relative overflow-hidden rounded-2xl border-2 border-primary-pink/30 shadow-2xl hover:border-primary-pink transition-all duration-300" style="aspect-ratio: 9/16;">
+						<video 
+							class="w-full h-full object-cover video-player" 
+							autoplay
+							loop 
+							muted 
+							playsinline
+							data-video-id="video-2"
+						>
+							<source src="/videos/tiktok-mmi.mp4" type="video/mp4">
+						</video>
+						
+						<!-- Contrôles personnalisés -->
+						<div class="absolute top-4 right-4 flex gap-2 z-20">
+							<button class="video-sound-btn bg-black/60 hover:bg-primary-blue/80 text-white p-2 rounded-full transition-all" data-video="video-2" title="Activer/Désactiver le son">
+								<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+									<path class="sound-off" d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+									<path class="sound-on hidden" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+								</svg>
+							</button>
+							<button class="video-fullscreen-btn bg-black/60 hover:bg-primary-pink/80 text-white p-2 rounded-full transition-all" data-video="video-2" title="Plein écran">
+								<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+									<path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+								</svg>
+							</button>
+						</div>
 
-					<p class="text-gray-300 text-lg leading-relaxed">
-						Je m'intéresse également à la <span class="text-primary-blue font-semibold">création de contenu vidéo</span>, 
-						que ce soit pour des réseaux sociaux ou des projets associatifs. 
-						Le <span class="text-primary-pink font-semibold">montage</span> et la 
-						<span class="text-primary-blue font-semibold">réalisation</span> me permettent d'exprimer ma créativité 
-						tout en perfectionnant mes compétences techniques.
-					</p>
+						<div class="absolute bottom-0 left-0 right-0 p-3 z-10 pointer-events-none bg-gradient-to-t from-black/80 to-transparent">
+							<h4 class="text-white font-semibold text-xs md:text-sm">TikTok Pour Le Compte MMI</h4>
+						</div>
+					</div>
+				</div>
+			</div>
 
-					<p class="text-gray-300 text-lg leading-relaxed">
-						L'<span class="text-primary-pink font-semibold">intelligence artificielle</span> est un autre domaine qui m'attire, 
-						notamment pour son potentiel à révolutionner le design et la communication. 
-						J'aime explorer comment ces nouvelles technologies peuvent enrichir mes projets 
-						et ouvrir de nouvelles perspectives créatives.
-					</p>
+			<!-- Calque 3 : Vidéo au premier plan (milieu droite) -->
+			<div class="parallax-layer parallax-layer-3 absolute inset-0 flex items-center justify-end pr-8 md:pr-16 lg:pr-24">
+				<div class="relative w-[280px] md:w-[360px] lg:w-[450px] group">
+					<div class="relative overflow-hidden rounded-2xl border-2 border-primary-pink/30 shadow-2xl hover:border-primary-pink transition-all duration-300" style="aspect-ratio: 9/16;">
+						<video 
+							class="w-full h-full object-cover video-player" 
+							autoplay
+							loop 
+							muted 
+							playsinline
+							data-video-id="video-3"
+						>
+							<source src="/videos/tiktok-jeux-video.mp4" type="video/mp4">
+						</video>
+						
+						<!-- Contrôles personnalisés -->
+						<div class="absolute top-4 right-4 flex gap-2 z-20">
+							<button class="video-sound-btn bg-black/60 hover:bg-primary-blue/80 text-white p-2 rounded-full transition-all" data-video="video-3" title="Activer/Désactiver le son">
+								<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+									<path class="sound-off" d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+									<path class="sound-on hidden" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+								</svg>
+							</button>
+							<button class="video-fullscreen-btn bg-black/60 hover:bg-primary-pink/80 text-white p-2 rounded-full transition-all" data-video="video-3" title="Plein écran">
+								<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+									<path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+								</svg>
+							</button>
+						</div>
 
-					<p class="text-gray-300 text-lg leading-relaxed">
-						<span class="text-primary-blue font-semibold">Ma curiosité naturelle</span> me pousse à découvrir constamment 
-						de nouveaux outils, techniques et tendances pour rester à la pointe de mon domaine 
-						et proposer des solutions innovantes.
-					</p>
+						<div class="absolute bottom-0 left-0 right-0 p-3 z-10 pointer-events-none bg-gradient-to-t from-black/80 to-transparent">
+							<h4 class="text-white font-semibold text-xs md:text-sm">Les Jeux Vidéos</h4>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -292,7 +328,13 @@ import { competences } from '../config/competences.config';
 </Layout>
 
 <script>
-	// Animation au scroll (Intersection Observer)
+	import { gsap } from 'gsap';
+	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+	// Enregistrer le plugin ScrollTrigger
+	gsap.registerPlugin(ScrollTrigger);
+
+	// Animation au scroll (Intersection Observer) pour les autres sections
 	const observerOptions = {
 		threshold: 0.1,
 		rootMargin: '0px 0px -100px 0px'
@@ -329,39 +371,14 @@ import { competences } from '../config/competences.config';
 			});
 		});
 
-		// Effet parallaxe fluide sur les vidéos
-		let ticking = false;
-		
-		window.addEventListener('scroll', () => {
-			if (!ticking) {
-				window.requestAnimationFrame(() => {
-					handleParallax();
-					ticking = false;
-				});
-				ticking = true;
-			}
-		});
-
-		function handleParallax() {
-			const scrolled = window.pageYOffset;
-			const parallaxItems = document.querySelectorAll('.parallax-item');
-			
-			parallaxItems.forEach((item) => {
-				const speed = parseFloat((item as HTMLElement).dataset.speed || '0.3');
-				const rect = item.getBoundingClientRect();
-				const elementTop = rect.top + scrolled;
-				const elementBottom = elementTop + rect.height;
-				
-				// Calculer si l'élément est dans la zone visible
-				if (elementBottom > scrolled && elementTop < scrolled + window.innerHeight) {
-					const yPos = -(scrolled - elementTop) * speed;
-					(item as HTMLElement).style.transform = `translateY(${yPos}px)`;
-				}
-			});
-		}
-
 		// Animation de la timeline
 		animateTimeline();
+
+		// Initialiser l'effet de parallaxe GSAP pour la section "Mes passions"
+		initPassionsParallax();
+
+		// Gérer les contrôles vidéo personnalisés
+		initVideoControls();
 	});
 
 	function animateTimeline() {
@@ -373,6 +390,202 @@ import { competences } from '../config/competences.config';
 				(timeline as HTMLElement).style.backgroundPosition = `${position}px 0`;
 			}, 50);
 		}
+	}
+
+	/**
+	 * 🎥 Gestion des contrôles vidéo personnalisés
+	 */
+	function initVideoControls() {
+		// Boutons de son
+		const soundButtons = document.querySelectorAll('.video-sound-btn');
+		soundButtons.forEach(btn => {
+			btn.addEventListener('click', (e) => {
+				e.stopPropagation();
+				const videoId = (btn as HTMLElement).getAttribute('data-video');
+				const video = document.querySelector(`[data-video-id="${videoId}"]`) as HTMLVideoElement;
+				const soundOff = btn.querySelector('.sound-off') as HTMLElement;
+				const soundOn = btn.querySelector('.sound-on') as HTMLElement;
+				
+				if (video) {
+					video.muted = !video.muted;
+					if (soundOff && soundOn) {
+						soundOff.classList.toggle('hidden');
+						soundOn.classList.toggle('hidden');
+					}
+				}
+			});
+		});
+
+		// Boutons plein écran
+		const fullscreenButtons = document.querySelectorAll('.video-fullscreen-btn');
+		fullscreenButtons.forEach(btn => {
+			btn.addEventListener('click', (e) => {
+				e.stopPropagation();
+				const videoId = (btn as HTMLElement).getAttribute('data-video');
+				const video = document.querySelector(`[data-video-id="${videoId}"]`) as HTMLVideoElement;
+				
+				if (video) {
+					if (video.requestFullscreen) {
+						video.requestFullscreen();
+					} else if ((video as any).webkitRequestFullscreen) {
+						(video as any).webkitRequestFullscreen();
+					} else if ((video as any).mozRequestFullScreen) {
+						(video as any).mozRequestFullScreen();
+					} else if ((video as any).msRequestFullscreen) {
+						(video as any).msRequestFullscreen();
+					}
+				}
+			});
+		});
+	}
+
+	/**
+	 * 🎬 Animation GSAP pour la section "Mes passions"
+	 * 
+	 * Phase 0 : Le texte est invisible jusqu'à ce qu'on arrive à la section
+	 * Phase 1 : Le texte apparaît quand on arrive à la section
+	 * Phase 2 : Au scroll, le texte disparaît (fade + déplacement vers le haut)
+	 * Phase 3 : Les vidéos apparaissent en fond avec effet de parallaxe
+	 */
+	function initPassionsParallax() {
+		const passionsSection = document.querySelector('#passions');
+		const textContainer = document.querySelector('#passions-text-container');
+		const videosContainer = document.querySelector('#passions-videos-container');
+		const title = document.querySelector('#passions-title');
+		const description = document.querySelector('#passions-description');
+
+		// Vérifier que tous les éléments existent
+		if (!passionsSection || !textContainer || !videosContainer || !title || !description) {
+			console.warn('Section Passions : éléments manquants pour l\'animation GSAP');
+			return;
+		}
+
+		// ===== ANIMATION 0 : Apparition du texte quand on arrive à la section =====
+		gsap.to(textContainer, {
+			opacity: 1,
+			scrollTrigger: {
+				trigger: passionsSection,
+				start: 'top 30%', // Commence à apparaître quand la section est à 30% du viewport
+				end: 'top top', // Complètement visible quand la section arrive en haut
+				scrub: 1,
+			}
+		});
+
+		// ===== ANIMATION 1 : Disparition du texte =====
+		const textTimeline = gsap.timeline({
+			scrollTrigger: {
+				trigger: passionsSection,
+				start: 'top top', // Démarre quand la section atteint le haut
+				end: '20% top', // Se termine à 20% du scroll (plus rapide)
+				scrub: 1,
+			}
+		});
+
+		// Le titre disparaît plus vite et monte plus haut
+		textTimeline.to(title, {
+			opacity: 0,
+			y: -100,
+			ease: 'power2.in'
+		}, 0);
+
+		// La description disparaît légèrement après
+		textTimeline.to(description, {
+			opacity: 0,
+			y: -60,
+			ease: 'power2.in'
+		}, 0.2);
+
+		// ===== ANIMATION 2 : Apparition des vidéos =====
+		const videosTimeline = gsap.timeline({
+			scrollTrigger: {
+				trigger: passionsSection,
+				start: '15% top', // Les vidéos commencent à apparaître après le texte
+				end: '35% top',
+				scrub: 1,
+			}
+		});
+
+		// Le conteneur des vidéos devient visible
+		videosTimeline.to(videosContainer, {
+			opacity: 1,
+			ease: 'power2.out'
+		});
+
+		// ===== ANIMATION 3 : Parallaxe des vidéos (effet de profondeur) =====
+		// Chaque calque se déplace à une vitesse différente pour créer la profondeur
+
+		// Calque 1 (fond) : se déplace lentement
+		gsap.to('.parallax-layer-1', {
+			y: () => -200, // Déplacement de 200px vers le haut
+			ease: 'none',
+			scrollTrigger: {
+				trigger: passionsSection,
+				start: 'top top',
+				end: 'bottom top',
+				scrub: 2, // Plus fluide (scrub = vitesse de réponse au scroll)
+			}
+		});
+
+		// Calque 2 (milieu) : se déplace à vitesse moyenne
+		gsap.to('.parallax-layer-2', {
+			y: () => -350,
+			ease: 'none',
+			scrollTrigger: {
+				trigger: passionsSection,
+				start: 'top top',
+				end: 'bottom top',
+				scrub: 1.5,
+			}
+		});
+
+		// Calque 3 (premier plan) : se déplace plus vite
+		gsap.to('.parallax-layer-3', {
+			y: () => -500,
+			ease: 'none',
+			scrollTrigger: {
+				trigger: passionsSection,
+				start: 'top top',
+				end: 'bottom top',
+				scrub: 1,
+			}
+		});
+
+		// ===== EFFET BONUS : Léger zoom + rotation au scroll =====
+		gsap.to('.parallax-layer-1 > div', {
+			scale: 1.1,
+			rotation: 2,
+			ease: 'none',
+			scrollTrigger: {
+				trigger: passionsSection,
+				start: 'top top',
+				end: 'bottom top',
+				scrub: 2,
+			}
+		});
+
+		gsap.to('.parallax-layer-2 > div', {
+			scale: 1.15,
+			rotation: -3,
+			ease: 'none',
+			scrollTrigger: {
+				trigger: passionsSection,
+				start: 'top top',
+				end: 'bottom top',
+				scrub: 1.5,
+			}
+		});
+
+		gsap.to('.parallax-layer-3 > div', {
+			scale: 1.2,
+			rotation: 3,
+			ease: 'none',
+			scrollTrigger: {
+				trigger: passionsSection,
+				start: 'top top',
+				end: 'bottom top',
+				scrub: 1,
+			}
+		});
 	}
 </script>
 
@@ -441,19 +654,136 @@ import { competences } from '../config/competences.config';
 		grid-auto-flow: dense;
 	}
 
-	/* Styles des cartes vidéo */
-	.video-card {
-		transition: transform 0.3s ease;
+	/* ===== STYLES POUR LA SECTION "MES PASSIONS" ===== */
+	
+	/* Section principale avec hauteur étendue pour le scroll */
+	#passions {
+		position: relative;
+		background: linear-gradient(180deg, rgba(0, 0, 0, 0.9) 0%, rgba(10, 5, 20, 0.95) 50%, rgba(0, 0, 0, 0.9) 100%);
 	}
 
-	.video-card:hover {
-		transform: scale(1.02);
+	/* Conteneur du texte fixe (plein écran) */
+	#passions-text-container {
+		will-change: opacity, transform;
 	}
 
-	/* Effet parallaxe - smooth */
-	.parallax-item {
+	#passions-title,
+	#passions-description {
+		will-change: opacity, transform;
+	}
+
+	/* Conteneur des vidéos en fond */
+	#passions-videos-container {
+		will-change: opacity;
+	}
+
+	/* Calques de parallaxe avec z-index distincts */
+	.parallax-layer {
 		will-change: transform;
-		transition: transform 0.1s ease-out;
+		backface-visibility: hidden;
+		-webkit-backface-visibility: hidden;
+		pointer-events: none; /* Désactiver les clics sur le conteneur */
+	}
+
+	.parallax-layer > div {
+		pointer-events: auto; /* Réactiver les clics sur le contenu */
+	}
+
+	/* Forcer le format vertical (9:16) des vidéos en plein écran */
+	.video-player:fullscreen {
+		width: auto !important;
+		height: 100% !important;
+		max-width: 56.25vh; /* 9/16 * 100vh pour garder le ratio */
+		margin: 0 auto;
+		object-fit: contain;
+	}
+
+	.video-player:-webkit-full-screen {
+		width: auto !important;
+		height: 100% !important;
+		max-width: 56.25vh;
+		margin: 0 auto;
+		object-fit: contain;
+	}
+
+	.video-player:-moz-full-screen {
+		width: auto !important;
+		height: 100% !important;
+		max-width: 56.25vh;
+		margin: 0 auto;
+		object-fit: contain;
+	}
+
+	.video-player:-ms-fullscreen {
+		width: auto !important;
+		height: 100% !important;
+		max-width: 56.25vh;
+		margin: 0 auto;
+		object-fit: contain;
+	}
+
+	/* Calque 1 : Fond (le plus éloigné) */
+	.parallax-layer-1 {
+		z-index: 1;
+	}
+
+	/* Calque 2 : Milieu */
+	.parallax-layer-2 {
+		z-index: 2;
+	}
+
+	/* Calque 3 : Premier plan (le plus proche) */
+	.parallax-layer-3 {
+		z-index: 3;
+	}
+
+	/* Effet de hover sur les vidéos */
+	.parallax-layer > div {
+		transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	/* Ombres portées pour accentuer la profondeur */
+	.parallax-layer-1 > div {
+		filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+	}
+
+	.parallax-layer-2 > div {
+		filter: drop-shadow(0 20px 50px rgba(0, 0, 0, 0.4));
+	}
+
+	.parallax-layer-3 > div {
+		filter: drop-shadow(0 30px 70px rgba(0, 0, 0, 0.5));
+	}
+
+	/* Responsive : désactiver les effets complexes sur mobile */
+	@media (max-width: 768px) {
+		#passions {
+			min-height: auto !important;
+			padding: 4rem 0;
+		}
+
+		#passions-text-container {
+			position: relative !important;
+			margin-bottom: 3rem;
+		}
+
+		#passions-videos-container {
+			position: relative !important;
+			opacity: 1 !important;
+		}
+
+		.parallax-layer {
+			position: relative !important;
+			display: block !important;
+			margin-bottom: 2rem;
+			transform: none !important;
+		}
+
+		.parallax-layer > div {
+			margin: 0 auto;
+			max-width: 300px;
+			opacity: 1 !important;
+		}
 	}
 
 	/* Animation supplémentaire pour les éléments */
@@ -465,7 +795,9 @@ import { competences } from '../config/competences.config';
 
 	@media (prefers-reduced-motion: reduce) {
 		.scroll-reveal,
-		.parallax-item {
+		.parallax-layer,
+		#passions-text-container,
+		#passions-videos-container {
 			animation: none !important;
 			transition: none !important;
 			transform: none !important;

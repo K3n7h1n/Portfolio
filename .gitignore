@@ -25,3 +25,6 @@ pnpm-debug.log*
 
 # ne pas push l'architecture.md de mon site
 architecture.md
+
+# ne pas push le dossier documentation
+documentation/
