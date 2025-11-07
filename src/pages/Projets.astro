@@ -511,11 +511,7 @@ try {
 		transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 		transform-style: preserve-3d;
 		will-change: transform, opacity;
-		pointer-events: none; /* Désactiver par défaut */
-	}
-
-	.carousel-card.active {
-		pointer-events: auto; /* Activer seulement pour la carte active */
+		pointer-events: auto; /* Toutes les cartes sont cliquables */
 		cursor: default;
 	}
 
