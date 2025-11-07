@@ -2,13 +2,13 @@ name: Build and Deploy to VPS
 
 on:
   push:
-    branches: [master]
-  workflow_dispatch: 
+    branches: [ master ]
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -16,16 +16,15 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '20'     # Astro 5 ok
         cache: 'npm'
 
     - name: Install dependencies
       run: npm ci
-      
+
     - name: Build project
-      run: |
-        npm run build
-        cp package.json dist/
+      run: npm run build       # NE PAS copier de package.json dans dist/
+
     - name: Deploy to VPS via SCP
       uses: appleboy/scp-action@v0.1.3
       with:
@@ -39,7 +38,8 @@ jobs:
         rm: false
         overwrite: true
         debug: true
-    - name: Install production dependencies on VPS
+
+    - name: Install runtime deps & restart PM2 on VPS
       uses: appleboy/ssh-action@v1.0.0
       with:
         host: ${{ secrets.HOST }}
@@ -47,6 +47,22 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22036
         script: |
-          cd /var/www/portfolio
-          npm ci --only=production
-          PORT=8088 HOST=0.0.0.0 pm2 restart etudiant || PORT=8088 HOST=0.0.0.0 pm2 start server/entry.mjs --name etudiant
+          set -e
+          # Optionnel : s'assurer d'un Node moderne via nvm si tu l'utilises
+          if [ -s "$HOME/.nvm/nvm.sh" ]; then
+            . "$HOME/.nvm/nvm.sh"
+            nvm install 20 >/dev/null
+            nvm use 20 >/dev/null
+          fi
+
+          cd /var/www/portfolio/server
+          rm -rf node_modules
+          if [ -f package-lock.json ]; then
+            npm ci --omit=dev
+          else
+            npm install --omit=dev
+          fi
+
+          # Démarrage/restart de l'app
+          PORT=8088 pm2 restart portfolio || PORT=8088 pm2 start entry.mjs --name portfolio
+          pm2 save
