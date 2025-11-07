@@ -316,9 +316,10 @@ import Layout from '../layouts/Layout.astro';
 
 <script>
 	import PocketBase from 'pocketbase';
+	import { POCKETBASE_URL } from '../utils/pocketbase-config';
 
-	// Configuration PocketBase (local)
-	const pb = new PocketBase('http://127.0.0.1:8090');
+	// Configuration PocketBase
+	const pb = new PocketBase(POCKETBASE_URL);
 
 	// Animation au scroll (Intersection Observer)
 	const observerOptions = {

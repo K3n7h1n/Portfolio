@@ -1,28 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import PocketBase from 'pocketbase';
-
-// Configuration PocketBase (local)
-const pb = new PocketBase('http://127.0.0.1:8090');
-
-interface Projet {
-	id: string;
-	titre: string;
-	description: string;
-	description_courte?: string;
-	photo_principale?: string;
-	image?: string;
-	tags?: string[];
-	categorie?: string;
-	slug?: string;
-	collectionId?: string;
-	ordre_affichage?: number;
-	date_realisation?: string;
-	afficher?: boolean;
-}
+import pb from '../utils/pb';
+import type { ProjetsResponse } from '../utils/pocketbase-types';
 
 // Récupérer les projets
-let projets: Projet[] = [];
+let projets: ProjetsResponse[] = [];
 try {
 	projets = await pb.collection('projets').getFullList({
 		filter: 'afficher = true',
@@ -73,7 +55,7 @@ try {
 				<!-- Conteneur du carrousel -->
 				<div id="carousel-3d" class="carousel-3d" data-projets={JSON.stringify(projets)}>
 					{projets.map((projet, index) => {
-						const imageUrl = `http://127.0.0.1:8090/api/files/${projet.collectionId}/${projet.id}/${projet.photo_principale}`;
+						const imageUrl = pb.files.getUrl(projet, projet.photo_principale || '');
 						
 						return (
 							<div 

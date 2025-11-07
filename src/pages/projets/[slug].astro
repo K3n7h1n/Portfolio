@@ -1,17 +1,15 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import PocketBase from 'pocketbase';
+import pb from '../../utils/pb';
+import type { ProjetsResponse } from '../../utils/pocketbase-types';
 
 export const prerender = false; // Active le SSR pour cette page
-
-// Configuration PocketBase
-const pb = new PocketBase('http://127.0.0.1:8090');
 
 // Récupérer le slug depuis l'URL
 const { slug } = Astro.params;
 
 // Récupérer le projet
-let projet: any = null;
+let projet: ProjetsResponse | null = null;
 
 try {
 	const projets = await pb.collection('projets').getFullList({
@@ -23,7 +21,7 @@ try {
 	
 	if (projets.length > 0) {
 		projet = projets[0];
-		console.log(`✅ Projet trouvé: ${projet.nom}`);
+		console.log(`✅ Projet trouvé: ${projet.titre}`);
 	} else {
 		console.log(`❌ Aucun projet trouvé avec le slug: "${slug}"`);
 	}
