@@ -49,4 +49,4 @@ jobs:
         script: |
           cd /var/www/portfolio
           npm ci --only=production
-          PORT=8088 HOST=0.0.0.0 pm2 restart etudiant || PORT=8088 HOST=0.0.0.0 pm2 start server/entry.mjs --name etudiant
+          PORT=8088 HOST=0.0.0.0 pm2 restart portfolio || PORT=8088 HOST=0.0.0.0 pm2 start server/entry.mjs --name portfolio
