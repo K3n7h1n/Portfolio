@@ -23,6 +23,9 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
+pocketbase/*.md
+pocketbase/pocketbase
+
 # ne pas push l'architecture.md de mon site
 architecture.md
 
