@@ -37,6 +37,14 @@ export const competences: Competence[] = [
     categorie: 'design'
   },
 
+  {
+    nom: 'Affinity',
+    logo: '/logos/affinity.jpg',
+    taille: 'medium',
+    couleur: '#FF61F6',
+    categorie: 'design'
+  },
+
   
   // Développement
   {
