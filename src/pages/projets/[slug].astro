@@ -7,22 +7,20 @@ import type { ProjetsResponse } from '../../utils/pocketbase-types';
 const { slug } = Astro.params;
 
 // Récupérer le projet depuis PocketBase
-let projet: ProjetsResponse | null = null;
+let projet: ProjetsResponse;
 
 try {
 	const projets = await pb.collection('projets').getFullList({
 		filter: `slug = "${slug}" && afficher = true`
 	});
 	
-	if (projets.length > 0) {
-		projet = projets[0];
+	if (projets.length === 0) {
+		return Astro.redirect('/Projets');
 	}
+	
+	projet = projets[0];
 } catch (e) {
 	console.error('Erreur lors de la récupération du projet:', e);
-}
-
-// Si le projet n'existe pas, rediriger
-if (!projet) {
 	return Astro.redirect('/Projets');
 }
 
