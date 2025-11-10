@@ -323,14 +323,16 @@ import Layout from '../layouts/Layout.astro';
 
 	// Animation au scroll (Intersection Observer)
 	const observerOptions = {
-		threshold: 0.1,
-		rootMargin: '0px 0px -100px 0px'
+		threshold: 0.2,
+		rootMargin: '0px 0px -50px 0px'
 	};
 
 	const observer = new IntersectionObserver((entries) => {
 		entries.forEach(entry => {
 			if (entry.isIntersecting) {
-				entry.target.classList.add('animate-fade-in');
+				setTimeout(() => {
+					entry.target.classList.add('animate-fade-in');
+				}, 50);
 				observer.unobserve(entry.target);
 			}
 		});
@@ -339,7 +341,12 @@ import Layout from '../layouts/Layout.astro';
 	// Observer tous les éléments avec la classe scroll-reveal
 	document.addEventListener('DOMContentLoaded', () => {
 		const elements = document.querySelectorAll('.scroll-reveal');
-		elements.forEach(el => observer.observe(el));
+		elements.forEach((el, index) => {
+			if (el instanceof HTMLElement) {
+				el.style.transitionDelay = `${index * 0.1}s`;
+			}
+			observer.observe(el);
+		});
 
 		// Compteur de caractères pour le message
 		const messageField = document.getElementById('message') as HTMLTextAreaElement;
@@ -466,16 +473,6 @@ import Layout from '../layouts/Layout.astro';
 
 <style>
 	/* Styles spécifiques à la page contact */
-	.scroll-reveal {
-		opacity: 0;
-		transform: translateY(30px);
-		transition: opacity 0.8s ease, transform 0.8s ease;
-	}
-
-	.scroll-reveal.animate-fade-in {
-		opacity: 1;
-		transform: translateY(0);
-	}
 
 	/* Amélioration des champs de formulaire */
 	input:focus, textarea:focus, select:focus {

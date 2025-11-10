@@ -37,9 +37,14 @@ try {
 } catch {
 	infos = {};
 }
+
+// Définir le titre de la page avec une valeur par défaut
+const projetTitre = projet.titre || projet.nom || 'Projet';
+const pageTitle = `${projetTitre} - Projets`;
+const pageDescription = projet.description_courte || 'Découvrez ce projet';
 ---
 
-<Layout title={`${projet.titre} - Projets`} description={projet.description_courte}>
+<Layout title={pageTitle} description={pageDescription}>
 	<!-- Hero du projet -->
 	<section class="min-h-screen px-4 py-20">
 		<div class="max-w-7xl mx-auto">
@@ -66,7 +71,7 @@ try {
 				</div>
 				
 				<h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
-					<span class="neon-pink">{projet.titre}</span>
+					<span class="neon-pink">{projetTitre}</span>
 				</h1>
 				
 				<p class="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto">
@@ -284,16 +289,19 @@ try {
 </Layout>
 
 <script>
-	// Animation au scroll
+	// Animation au scroll avec déclenchement progressif
 	const observerOptions = {
-		threshold: 0.1,
-		rootMargin: '0px 0px -100px 0px'
+		threshold: 0.2, // L'élément doit être visible à 20% avant de déclencher
+		rootMargin: '0px 0px -50px 0px' // Déclenche un peu avant que l'élément soit totalement visible
 	};
 
 	const observer = new IntersectionObserver((entries) => {
 		entries.forEach(entry => {
 			if (entry.isIntersecting) {
-				entry.target.classList.add('animate-fade-in');
+				// Petit délai pour une animation plus naturelle
+				setTimeout(() => {
+					entry.target.classList.add('animate-fade-in');
+				}, 50);
 				observer.unobserve(entry.target);
 			}
 		});
@@ -301,7 +309,13 @@ try {
 
 	document.addEventListener('DOMContentLoaded', () => {
 		const elements = document.querySelectorAll('.scroll-reveal');
-		elements.forEach(el => observer.observe(el));
+		elements.forEach((el, index) => {
+			// Ajouter un délai progressif pour chaque élément
+			if (el instanceof HTMLElement) {
+				el.style.transitionDelay = `${index * 0.1}s`;
+			}
+			observer.observe(el);
+		});
 
 		// Lightbox simple pour la galerie
 		const galleryItems = document.querySelectorAll('.gallery-item');
@@ -317,16 +331,6 @@ try {
 </script>
 
 <style>
-	.scroll-reveal {
-		opacity: 0;
-		transform: translateY(30px);
-		transition: opacity 0.8s ease, transform 0.8s ease;
-	}
-
-	.scroll-reveal.animate-fade-in {
-		opacity: 1;
-		transform: translateY(0);
-	}
 
 	/* Styles pour le contenu HTML riche */
 	.prose {

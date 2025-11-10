@@ -59,6 +59,19 @@ main, section {
               linear-gradient(135deg, #D019D0, #1974D1) border-box;
 }
 
+/* Animations de scroll reveal */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), 
+              transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scroll-reveal.animate-fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* Animations personnalisées */
 @layer utilities {
   .animate-fade-in {
@@ -98,6 +111,10 @@ main, section {
 }
 
 @keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
   to {
     opacity: 1;
     transform: translateY(0);
@@ -105,6 +122,10 @@ main, section {
 }
 
 @keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(60px);
+  }
   to {
     opacity: 1;
     transform: translateY(0);
@@ -112,6 +133,10 @@ main, section {
 }
 
 @keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
   to {
     opacity: 1;
     transform: scale(1);
