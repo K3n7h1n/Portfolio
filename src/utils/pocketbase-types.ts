@@ -59,6 +59,7 @@ export type ProjetsRecord = {
 	lien_demo?: string
 	lien_github?: string
 	lien_figma?: string
+	lien_divers?: string
 	client?: string
 	technologies?: string[]
 	images_secondaires?: string[]
