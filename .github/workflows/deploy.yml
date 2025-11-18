@@ -1,4 +1,4 @@
-name: Build and Deploy to VPS Perso
+name: Build and Deploy to VPS
 
 on:
   push:
@@ -25,30 +25,29 @@ jobs:
       run: |
         npm run build
         cp package.json dist/server/
-
-    - name: Deploy to VPS perso via SCP
+    - name: Deploy to VPS via SCP
       uses: appleboy/scp-action@v0.1.3
       with:
-        host: ${{ secrets.HOST_IONOS }}
-        username: ${{ secrets.USER_IONOS }}
-        key: ${{ secrets.SSH_PRIVATE_KEY_IONOS }}
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22036
         source: "dist/*"
         target: "/var/www/portfolio/"
         strip_components: 1
         rm: false
         overwrite: true
         debug: true
-
-    - name: Install production dependencies on VPS perso
+    - name: Install production dependencies on VPS
       uses: appleboy/ssh-action@v1.0.0
       with:
-        host: ${{ secrets.HOST_IONOS }}
-        username: ${{ secrets.USER_IONOS }}
-        key: ${{ secrets.SSH_PRIVATE_KEY_IONOS }}
-        
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22036
         script: |
           cd /var/www/portfolio/server
-          npm ci --omit=dev
+          npm ci
           npm install astro
           npm install send server-destroy
-          PORT=8088 pm2 restart portfolio || PORT=8088 pm2 start entry.mjs --name portfolio
+          PORT=8088 pm2 restart etudiant || PORT=8088 pm2 start entry.mjs --name etudiant
