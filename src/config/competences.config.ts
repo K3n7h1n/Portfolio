@@ -47,7 +47,7 @@ export const competences: Competence[] = [
 
   {
     nom: 'InDesign',
-    logo: '/logos/InDesign.svg',
+    logo: '/logos/indesign.svg',
     taille: 'medium',
     couleur: '#FF3366',
     categorie: 'design'
