@@ -51,7 +51,7 @@ export const competences: Competence[] = [
     taille: 'medium',
     couleur: '#FF3366',
     categorie: 'design'
-  }
+  },
 
   
   // Développement
