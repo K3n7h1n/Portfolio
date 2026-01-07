@@ -36,13 +36,30 @@ main, section {
 
 /* Effets de néon globaux */
 .neon-pink {
-  color: #D019D0;
-  text-shadow: 0 0 10px #D019D0, 0 0 20px #D019D0, 0 0 30px #D019D0;
+  color: #ffffff;
+  text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ffffff, 0 0 40px #D019D0, 0 0 60px #D019D0, 0 0 80px #D019D0;
+  filter: drop-shadow(0 0 20px rgba(208, 25, 208, 0.8));
 }
 
 .neon-blue {
   color: #1974D1;
   text-shadow: 0 0 10px #1974D1, 0 0 20px #1974D1, 0 0 30px #1974D1;
+}
+
+/* Effet néon amélioré : blanc intérieur + rose extérieur */
+.neon-title {
+  color: #ffffff;
+  font-weight: 700;
+  text-shadow: 
+    0 0 5px #ffffff,
+    0 0 10px #ffffff,
+    0 0 20px #D019D0,
+    0 0 30px #D019D0,
+    0 0 40px #D019D0,
+    0 0 60px #D019D0,
+    0 0 80px rgba(208, 25, 208, 0.6);
+  filter: drop-shadow(0 0 10px rgba(208, 25, 208, 0.8));
+  letter-spacing: 0.05em;
 }
 
 .glow-pink {
@@ -159,6 +176,33 @@ main, section {
   50% {
     box-shadow: 0 0 30px rgba(208, 25, 208, 0.6), 0 0 60px rgba(25, 116, 209, 0.4);
   }
+}
+
+@keyframes neonPulse {
+  0%, 100% {
+    text-shadow: 
+      0 0 5px #ffffff,
+      0 0 10px #ffffff,
+      0 0 20px #D019D0,
+      0 0 30px #D019D0,
+      0 0 40px #D019D0,
+      0 0 60px #D019D0;
+  }
+  50% {
+    text-shadow: 
+      0 0 10px #ffffff,
+      0 0 20px #ffffff,
+      0 0 30px #D019D0,
+      0 0 40px #D019D0,
+      0 0 60px #D019D0,
+      0 0 80px #D019D0,
+      0 0 100px rgba(208, 25, 208, 0.8);
+  }
+}
+
+/* Classe pour animer les titres néon */
+.neon-title-pulse {
+  animation: neonPulse 3s ease-in-out infinite;
 }
 
 @keyframes float {
