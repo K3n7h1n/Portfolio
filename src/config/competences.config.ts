@@ -22,6 +22,15 @@ export const competences: Competence[] = [
     couleur: '#31A8FF',
     categorie: 'design'
   },
+
+  {
+    nom: 'Audition',
+    logo: '/logos/audition.svg',
+    taille: 'large',
+    couleur: '#31A8FF',
+    categorie: 'design'
+  },
+
   {
     nom: 'Illustrator',
     logo: '/logos/illustrator.svg',

@@ -121,7 +121,7 @@ try {
 			</div>
 
 			<!-- Compteur de projets -->
-			<div class="text-center mt-12 text-gray-400">
+			<div class="text-center mt-20 text-gray-400">
 				<span id="current-project">1</span> / <span id="total-projects">{projets.length}</span>
 			</div>
 		</div>
@@ -145,20 +145,9 @@ try {
 	let currentIndex = 0;
 	let totalItems = 0;
 	let isAnimating = false;
-	let isDragging = false;
-	let startX = 0;
-	let currentX = 0;
-	let dragOffset = 0;
-	let rotationOffset = 0; // Offset de rotation pendant le drag
-	let velocity = 0;
-	let lastMoveTime = 0;
-	let lastMoveX = 0;
 
 	// Configuration du carrousel
 	const config = {
-		radius: 600, // Rayon du cercle 3D
-		itemWidth: 400, // Largeur des cartes
-		itemHeight: 500, // Hauteur des cartes
 		animationDuration: 600, // Durée de l'animation (ms)
 	};
 
@@ -195,47 +184,6 @@ try {
 			navigateCarousel(1);
 		});
 
-		// Navigation par indicateurs
-		const indicators = document.querySelectorAll('.indicator');
-		indicators.forEach((indicator, index) => {
-			indicator.addEventListener('click', () => {
-				if (!isAnimating) {
-					currentIndex = index;
-					updateCarousel();
-					updateIndicators();
-					updateCounter();
-				}
-			});
-		});
-
-		// Navigation au clavier
-		document.addEventListener('keydown', (e) => {
-			if (e.key === 'ArrowLeft') {
-				navigateCarousel(-1);
-			} else if (e.key === 'ArrowRight') {
-				navigateCarousel(1);
-			}
-		});
-
-		// Drag & Swipe
-		carousel.addEventListener('mousedown', handleDragStart);
-		carousel.addEventListener('touchstart', handleDragStart, { passive: true });
-
-		document.addEventListener('mousemove', handleDragMove);
-		document.addEventListener('touchmove', handleDragMove, { passive: false });
-
-		document.addEventListener('mouseup', handleDragEnd);
-		document.addEventListener('touchend', handleDragEnd);
-
-		// Scroll wheel
-		carousel.addEventListener('wheel', (e) => {
-			e.preventDefault();
-			if (!isAnimating) {
-				const direction = e.deltaY > 0 ? 1 : -1;
-				navigateCarousel(direction);
-			}
-		}, { passive: false });
-
 		// Responsive
 		window.addEventListener('resize', () => {
 			updateCarousel();
@@ -264,9 +212,7 @@ try {
 		cards.forEach((card, index) => {
 			const element = card as HTMLElement;
 			const relativeIndex = index - currentIndex;
-			
-			// Ajouter l'offset de rotation pendant le drag
-			const angle = (relativeIndex * angleIncrement) + rotationOffset;
+			const angle = relativeIndex * angleIncrement;
 			const radians = (angle * Math.PI) / 180;
 
 			// Calcul de la position 3D selon CARROUSEL-3D-SCHEMA.md
@@ -350,113 +296,6 @@ try {
 		if (totalEl) totalEl.textContent = totalItems.toString();
 	}
 
-	// Gestion du drag
-	function handleDragStart(e: MouseEvent | TouchEvent) {
-		isDragging = true;
-		startX = getClientX(e);
-		currentX = startX;
-		dragOffset = 0;
-		lastMoveX = startX;
-		lastMoveTime = Date.now();
-		velocity = 0;
-
-		const carousel = document.getElementById('carousel-3d');
-		const cards = document.querySelectorAll('.carousel-card') as NodeListOf<HTMLElement>;
-		
-		if (carousel) {
-			carousel.style.cursor = 'grabbing';
-		}
-
-		// Désactiver les transitions pendant le drag
-		cards.forEach(card => {
-			card.style.transition = 'none';
-		});
-	}
-
-	function handleDragMove(e: MouseEvent | TouchEvent) {
-		if (!isDragging) return;
-
-		e.preventDefault();
-		currentX = getClientX(e);
-		const now = Date.now();
-		const deltaTime = now - lastMoveTime;
-		
-		if (deltaTime > 0) {
-			const deltaX = currentX - lastMoveX;
-			velocity = deltaX / deltaTime; // pixels par milliseconde
-			lastMoveX = currentX;
-			lastMoveTime = now;
-		}
-
-		dragOffset = currentX - startX;
-
-		// Convertir le drag en rotation
-		// Plus on drag, plus on tourne
-		const screenWidth = window.innerWidth;
-		const angleIncrement = 360 / totalItems;
-		rotationOffset = (dragOffset / screenWidth) * angleIncrement * 2;
-
-		updateCarousel();
-	}
-
-	function handleDragEnd() {
-		if (!isDragging) return;
-
-		isDragging = false;
-		
-		const carousel = document.getElementById('carousel-3d');
-		const cards = document.querySelectorAll('.carousel-card') as NodeListOf<HTMLElement>;
-		
-		if (carousel) {
-			carousel.style.cursor = 'grab';
-		}
-
-		// Réactiver les transitions
-		cards.forEach(card => {
-			card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-		});
-
-		// Calculer le momentum
-		const angleIncrement = 360 / totalItems;
-		let direction = 0;
-
-		// Si la vélocité est élevée, appliquer un momentum
-		if (Math.abs(velocity) > 0.5) {
-			// Momentum: plusieurs slides selon la vitesse
-			const momentumSlides = Math.round(velocity * 1000 / angleIncrement);
-			direction = -momentumSlides; // Inverser car drag gauche = next
-		} else {
-			// Sinon, snap au plus proche
-			const rotationDegrees = rotationOffset;
-			if (Math.abs(rotationDegrees) > angleIncrement / 3) {
-				direction = rotationDegrees > 0 ? -1 : 1;
-			}
-		}
-
-		// Réinitialiser l'offset de rotation
-		rotationOffset = 0;
-
-		// Naviguer si nécessaire
-		if (direction !== 0) {
-			navigateCarousel(direction);
-		} else {
-			// Juste mettre à jour pour réinitialiser la position
-			updateCarousel();
-		}
-
-		dragOffset = 0;
-		velocity = 0;
-	}
-
-	function getClientX(e: MouseEvent | TouchEvent): number {
-		if (e instanceof MouseEvent) {
-			return e.clientX;
-		} else if (e instanceof TouchEvent && e.touches.length > 0) {
-			return e.touches[0].clientX;
-		}
-		return 0;
-	}
-
 	// Animation au scroll (Intersection Observer)
 	const observerOptions = {
 		threshold: 0.2,
@@ -503,11 +342,6 @@ try {
 		width: 100%;
 		height: 100%;
 		transform-style: preserve-3d;
-		cursor: grab;
-	}
-
-	.carousel-3d:active {
-		cursor: grabbing;
 	}
 
 	/* Cartes du carrousel */
