@@ -48,6 +48,7 @@ export type ProjetsRecord = {
 	description_complete?: string
 	details?: string
 	photo_principale?: string
+	photo_card?: string
 	tags?: string[]
 	categorie?: string
 	type?: string

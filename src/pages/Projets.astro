@@ -55,7 +55,8 @@ try {
 				<!-- Conteneur du carrousel -->
 				<div id="carousel-3d" class="carousel-3d" data-projets={JSON.stringify(projets)}>
 					{projets.map((projet, index) => {
-						const imageUrl = pb.files.getUrl(projet, projet.photo_principale || '');
+						const cardImage = projet.photo_card || projet.photo_principale || '';
+						const imageUrl = pb.files.getUrl(projet, cardImage);
 						const projetTitre = projet.titre || projet.nom || 'Projet';
 						
 						return (
