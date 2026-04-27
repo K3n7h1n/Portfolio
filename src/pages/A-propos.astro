@@ -310,9 +310,9 @@ import { competences } from "../config/competences.config";
   </section>
 
   <!-- Section "Mes passions" refondue (chapitres sticky) -->
-  <section id="passions" class="relative min-h-[250vh] md:min-h-[400vh] overflow-hidden">
+  <section id="passions" class="relative min-h-[400vh] overflow-hidden">
     <!-- Intro sticky -->
-    <div class="h-[62.5vh] md:h-screen">
+    <div class="h-screen">
       <div
         id="passions-intro-panel"
         class="sticky top-0 z-10 flex h-screen items-center justify-center bg-black px-6 text-center"
@@ -336,7 +336,7 @@ import { competences } from "../config/competences.config";
     </div>
 
     <!-- Chapitre 01 -->
-    <div class="h-[62.5vh] md:h-screen">
+    <div class="h-screen">
       <article class="passion-chapter sticky top-0 z-20 h-screen overflow-hidden bg-black" data-chapter="1">
         <div class="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black"></div>
         <div class="absolute left-[10%] top-1/2 h-[360px] w-[360px] -translate-y-1/2 rounded-full bg-[#d019d0] opacity-15 blur-[120px]"></div>
@@ -438,7 +438,7 @@ import { competences } from "../config/competences.config";
     </div>
 
     <!-- Chapitre 02 -->
-    <div class="h-[62.5vh] md:h-screen">
+    <div class="h-screen">
       <article class="passion-chapter sticky top-0 z-30 h-screen overflow-hidden bg-black" data-chapter="2">
         <div class="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black"></div>
         <div class="absolute right-[10%] top-1/2 h-[360px] w-[360px] -translate-y-1/2 rounded-full bg-[#1974d1] opacity-15 blur-[120px]"></div>
@@ -540,7 +540,7 @@ import { competences } from "../config/competences.config";
     </div>
 
     <!-- Chapitre 03 -->
-    <div class="h-[62.5vh] md:h-screen">
+    <div class="h-screen">
       <article class="passion-chapter sticky top-0 z-40 h-screen overflow-hidden bg-black" data-chapter="3">
         <div class="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black"></div>
         <div class="absolute left-1/2 top-1/2 h-[390px] w-[390px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#7c3aed] opacity-15 blur-[120px]"></div>
@@ -651,8 +651,10 @@ import { competences } from "../config/competences.config";
   gsap.registerPlugin(ScrollTrigger);
 
   // Animation au scroll (Intersection Observer) pour les autres sections
+  // On utilise un seuil bas (0.05 au lieu de 0.2) pour que les grands éléments comme skills-grid 
+  // puissent déclencher l'animation même sur les petits écrans mobiles.
   const observerOptions = {
-    threshold: 0.2,
+    threshold: 0.05,
     rootMargin: "0px 0px -50px 0px",
   };
 
@@ -792,7 +794,7 @@ import { competences } from "../config/competences.config";
 
     passionsSection.style.setProperty(
       "min-height",
-      isMobile ? "250vh" : "400vh",
+      "400vh",
       "important",
     );
     passionsSection.style.setProperty("padding", "0", "important");
@@ -1054,33 +1056,6 @@ import { competences } from "../config/competences.config";
     );
   }
 
-  /* Conteneur du texte fixe (plein écran) */
-  #passions-text-container {
-    will-change: opacity, transform;
-  }
-
-  #passions-title,
-  #passions-description {
-    will-change: opacity, transform;
-  }
-
-  /* Conteneur des vidéos en fond */
-  #passions-videos-container {
-    will-change: opacity;
-  }
-
-  /* Calques de parallaxe avec z-index distincts */
-  .parallax-layer {
-    will-change: transform;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    pointer-events: none; /* Désactiver les clics sur le conteneur */
-  }
-
-  .parallax-layer > div {
-    pointer-events: auto; /* Réactiver les clics sur le contenu */
-  }
-
   /* Forcer le format vertical (9:16) des vidéos en plein écran */
   .video-player:fullscreen {
     width: auto !important;
@@ -1112,70 +1087,6 @@ import { competences } from "../config/competences.config";
     max-width: 56.25vh;
     margin: 0 auto;
     object-fit: contain;
-  }
-
-  /* Calque 1 : Fond (le plus éloigné) */
-  .parallax-layer-1 {
-    z-index: 1;
-  }
-
-  /* Calque 2 : Milieu */
-  .parallax-layer-2 {
-    z-index: 2;
-  }
-
-  /* Calque 3 : Premier plan (le plus proche) */
-  .parallax-layer-3 {
-    z-index: 3;
-  }
-
-  /* Effet de hover sur les vidéos */
-  .parallax-layer > div {
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  /* Ombres portées pour accentuer la profondeur */
-  .parallax-layer-1 > div {
-    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
-  }
-
-  .parallax-layer-2 > div {
-    filter: drop-shadow(0 20px 50px rgba(0, 0, 0, 0.4));
-  }
-
-  .parallax-layer-3 > div {
-    filter: drop-shadow(0 30px 70px rgba(0, 0, 0, 0.5));
-  }
-
-  /* Responsive : désactiver les effets complexes sur mobile */
-  @media (max-width: 768px) {
-    #passions {
-      min-height: auto !important;
-      padding: 4rem 0;
-    }
-
-    #passions-text-container {
-      position: relative !important;
-      margin-bottom: 3rem;
-    }
-
-    #passions-videos-container {
-      position: relative !important;
-      opacity: 1 !important;
-    }
-
-    .parallax-layer {
-      position: relative !important;
-      display: block !important;
-      margin-bottom: 2rem;
-      transform: none !important;
-    }
-
-    .parallax-layer > div {
-      margin: 0 auto;
-      max-width: 300px;
-      opacity: 1 !important;
-    }
   }
 
   /* Animation supplémentaire pour les éléments */
