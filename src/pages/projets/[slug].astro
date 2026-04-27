@@ -341,7 +341,7 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 </Layout>
 
 <script>
-	declare const gsap: any;
+	import { gsap } from 'gsap';
 	// Animation au scroll avec déclenchement progressif
 	const observerOptions = {
 		threshold: 0.2, // L'élément doit être visible à 20% avant de déclencher
