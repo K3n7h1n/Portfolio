@@ -217,6 +217,20 @@ main, section {
   transition: all 0.3s ease;
 }
 
+.btn-neon::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 15% 25%, rgba(208, 25, 208, 0.22), transparent 52%),
+    radial-gradient(circle at 85% 80%, rgba(25, 116, 209, 0.16), transparent 50%);
+  opacity: 0.55;
+  mix-blend-mode: screen;
+  transition: opacity 0.35s ease;
+}
+
 .btn-neon::before {
   content: '';
   position: absolute;
@@ -238,6 +252,10 @@ main, section {
 .btn-neon:hover {
   transform: translateY(-2px);
   box-shadow: 0 0 30px rgba(208, 25, 208, 0.6), 0 0 60px rgba(25, 116, 209, 0.4);
+}
+
+.btn-neon:hover::after {
+  opacity: 0.8;
 }
 
 /* Boutons avec couleur rose forcée */
@@ -300,11 +318,30 @@ main, section {
   align-items: center !important;
   justify-content: center !important;
   gap: 0.5rem !important;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px) saturate(135%) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(135%) !important;
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.32),
+    0 0 18px rgba(208, 25, 208, 0.32),
+    0 0 24px rgba(25, 116, 209, 0.2) !important;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.35s ease,
+    filter 0.35s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .btn:hover {
   background-color: #ff00ff !important;
   border-color: #ff00ff !important;
+  transform: translateY(-2px);
+  box-shadow:
+    0 14px 36px rgba(0, 0, 0, 0.36),
+    0 0 26px rgba(208, 25, 208, 0.55),
+    0 0 38px rgba(25, 116, 209, 0.3) !important;
 }
 
 /* Tailles de boutons */
@@ -322,12 +359,41 @@ main, section {
 
 /* Cards avec effets */
 .card-hover {
+  position: relative;
+  isolation: isolate;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(12px) saturate(125%);
+  -webkit-backdrop-filter: blur(12px) saturate(125%);
+  box-shadow:
+    0 14px 36px rgba(0, 0, 0, 0.35),
+    0 0 24px rgba(208, 25, 208, 0.16),
+    0 0 34px rgba(25, 116, 209, 0.12);
+}
+
+.card-hover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 20% 12%, rgba(208, 25, 208, 0.14), transparent 48%),
+    radial-gradient(circle at 80% 88%, rgba(25, 116, 209, 0.13), transparent 44%);
+  opacity: 0.55;
+  mix-blend-mode: screen;
+  transition: opacity 0.35s ease;
 }
 
 .card-hover:hover {
   transform: translateY(-10px) scale(1.02);
-  box-shadow: 0 20px 60px rgba(208, 25, 208, 0.3), 0 0 40px rgba(25, 116, 209, 0.2);
+  box-shadow:
+    0 20px 52px rgba(0, 0, 0, 0.42),
+    0 0 34px rgba(208, 25, 208, 0.3),
+    0 0 52px rgba(25, 116, 209, 0.18);
+}
+
+.card-hover:hover::after {
+  opacity: 0.8;
 }
 
 /* Cercles lumineux en arrière-plan */
@@ -400,4 +466,11 @@ nav {
 nav a {
   font-weight: 400;
   letter-spacing: 0.02em;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body.custom-cursor-enabled,
+  body.custom-cursor-enabled * {
+    cursor: none !important;
+  }
 }

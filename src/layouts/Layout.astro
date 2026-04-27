@@ -1,5 +1,8 @@
 ---
 import "../styles/global.css";
+import CustomCursor from "../components/CustomCursor.astro";
+import HeroBackground from "../components/HeroBackground.astro";
+import NoiseOverlay from "../components/NoiseOverlay.astro";
 
 interface Props {
 	title?: string;
@@ -27,13 +30,9 @@ const { title = "Enzo Locatelli - Portfolio", description = "Designer Graphique 
 		<title>{title}</title>
 	</head>
 	<body class="bg-black text-white overflow-x-hidden min-h-screen flex flex-col">
-		<!-- Conteneur pour les cercles lumineux -->
-		<div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
-			<!-- Cercles lumineux d'arrière-plan -->
-			<div class="bg-circle" style="width: 800px; height: 800px; background: #D019D0; top: 0%; right: -10%;"></div>
-			<div class="bg-circle" style="width: 600px; height: 600px; background: #1974D1; top: 60%; left: -10%;"></div>
-			<div class="bg-circle" style="width: 500px; height: 500px; background: #1974D1; bottom: 20%; right: 10%;"></div>
-		</div>
+		<CustomCursor />
+		<HeroBackground />
+		<NoiseOverlay />
 
 		<!-- Navigation -->
 		<nav class="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-md border-b border-white/10">

@@ -1,0 +1,142 @@
+<div
+  aria-hidden="true"
+  class="pointer-events-none fixed inset-0 z-[5] overflow-hidden"
+>
+  <canvas
+    id="noise-overlay-canvas"
+    class="h-full w-full opacity-[0.085] mix-blend-soft-light [image-rendering:pixelated]"
+  ></canvas>
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_25%,rgba(255,255,255,0.06),rgba(0,0,0,0)_55%)]"></div>
+</div>
+
+<script>
+  const initNoiseOverlay = () => {
+    const canvas = document.getElementById("noise-overlay-canvas");
+    if (!(canvas instanceof HTMLCanvasElement)) {
+      return;
+    }
+
+    if (document.body.dataset.noiseOverlayInit === "true") {
+      return;
+    }
+
+    const context = canvas.getContext("2d", { alpha: true });
+    if (!context) {
+      return;
+    }
+
+    document.body.dataset.noiseOverlayInit = "true";
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const densityScale = 0.4;
+    let noiseWidth = 0;
+    let noiseHeight = 0;
+    let animationFrameId = 0;
+    let lastFrameTime = 0;
+
+    const resizeCanvas = () => {
+      noiseWidth = Math.max(180, Math.floor(window.innerWidth * densityScale));
+      noiseHeight = Math.max(120, Math.floor(window.innerHeight * densityScale));
+
+      canvas.width = Math.floor(noiseWidth * dpr);
+      canvas.height = Math.floor(noiseHeight * dpr);
+
+      context.setTransform(1, 0, 0, 1, 0, 0);
+      context.scale(dpr, dpr);
+      context.imageSmoothingEnabled = false;
+    };
+
+    const drawNoise = () => {
+      const frame = context.createImageData(noiseWidth, noiseHeight);
+      const buffer = frame.data;
+
+      for (let i = 0; i < buffer.length; i += 4) {
+        const grain = Math.floor(Math.random() * 256);
+        const alpha = 15 + Math.floor(Math.random() * 20);
+
+        buffer[i] = grain;
+        buffer[i + 1] = grain;
+        buffer[i + 2] = grain;
+        buffer[i + 3] = alpha;
+      }
+
+      context.putImageData(frame, 0, 0);
+    };
+
+    const animate = (time) => {
+      const frameInterval = 1000 / 14;
+
+      if (time - lastFrameTime >= frameInterval) {
+        lastFrameTime = time;
+        drawNoise();
+      }
+
+      animationFrameId = window.requestAnimationFrame(animate);
+    };
+
+    const stopAnimation = () => {
+      if (animationFrameId) {
+        window.cancelAnimationFrame(animationFrameId);
+        animationFrameId = 0;
+      }
+    };
+
+    const startAnimation = () => {
+      if (animationFrameId) {
+        return;
+      }
+
+      animationFrameId = window.requestAnimationFrame(animate);
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        stopAnimation();
+      } else if (!prefersReducedMotion.matches) {
+        startAnimation();
+      }
+    };
+
+    const handleReducedMotionChange = () => {
+      if (prefersReducedMotion.matches) {
+        stopAnimation();
+        drawNoise();
+      } else {
+        startAnimation();
+      }
+    };
+
+    const handleResize = () => {
+      resizeCanvas();
+      drawNoise();
+    };
+
+    const cleanup = () => {
+      stopAnimation();
+      window.removeEventListener("resize", handleResize);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      prefersReducedMotion.removeEventListener("change", handleReducedMotionChange);
+      delete document.body.dataset.noiseOverlayInit;
+    };
+
+    resizeCanvas();
+    drawNoise();
+
+    if (!prefersReducedMotion.matches) {
+      startAnimation();
+    }
+
+    window.addEventListener("resize", handleResize, { passive: true });
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    prefersReducedMotion.addEventListener("change", handleReducedMotionChange);
+    window.addEventListener("beforeunload", cleanup, { once: true });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initNoiseOverlay, { once: true });
+  } else {
+    initNoiseOverlay();
+  }
+</script>

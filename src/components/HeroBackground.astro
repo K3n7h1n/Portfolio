@@ -1,0 +1,389 @@
+<div id="hero-background" aria-hidden="true" class="pointer-events-none fixed inset-0 z-[1] overflow-hidden">
+  <canvas id="hero-particles-canvas" class="absolute inset-0 h-full w-full"></canvas>
+  <div class="hero-aurora hero-aurora-a"></div>
+  <div class="hero-aurora hero-aurora-b"></div>
+  <div class="hero-aurora hero-aurora-c"></div>
+  <div class="hero-vignette"></div>
+</div>
+
+<script>
+  import { gsap } from "gsap";
+
+  type Particle = {
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+    radius: number;
+    alpha: number;
+  };
+
+  const initHeroBackground = () => {
+    const root = document.getElementById("hero-background");
+    const canvas = document.getElementById("hero-particles-canvas");
+
+    if (!(root instanceof HTMLElement) || !(canvas instanceof HTMLCanvasElement)) {
+      return;
+    }
+
+    if (document.body.dataset.heroBackgroundInit === "true") {
+      return;
+    }
+
+    const context = canvas.getContext("2d", { alpha: true });
+    if (!context) {
+      return;
+    }
+
+    document.body.dataset.heroBackgroundInit = "true";
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const coarsePointer = window.matchMedia("(pointer: coarse)");
+
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const cursor = {
+      x: window.innerWidth * 0.5,
+      y: window.innerHeight * 0.5,
+      active: false
+    };
+
+    let width = 0;
+    let height = 0;
+    let animationFrameId = 0;
+    let lastTimestamp = 0;
+    let particles: Particle[] = [];
+
+    gsap.set(root, {
+      "--cursor-nx": 0,
+      "--cursor-ny": 0
+    });
+
+    const setCursorNX = gsap.quickTo(root, "--cursor-nx", {
+      duration: 0.42,
+      ease: "power3.out"
+    });
+
+    const setCursorNY = gsap.quickTo(root, "--cursor-ny", {
+      duration: 0.42,
+      ease: "power3.out"
+    });
+
+    const createParticle = () => {
+      const speed = 0.1 + Math.random() * 0.35;
+      const angle = Math.random() * Math.PI * 2;
+
+      return {
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        radius: 0.8 + Math.random() * 1.8,
+        alpha: 0.28 + Math.random() * 0.55
+      };
+    };
+
+    const buildParticles = () => {
+      const area = width * height;
+      const density = coarsePointer.matches ? 38000 : 24000;
+      const count = Math.max(30, Math.min(110, Math.round(area / density)));
+
+      particles = Array.from({ length: count }, createParticle);
+    };
+
+    const resizeCanvas = () => {
+      width = Math.max(320, window.innerWidth);
+      height = Math.max(180, window.innerHeight);
+
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+
+      context.setTransform(1, 0, 0, 1, 0, 0);
+      context.scale(dpr, dpr);
+      context.imageSmoothingEnabled = true;
+
+      buildParticles();
+      renderFrame(0.016);
+    };
+
+    const drawParticle = (particle: Particle, influence: number) => {
+      const glow = Math.min(1, influence * 1.7);
+      const blue = Math.floor(186 + glow * 45);
+      const red = Math.floor(95 + glow * 120);
+      const green = Math.floor(145 + glow * 35);
+      const alpha = Math.max(0.1, particle.alpha * (0.75 + glow * 0.5));
+
+      context.fillStyle = `rgba(${red}, ${green}, ${blue}, ${alpha.toFixed(3)})`;
+      context.beginPath();
+      context.arc(particle.x, particle.y, particle.radius + glow * 0.8, 0, Math.PI * 2);
+      context.fill();
+    };
+
+    const updateParticles = (deltaTime: number) => {
+      const drift = prefersReducedMotion.matches ? 0.0025 : 0.014;
+
+      for (let i = 0; i < particles.length; i += 1) {
+        const particle = particles[i];
+
+        const jitterX = (Math.random() - 0.5) * drift;
+        const jitterY = (Math.random() - 0.5) * drift;
+
+        particle.vx += jitterX;
+        particle.vy += jitterY;
+
+        let influence = 0;
+
+        if (cursor.active) {
+          const dx = cursor.x - particle.x;
+          const dy = cursor.y - particle.y;
+          const distance = Math.hypot(dx, dy);
+          const maxDistance = 240;
+
+          if (distance < maxDistance) {
+            influence = 1 - distance / maxDistance;
+            const force = influence * 1.45 * deltaTime;
+            const invDistance = 1 / Math.max(distance, 1);
+
+            particle.vx += dx * invDistance * force;
+            particle.vy += dy * invDistance * force;
+          }
+        }
+
+        particle.vx *= 0.985;
+        particle.vy *= 0.985;
+
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+
+        if (particle.x < -8) {
+          particle.x = width + 8;
+        } else if (particle.x > width + 8) {
+          particle.x = -8;
+        }
+
+        if (particle.y < -8) {
+          particle.y = height + 8;
+        } else if (particle.y > height + 8) {
+          particle.y = -8;
+        }
+
+        drawParticle(particle, influence);
+      }
+    };
+
+    const renderFrame = (deltaTime: number) => {
+      context.clearRect(0, 0, width, height);
+      context.globalCompositeOperation = "lighter";
+      updateParticles(deltaTime);
+      context.globalCompositeOperation = "source-over";
+    };
+
+    const animate = (timestamp: number) => {
+      const elapsed = timestamp - lastTimestamp;
+      const deltaTime = Math.min(0.03, (Number.isFinite(elapsed) ? elapsed : 16) / 1000);
+
+      lastTimestamp = timestamp;
+      renderFrame(deltaTime || 0.016);
+      animationFrameId = window.requestAnimationFrame(animate);
+    };
+
+    const stopAnimation = () => {
+      if (animationFrameId) {
+        window.cancelAnimationFrame(animationFrameId);
+        animationFrameId = 0;
+      }
+    };
+
+    const startAnimation = () => {
+      if (animationFrameId || prefersReducedMotion.matches) {
+        return;
+      }
+
+      lastTimestamp = performance.now();
+      animationFrameId = window.requestAnimationFrame(animate);
+    };
+
+    const resetCursor = () => {
+      cursor.active = false;
+      setCursorNX(0);
+      setCursorNY(0);
+    };
+
+    const handleMouseMove = (event: MouseEvent) => {
+      cursor.x = event.clientX;
+      cursor.y = event.clientY;
+      cursor.active = true;
+
+      const nx = (event.clientX / Math.max(window.innerWidth, 1)) * 2 - 1;
+      const ny = (event.clientY / Math.max(window.innerHeight, 1)) * 2 - 1;
+
+      setCursorNX(nx);
+      setCursorNY(ny);
+
+      if (prefersReducedMotion.matches) {
+        renderFrame(0.016);
+      }
+    };
+
+    const handleMouseLeave = () => {
+      resetCursor();
+    };
+
+    const handleResize = () => {
+      resizeCanvas();
+    };
+
+    const handleVisibility = () => {
+      if (document.hidden) {
+        stopAnimation();
+      } else {
+        startAnimation();
+      }
+    };
+
+    const handleReducedMotionChange = () => {
+      if (prefersReducedMotion.matches) {
+        stopAnimation();
+        renderFrame(0.016);
+      } else {
+        startAnimation();
+      }
+    };
+
+    const cleanup = () => {
+      stopAnimation();
+      document.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseleave", handleMouseLeave);
+      window.removeEventListener("resize", handleResize);
+      document.removeEventListener("visibilitychange", handleVisibility);
+      prefersReducedMotion.removeEventListener("change", handleReducedMotionChange);
+      delete document.body.dataset.heroBackgroundInit;
+    };
+
+    resizeCanvas();
+
+    document.addEventListener("mousemove", handleMouseMove, { passive: true });
+    window.addEventListener("mouseleave", handleMouseLeave);
+    window.addEventListener("resize", handleResize, { passive: true });
+    document.addEventListener("visibilitychange", handleVisibility);
+    prefersReducedMotion.addEventListener("change", handleReducedMotionChange);
+    window.addEventListener("beforeunload", cleanup, { once: true });
+
+    if (!prefersReducedMotion.matches) {
+      startAnimation();
+    }
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initHeroBackground, { once: true });
+  } else {
+    initHeroBackground();
+  }
+</script>
+
+<style>
+  #hero-background {
+    --cursor-nx: 0;
+    --cursor-ny: 0;
+  }
+
+  #hero-particles-canvas {
+    opacity: 0.58;
+    filter: saturate(122%);
+  }
+
+  .hero-aurora {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(90px);
+    opacity: 0.4;
+    mix-blend-mode: screen;
+    will-change: transform;
+    transform: translate3d(
+      calc(var(--cursor-nx) * 24px),
+      calc(var(--cursor-ny) * 18px),
+      0
+    );
+  }
+
+  .hero-aurora-a {
+    width: min(54vw, 760px);
+    height: min(52vw, 720px);
+    top: -14%;
+    left: -12%;
+    background: radial-gradient(circle at 42% 50%, rgba(39, 122, 255, 0.7), rgba(34, 92, 215, 0.26) 45%, transparent 74%);
+    animation: aurora-drift-a 17s ease-in-out infinite;
+  }
+
+  .hero-aurora-b {
+    width: min(44vw, 620px);
+    height: min(44vw, 620px);
+    right: -8%;
+    top: 16%;
+    background: radial-gradient(circle at 44% 44%, rgba(225, 86, 255, 0.56), rgba(211, 58, 229, 0.24) 42%, transparent 74%);
+    animation: aurora-drift-b 19s ease-in-out infinite;
+  }
+
+  .hero-aurora-c {
+    width: min(50vw, 690px);
+    height: min(50vw, 690px);
+    bottom: -18%;
+    left: 18%;
+    background: radial-gradient(circle at 50% 54%, rgba(34, 170, 255, 0.5), rgba(78, 108, 255, 0.24) 44%, transparent 76%);
+    animation: aurora-drift-c 21s ease-in-out infinite;
+  }
+
+  .hero-vignette {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.06), transparent 44%),
+      radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.46) 82%);
+  }
+
+  @keyframes aurora-drift-a {
+    0%,
+    100% {
+      transform: translate3d(calc(var(--cursor-nx) * 24px), calc(var(--cursor-ny) * 18px), 0) scale(1);
+    }
+    50% {
+      transform: translate3d(calc(var(--cursor-nx) * 24px + 24px), calc(var(--cursor-ny) * 18px - 18px), 0) scale(1.05);
+    }
+  }
+
+  @keyframes aurora-drift-b {
+    0%,
+    100% {
+      transform: translate3d(calc(var(--cursor-nx) * 24px), calc(var(--cursor-ny) * 18px), 0) scale(1);
+    }
+    50% {
+      transform: translate3d(calc(var(--cursor-nx) * 24px - 26px), calc(var(--cursor-ny) * 18px + 12px), 0) scale(1.06);
+    }
+  }
+
+  @keyframes aurora-drift-c {
+    0%,
+    100% {
+      transform: translate3d(calc(var(--cursor-nx) * 24px), calc(var(--cursor-ny) * 18px), 0) scale(1);
+    }
+    50% {
+      transform: translate3d(calc(var(--cursor-nx) * 24px + 14px), calc(var(--cursor-ny) * 18px + 24px), 0) scale(1.04);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-aurora {
+      animation: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero-aurora {
+      opacity: 0.32;
+      filter: blur(72px);
+    }
+
+    #hero-particles-canvas {
+      opacity: 0.44;
+    }
+  }
+</style>

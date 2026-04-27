@@ -1,0 +1,233 @@
+<div id="custom-cursor-orb" aria-hidden="true"></div>
+<div id="custom-cursor-dot" aria-hidden="true"></div>
+
+<script>
+  import { gsap } from "gsap";
+
+  const initCustomCursor = () => {
+    const orb = document.getElementById("custom-cursor-orb");
+    const dot = document.getElementById("custom-cursor-dot");
+
+    if (!(orb instanceof HTMLElement) || !(dot instanceof HTMLElement)) {
+      return;
+    }
+
+    if (document.body.dataset.customCursorInit === "true") {
+      return;
+    }
+
+    const desktopPointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const touchOnlyDevice = window.matchMedia("(hover: none) and (pointer: coarse)");
+
+    if (!desktopPointer.matches || touchOnlyDevice.matches) {
+      orb.remove();
+      dot.remove();
+      return;
+    }
+
+    document.body.dataset.customCursorInit = "true";
+    document.body.classList.add("custom-cursor-enabled");
+
+    const hoverSelector = "a, button, [data-cursor-hover]";
+    const baseOrbStyle = {
+      width: 20,
+      height: 20,
+      backgroundColor: "rgba(70, 170, 255, 0.45)",
+      boxShadow:
+        "0 0 14px rgba(46, 148, 255, 0.85), 0 0 38px rgba(24, 113, 255, 0.45), inset 0 0 10px rgba(185, 228, 255, 0.45)",
+      borderColor: "rgba(149, 215, 255, 0.7)"
+    };
+    const activeOrbStyle = {
+      width: 50,
+      height: 50,
+      backgroundColor: "rgba(224, 84, 255, 0.28)",
+      boxShadow:
+        "0 0 18px rgba(215, 83, 255, 0.75), 0 0 48px rgba(255, 45, 209, 0.45), inset 0 0 16px rgba(250, 205, 255, 0.35)",
+      borderColor: "rgba(255, 144, 236, 0.75)"
+    };
+
+    const initialX = window.innerWidth * 0.5;
+    const initialY = window.innerHeight * 0.5;
+
+    gsap.set([orb, dot], {
+      x: initialX,
+      y: initialY,
+      xPercent: -50,
+      yPercent: -50,
+      autoAlpha: 1
+    });
+
+    gsap.set(orb, baseOrbStyle);
+
+    let isHoveringInteractive = false;
+
+    const setHoverState = (isHovering: boolean) => {
+      if (isHoveringInteractive === isHovering) {
+        return;
+      }
+
+      isHoveringInteractive = isHovering;
+      gsap.to(orb, {
+        ...(isHovering ? activeOrbStyle : baseOrbStyle),
+        duration: 0.24,
+        ease: "power3.out",
+        overwrite: "auto"
+      });
+    };
+
+    const handleMouseMove = (event: MouseEvent) => {
+      const { clientX, clientY } = event;
+
+      gsap.set(dot, {
+        x: clientX,
+        y: clientY,
+        overwrite: true
+      });
+
+      gsap.to(orb, {
+        x: clientX,
+        y: clientY,
+        duration: 0.2,
+        ease: "power3.out",
+        overwrite: "auto"
+      });
+    };
+
+    const handleMouseOver = (event: MouseEvent) => {
+      if (!(event.target instanceof Element)) {
+        return;
+      }
+
+      const enteredTarget = event.target.closest(hoverSelector);
+      if (!enteredTarget) {
+        return;
+      }
+
+      const relatedTarget =
+        event.relatedTarget instanceof Element
+          ? event.relatedTarget.closest(hoverSelector)
+          : null;
+
+      if (enteredTarget !== relatedTarget) {
+        setHoverState(true);
+      }
+    };
+
+    const handleMouseOut = (event: MouseEvent) => {
+      if (!(event.target instanceof Element)) {
+        return;
+      }
+
+      const exitedTarget = event.target.closest(hoverSelector);
+      if (!exitedTarget) {
+        return;
+      }
+
+      const relatedTarget =
+        event.relatedTarget instanceof Element
+          ? event.relatedTarget.closest(hoverSelector)
+          : null;
+
+      if (exitedTarget !== relatedTarget) {
+        setHoverState(false);
+      }
+    };
+
+    const hideCursor = () => {
+      gsap.to([orb, dot], {
+        autoAlpha: 0,
+        duration: 0.18,
+        overwrite: "auto"
+      });
+    };
+
+    const showCursor = () => {
+      gsap.to([orb, dot], {
+        autoAlpha: 1,
+        duration: 0.18,
+        overwrite: "auto"
+      });
+    };
+
+    const cleanup = () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseover", handleMouseOver);
+      document.removeEventListener("mouseout", handleMouseOut);
+      window.removeEventListener("mouseleave", hideCursor);
+      window.removeEventListener("mouseenter", showCursor);
+      window.removeEventListener("touchstart", handleTouchStart);
+      desktopPointer.removeEventListener("change", handleMediaChange);
+      document.body.classList.remove("custom-cursor-enabled");
+      delete document.body.dataset.customCursorInit;
+    };
+
+    const handleTouchStart = () => {
+      cleanup();
+      orb.remove();
+      dot.remove();
+    };
+
+    const handleMediaChange = () => {
+      if (!desktopPointer.matches) {
+        cleanup();
+        orb.remove();
+        dot.remove();
+      }
+    };
+
+    document.addEventListener("mousemove", handleMouseMove, { passive: true });
+    document.addEventListener("mouseover", handleMouseOver);
+    document.addEventListener("mouseout", handleMouseOut);
+    window.addEventListener("mouseleave", hideCursor);
+    window.addEventListener("mouseenter", showCursor);
+    window.addEventListener("touchstart", handleTouchStart, { passive: true, once: true });
+    desktopPointer.addEventListener("change", handleMediaChange);
+    window.addEventListener("beforeunload", cleanup, { once: true });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initCustomCursor, { once: true });
+  } else {
+    initCustomCursor();
+  }
+</script>
+
+<style>
+  #custom-cursor-orb,
+  #custom-cursor-dot {
+    position: fixed;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+    z-index: 9999;
+    border-radius: 999px;
+    opacity: 0;
+    will-change: transform, width, height, opacity, box-shadow, background-color;
+  }
+
+  #custom-cursor-orb {
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgba(149, 215, 255, 0.7);
+    background: rgba(70, 170, 255, 0.45);
+    box-shadow:
+      0 0 14px rgba(46, 148, 255, 0.85),
+      0 0 38px rgba(24, 113, 255, 0.45),
+      inset 0 0 10px rgba(185, 228, 255, 0.45);
+    backdrop-filter: blur(2px);
+  }
+
+  #custom-cursor-dot {
+    width: 6px;
+    height: 6px;
+    background: rgba(222, 243, 255, 0.98);
+    box-shadow: 0 0 10px rgba(140, 210, 255, 0.9);
+  }
+
+  @media (hover: none), (pointer: coarse) {
+    #custom-cursor-orb,
+    #custom-cursor-dot {
+      display: none;
+    }
+  }
+</style>
