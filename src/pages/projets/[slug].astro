@@ -9,20 +9,39 @@ const { slug } = Astro.params;
 // Récupérer le projet depuis PocketBase
 let projet: ProjetsResponse;
 
+let prevProjet: ProjetsResponse | null = null;
+let nextProjet: ProjetsResponse | null = null;
+
 try {
-	const projets = await pb.collection('projets').getFullList({
-		filter: `slug = "${slug}" && afficher = true`
+	const tousLesProjets = await pb.collection('projets').getFullList({
+		filter: 'afficher = true',
+		sort: 'ordre_affichage',
 	});
 	
-	if (projets.length === 0) {
+	const currentIndex = tousLesProjets.findIndex(p => p.slug === slug);
+	
+	if (currentIndex === -1) {
 		return Astro.redirect('/Projets');
 	}
 	
-	projet = projets[0];
+	projet = tousLesProjets[currentIndex];
+	prevProjet = currentIndex > 0 ? tousLesProjets[currentIndex - 1] : null;
+	nextProjet = currentIndex < tousLesProjets.length - 1 ? tousLesProjets[currentIndex + 1] : null;
 } catch (e) {
-	console.error('Erreur lors de la récupération du projet:', e);
+	console.error('Erreur lors de la récupération des projets:', e);
 	return Astro.redirect('/Projets');
 }
+
+const getCategoryLabel = (type: string) => {
+	switch (type) {
+		case 'design': return '🎨 Design Graphique';
+		case 'web': return '💻 Développement Web';
+		case 'communication': return '📱 Communication Digitale';
+		case 'video': return '🎬 Vidéo';
+		case 'autre': return '✨ Autre';
+		default: return '✨ Projet';
+	}
+};
 
 // Construire les URLs des images avec pb.files.getUrl()
 const imageUrl = pb.files.getUrl(projet, projet.photo_principale || '');
@@ -62,11 +81,7 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 			<div class="text-center mb-16 scroll-reveal">
 				<div class="inline-flex items-center gap-2 mb-4 px-4 py-2 rounded-full bg-primary-pink/20 border border-primary-pink/30">
 					<span class="text-primary-pink font-semibold">
-						{projet.type === 'design' && '🎨 Design Graphique'}
-						{projet.type === 'web' && '💻 Développement Web'}
-						{projet.type === 'communication' && '📱 Communication Digitale'}
-						{projet.type === 'video' && '🎬 Vidéo'}
-						{projet.type === 'autre' && '✨ Autre'}
+						{getCategoryLabel(projet.type)}
 					</span>
 				</div>
 				
@@ -286,6 +301,45 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 					</div>
 				</div>
 			)}
+
+			<!-- Navigation Projets Voisins (Prev/Next) -->
+			<div class="grid md:grid-cols-2 gap-6 mb-16 scroll-reveal">
+				{prevProjet ? (
+					<a href={`/projets/${prevProjet.slug}`} class="group relative overflow-hidden rounded-2xl border border-primary-pink/20 bg-gray-900/50 p-6 transition-all hover:border-primary-pink hover:bg-gray-800/50 flex items-center gap-4">
+						<div class="w-20 h-20 md:w-24 md:h-24 shrink-0 overflow-hidden rounded-xl">
+							<img src={pb.files.getUrl(prevProjet, prevProjet.photo_principale || '')} alt={prevProjet.titre || prevProjet.nom} class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+						</div>
+						<div class="flex-1">
+							<div class="text-xs md:text-sm text-gray-400 mb-1 flex items-center gap-2">
+								<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+								</svg>
+								Projet précédent
+							</div>
+							<h3 class="text-lg md:text-xl font-bold text-white group-hover:text-primary-pink transition-colors line-clamp-2">{prevProjet.titre || prevProjet.nom}</h3>
+							<div class="text-xs md:text-sm text-primary-pink/80 mt-1">{getCategoryLabel(prevProjet.type)}</div>
+						</div>
+					</a>
+				) : <div class="hidden md:block"></div>}
+
+				{nextProjet ? (
+					<a href={`/projets/${nextProjet.slug}`} class="group relative overflow-hidden rounded-2xl border border-primary-blue/20 bg-gray-900/50 p-6 transition-all hover:border-primary-blue hover:bg-gray-800/50 flex items-center gap-4 text-right justify-end">
+						<div class="flex-1">
+							<div class="text-xs md:text-sm text-gray-400 mb-1 flex items-center justify-end gap-2">
+								Projet suivant
+								<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+								</svg>
+							</div>
+							<h3 class="text-lg md:text-xl font-bold text-white group-hover:text-primary-blue transition-colors line-clamp-2">{nextProjet.titre || nextProjet.nom}</h3>
+							<div class="text-xs md:text-sm text-primary-blue/80 mt-1">{getCategoryLabel(nextProjet.type)}</div>
+						</div>
+						<div class="w-20 h-20 md:w-24 md:h-24 shrink-0 overflow-hidden rounded-xl">
+							<img src={pb.files.getUrl(nextProjet, nextProjet.photo_principale || '')} alt={nextProjet.titre || nextProjet.nom} class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+						</div>
+					</a>
+				) : <div class="hidden md:block"></div>}
+			</div>
 
 			<!-- Navigation vers autres projets -->
 			<div class="text-center scroll-reveal">
