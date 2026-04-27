@@ -1,814 +1,1209 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import SkillCard from '../components/SkillCard.astro';
-import { competences } from '../config/competences.config';
+import Layout from "../layouts/Layout.astro";
+import SkillCard from "../components/SkillCard.astro";
+import { competences } from "../config/competences.config";
 ---
 
 <Layout title="À propos - Enzo Locatelli">
-	<!-- Section d'introduction -->
-	<section id="intro" class="min-h-screen flex items-center px-4 py-20">
-		<div class="max-w-7xl mx-auto w-full">
-			<div class="grid md:grid-cols-2 gap-12 items-center">
-				<!-- Texte à gauche -->
-				<div class="animate-fade-in text-left">
-					<h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
-						<span class="block text-white mb-2">Enchanté,</span>
-						<span class="block text-white mb-2">moi c'est</span>
-						<span class="neon-pink text-6xl md:text-7xl lg:text-8xl">Enzo</span>
-					</h1>
-					
-					<h2 class="text-2xl md:text-3xl mb-8 text-white">
-						✨ <span class="neon-pink font-semibold">Étudiant en MMI</span> & <span class="neon-pink font-semibold">designer graphique</span>
-					</h2>
-					
-					<p class="text-base md:text-lg leading-relaxed text-gray-300 max-w-xl mb-6">
-						Passionné par le design graphique, la communication visuelle et le développement web, 
-						je transforme les idées en créations visuelles modernes et impactantes.
-					</p>
-					
-					<p class="text-base md:text-lg leading-relaxed text-gray-300 max-w-xl">
-						Mon objectif ? Allier esthétique et fonctionnalité pour créer des expériences 
-						numériques qui marquent les esprits.
-					</p>
-				</div>
+  <!-- Section d'introduction -->
+  <section id="intro" class="min-h-screen flex items-center px-4 py-20">
+    <div class="max-w-7xl mx-auto w-full">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <!-- Texte à gauche -->
+        <div class="animate-fade-in text-left">
+          <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
+            <span class="block text-white mb-2">Enchanté,</span>
+            <span class="block text-white mb-2">moi c'est</span>
+            <span class="neon-pink text-6xl md:text-7xl lg:text-8xl">Enzo</span>
+          </h1>
 
-				<!-- Photo à droite avec halo néon -->
-				<div class="relative animate-zoom-in flex justify-center md:justify-end">
-					<div class="relative">
-						<!-- Halo rose/bleu -->
-						<div class="absolute inset-0 rounded-full bg-gradient-to-br from-primary-pink via-purple-500 to-primary-blue blur-3xl opacity-60 animate-pulse-glow"></div>
-						
-						<!-- Cadre avec dégradé -->
-						<div class="relative w-80 h-80 md:w-96 md:h-96 rounded-full bg-gradient-to-br from-primary-pink via-purple-600 to-primary-blue p-1">
-							<div class="w-full h-full rounded-full overflow-hidden bg-black">
-								<!-- Photo en noir et blanc -->
-								<img src="/ia-photo1.webp" alt="Photo de Enzo Locatelli" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"/>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+          <h2 class="text-2xl md:text-3xl mb-8 text-white">
+            ✨ <span class="neon-pink font-semibold">Étudiant en MMI</span> & <span
+              class="neon-pink font-semibold">designer graphique</span
+            >
+          </h2>
 
-	<!-- Section "Mon parcours" - Timeline -->
-	<section id="parcours" class="py-24 px-4 overflow-hidden">
-		<div class="max-w-7xl mx-auto">
-			<div class="text-center mb-16 scroll-reveal">
-				<h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-					<span class="text-white">MON </span><span class="neon-pink">PARCOURS</span>
-				</h2>
-			</div>
+          <p
+            class="text-base md:text-lg leading-relaxed text-gray-300 max-w-xl mb-6"
+          >
+            Passionné par le design graphique, la communication visuelle et le
+            développement web, je transforme les idées en créations visuelles
+            modernes et impactantes.
+          </p>
 
-			<!-- Timeline horizontale -->
-			<div class="relative">
-				<!-- Ligne de connexion animée -->
-				<div class="absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-primary-pink via-primary-blue to-primary-pink hidden md:block timeline-wave"></div>
-				
-				<!-- Cartes du parcours -->
-				<div class="flex flex-col md:flex-row justify-between items-center gap-8 md:gap-4 relative z-10">
-					<!-- 2019 -->
-					<div class="timeline-card scroll-reveal w-full md:w-1/4" style="animation-delay: 0.1s;">
-						<div class="card bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-sm border-2 border-primary-pink/30 hover:border-primary-pink transition-all duration-300 card-hover">
-							<div class="card-body p-6 text-center">
-								<div class="text-5xl font-bold neon-pink mb-4">2019</div>
-								<div class="w-12 h-12 rounded-full bg-primary-pink mx-auto mb-4 flex items-center justify-center">
-									<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
-									</svg>
-								</div>
-								<p class="text-gray-300 text-sm">
-									Découverte de la <span class="text-primary-pink font-semibold">typographie</span> et premières créations graphiques
-								</p>
-							</div>
-						</div>
-					</div>
+          <p
+            class="text-base md:text-lg leading-relaxed text-gray-300 max-w-xl"
+          >
+            Mon objectif ? Allier esthétique et fonctionnalité pour créer des
+            expériences numériques qui marquent les esprits.
+          </p>
+        </div>
 
-					<!-- 2020-2021 -->
-					<div class="timeline-card scroll-reveal w-full md:w-1/4" style="animation-delay: 0.2s;">
-						<div class="card bg-gradient-to-br from-primary-blue/20 to-purple-900/30 backdrop-blur-sm border-2 border-primary-blue/30 hover:border-primary-blue transition-all duration-300 card-hover">
-							<div class="card-body p-6 text-center">
-								<div class="text-4xl font-bold neon-blue mb-4">2020-2021</div>
-								<div class="w-12 h-12 rounded-full bg-primary-blue mx-auto mb-4 flex items-center justify-center">
-									<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
-									</svg>
-								</div>
-								<p class="text-gray-300 text-sm">
-									Intérêt croissant pour le <span class="text-primary-blue font-semibold">développement web</span> et premières lignes de code
-								</p>
-							</div>
-						</div>
-					</div>
+        <!-- Photo à droite avec halo néon -->
+        <div
+          class="relative animate-zoom-in flex justify-center md:justify-end"
+        >
+          <div class="relative">
+            <!-- Halo rose/bleu -->
+            <div
+              class="absolute inset-0 rounded-full bg-gradient-to-br from-primary-pink via-purple-500 to-primary-blue blur-3xl opacity-60 animate-pulse-glow"
+            >
+            </div>
 
-					<!-- 2024 -->
-					<div class="timeline-card scroll-reveal w-full md:w-1/4" style="animation-delay: 0.3s;">
-						<div class="card bg-gradient-to-br from-primary-pink/20 to-purple-900/30 backdrop-blur-sm border-2 border-primary-pink/30 hover:border-primary-pink transition-all duration-300 card-hover">
-							<div class="card-body p-6 text-center">
-								<div class="text-5xl font-bold neon-pink mb-4">2024</div>
-								<div class="w-12 h-12 rounded-full bg-primary-pink mx-auto mb-4 flex items-center justify-center">
-									<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-									</svg>
-								</div>
-								<p class="text-gray-300 text-sm">
-									Entrée en <span class="text-primary-pink font-semibold">MMI</span>, découverte approfondie du design et de la communication
-								</p>
-							</div>
-						</div>
-					</div>
+            <!-- Cadre avec dégradé -->
+            <div
+              class="relative w-80 h-80 md:w-96 md:h-96 rounded-full bg-gradient-to-br from-primary-pink via-purple-600 to-primary-blue p-1"
+            >
+              <div class="w-full h-full rounded-full overflow-hidden bg-black">
+                <!-- Photo en noir et blanc -->
+                <img
+                  src="/ia-photo1.webp"
+                  alt="Photo de Enzo Locatelli"
+                  class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-					<!-- 2025 -->
-					<div class="timeline-card scroll-reveal w-full md:w-1/4" style="animation-delay: 0.4s;">
-						<div class="card bg-gradient-to-br from-primary-blue/20 to-purple-900/30 backdrop-blur-sm border-2 border-primary-blue/30 hover:border-primary-blue transition-all duration-300 card-hover">
-							<div class="card-body p-6 text-center">
-								<div class="text-5xl font-bold neon-blue mb-4">2025</div>
-								<div class="w-12 h-12 rounded-full bg-primary-blue mx-auto mb-4 flex items-center justify-center">
-									<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-									</svg>
-								</div>
-								<p class="text-gray-300 text-sm">
-									Réalisation de <span class="text-primary-blue font-semibold">projets associatifs</span> et audiovisuels professionnels
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+  <!-- Section "Mon parcours" - Timeline -->
+  <section id="parcours" class="py-24 px-4 overflow-hidden">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16 scroll-reveal">
+        <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+          <span class="text-white">MON </span><span class="neon-pink"
+            >PARCOURS</span
+          >
+        </h2>
+      </div>
 
-	<!-- Section "Mes compétences" -->
-	<section id="competences" class="py-24 px-4">
-		<div class="max-w-7xl mx-auto">
-			<div class="text-center mb-8 scroll-reveal">
-				<h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-					<span class="text-white">MES </span><span class="neon-pink">COMPÉTENCES</span>
-				</h2>
-				<p class="text-gray-300 text-lg max-w-3xl mx-auto">
-					Grâce à ce parcours, j'ai développé des compétences en <span class="text-primary-pink font-semibold">design</span>, 
-					<span class="text-primary-blue font-semibold">développement web</span> et 
-					<span class="text-primary-pink font-semibold">communication digitale</span>.
-				</p>
-			</div>
+      <!-- Timeline horizontale -->
+      <div class="relative">
+        <!-- Ligne de connexion animée -->
+        <div
+          class="absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-primary-pink via-primary-blue to-primary-pink hidden md:block timeline-wave"
+        >
+        </div>
 
-			<!-- Mosaïque de compétences -->
-			<div class="skills-grid grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6 mt-16 scroll-reveal">
-				{competences.map((competence, index) => (
-					<SkillCard 
-						nom={competence.nom}
-						logo={competence.logo}
-						taille={competence.taille}
-						couleur={competence.couleur}
-					/>
-				))}
-			</div>
+        <!-- Cartes du parcours -->
+        <div
+          class="flex flex-col md:flex-row justify-between items-center gap-8 md:gap-4 relative z-10"
+        >
+          <!-- 2019 -->
+          <div
+            class="timeline-card scroll-reveal w-full md:w-1/4"
+            style="animation-delay: 0.1s;"
+          >
+            <div
+              class="card bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-sm border-2 border-primary-pink/30 hover:border-primary-pink transition-all duration-300 card-hover"
+            >
+              <div class="card-body p-6 text-center">
+                <div class="text-5xl font-bold neon-pink mb-4">2019</div>
+                <div
+                  class="w-12 h-12 rounded-full bg-primary-pink mx-auto mb-4 flex items-center justify-center"
+                >
+                  <svg
+                    class="w-6 h-6 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                    ></path>
+                  </svg>
+                </div>
+                <p class="text-gray-300 text-sm">
+                  Découverte de la <span class="text-primary-pink font-semibold"
+                    >typographie</span
+                  > et premières créations graphiques
+                </p>
+              </div>
+            </div>
+          </div>
 
-			<!-- Légende des catégories -->
-			<div class="mt-12 flex flex-wrap justify-center gap-6 scroll-reveal">
-				<div class="flex items-center gap-2">
-					<div class="w-3 h-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-500"></div>
-					<span class="text-gray-400 text-sm">Design</span>
-				</div>
-				<div class="flex items-center gap-2">
-					<div class="w-3 h-3 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500"></div>
-					<span class="text-gray-400 text-sm">Développement</span>
-				</div>
-				<div class="flex items-center gap-2">
-					<div class="w-3 h-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500"></div>
-					<span class="text-gray-400 text-sm">Vidéo</span>
-				</div>
-				<div class="flex items-center gap-2">
-					<div class="w-3 h-3 rounded-full bg-gradient-to-r from-pink-500 to-rose-500"></div>
-					<span class="text-gray-400 text-sm">Autres</span>
-				</div>
-			</div>
-		</div>
-	</section>
+          <!-- 2020-2021 -->
+          <div
+            class="timeline-card scroll-reveal w-full md:w-1/4"
+            style="animation-delay: 0.2s;"
+          >
+            <div
+              class="card bg-gradient-to-br from-primary-blue/20 to-purple-900/30 backdrop-blur-sm border-2 border-primary-blue/30 hover:border-primary-blue transition-all duration-300 card-hover"
+            >
+              <div class="card-body p-6 text-center">
+                <div class="text-4xl font-bold neon-blue mb-4">2020-2021</div>
+                <div
+                  class="w-12 h-12 rounded-full bg-primary-blue mx-auto mb-4 flex items-center justify-center"
+                >
+                  <svg
+                    class="w-6 h-6 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                  </svg>
+                </div>
+                <p class="text-gray-300 text-sm">
+                  Intérêt croissant pour le <span
+                    class="text-primary-blue font-semibold"
+                    >développement web</span
+                  > et premières lignes de code
+                </p>
+              </div>
+            </div>
+          </div>
 
-	<!-- Section "Mes passions" avec parallaxe GSAP -->
-	<section id="passions" class="relative min-h-[300vh] overflow-hidden">
-		<!-- Conteneur du texte (disparaît au scroll) -->
-		<div id="passions-text-container" class="fixed inset-0 flex items-center justify-center z-20 pointer-events-none opacity-0">
-			<div class="max-w-4xl mx-auto px-6 text-center">
-				<h2 id="passions-title" class="text-5xl md:text-7xl lg:text-8xl font-bold mb-8">
-					<span class="text-white">MES </span><span class="neon-pink">PASSIONS</span>
-				</h2>
-				<div id="passions-description" class="space-y-6">
-					<p class="text-gray-200 text-xl md:text-2xl leading-relaxed">
-						<span class="text-primary-pink font-semibold">Au-delà de mes études,</span> 
-						je suis passionné par les <span class="text-primary-pink font-semibold">jeux vidéo</span>, 
-						la <span class="text-primary-blue font-semibold">création de contenu vidéo</span> 
-						et l'<span class="text-primary-pink font-semibold">intelligence artificielle</span>.
-					</p>
-					<p class="text-gray-300 text-lg md:text-xl">
-						Ces univers nourrissent ma créativité et me permettent d'explorer de nouvelles 
-						perspectives pour mes projets de <span class="text-primary-blue font-semibold">design</span> 
-						et de <span class="text-primary-pink font-semibold">communication</span>.
-					</p>
-				</div>
-			</div>
-		</div>
+          <!-- 2024 -->
+          <div
+            class="timeline-card scroll-reveal w-full md:w-1/4"
+            style="animation-delay: 0.3s;"
+          >
+            <div
+              class="card bg-gradient-to-br from-primary-pink/20 to-purple-900/30 backdrop-blur-sm border-2 border-primary-pink/30 hover:border-primary-pink transition-all duration-300 card-hover"
+            >
+              <div class="card-body p-6 text-center">
+                <div class="text-5xl font-bold neon-pink mb-4">2024</div>
+                <div
+                  class="w-12 h-12 rounded-full bg-primary-pink mx-auto mb-4 flex items-center justify-center"
+                >
+                  <svg
+                    class="w-6 h-6 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                    ></path>
+                  </svg>
+                </div>
+                <p class="text-gray-300 text-sm">
+                  Entrée en <span class="text-primary-pink font-semibold"
+                    >MMI</span
+                  >, découverte approfondie du design et de la communication
+                </p>
+              </div>
+            </div>
+          </div>
 
-		<!-- Conteneur des vidéos parallaxe (apparaissent après le texte) -->
-		<div id="passions-videos-container" class="absolute inset-0 opacity-0">
-			<!-- Calque 1 : Vidéo la plus éloignée (fond) -->
-			<div class="parallax-layer parallax-layer-1 absolute inset-0 flex items-center justify-center">
-				<div class="relative w-[300px] md:w-[400px] lg:w-[500px] opacity-60 group">
-					<div class="relative overflow-hidden rounded-2xl border-2 border-primary-blue/20 shadow-2xl" style="aspect-ratio: 9/16;">
-						<video 
-							class="w-full h-full object-cover video-player" 
-							autoplay
-							loop 
-							muted 
-							playsinline
-							data-video-id="video-1"
-						>
-							<source src="/videos/tiktok-rwld.mp4" type="video/mp4">
-						</video>
-						
-						<!-- Contrôles personnalisés -->
-						<div class="absolute top-4 right-4 flex gap-2 z-20">
-							<button class="video-sound-btn bg-black/60 hover:bg-primary-blue/80 text-white p-2 rounded-full transition-all" data-video="video-1" title="Activer/Désactiver le son">
-								<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-									<path class="sound-off" d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-									<path class="sound-on hidden" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-								</svg>
-							</button>
-							<button class="video-fullscreen-btn bg-black/60 hover:bg-primary-pink/80 text-white p-2 rounded-full transition-all" data-video="video-1" title="Plein écran">
-								<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-									<path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
-								</svg>
-							</button>
-						</div>
+          <!-- 2025 -->
+          <div
+            class="timeline-card scroll-reveal w-full md:w-1/4"
+            style="animation-delay: 0.4s;"
+          >
+            <div
+              class="card bg-gradient-to-br from-primary-blue/20 to-purple-900/30 backdrop-blur-sm border-2 border-primary-blue/30 hover:border-primary-blue transition-all duration-300 card-hover"
+            >
+              <div class="card-body p-6 text-center">
+                <div class="text-5xl font-bold neon-blue mb-4">2025</div>
+                <div
+                  class="w-12 h-12 rounded-full bg-primary-blue mx-auto mb-4 flex items-center justify-center"
+                >
+                  <svg
+                    class="w-6 h-6 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                  </svg>
+                </div>
+                <p class="text-gray-300 text-sm">
+                  Réalisation de <span class="text-primary-blue font-semibold"
+                    >projets associatifs</span
+                  > et audiovisuels professionnels
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-						<div class="absolute bottom-0 left-0 right-0 p-3 z-10 pointer-events-none bg-gradient-to-t from-black/80 to-transparent">
-							<h4 class="text-white font-semibold text-xs md:text-sm">Les Animes</h4>
-						</div>
-					</div>
-				</div>
-			</div>
+  <!-- Section "Mes compétences" -->
+  <section id="competences" class="py-24 px-4">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-8 scroll-reveal">
+        <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+          <span class="text-white">MES </span><span class="neon-pink"
+            >COMPÉTENCES</span
+          >
+        </h2>
+        <p class="text-gray-300 text-lg max-w-3xl mx-auto">
+          Grâce à ce parcours, j'ai développé des compétences en <span
+            class="text-primary-pink font-semibold">design</span
+          >,
+          <span class="text-primary-blue font-semibold">développement web</span> et
+          <span class="text-primary-pink font-semibold"
+            >communication digitale</span
+          >.
+        </p>
+      </div>
 
-			<!-- Calque 2 : Vidéo intermédiaire (milieu gauche) -->
-			<div class="parallax-layer parallax-layer-2 absolute inset-0 flex items-center justify-start pl-8 md:pl-16 lg:pl-24">
-				<div class="relative w-[280px] md:w-[360px] lg:w-[450px] opacity-80 group">
-					<div class="relative overflow-hidden rounded-2xl border-2 border-primary-pink/30 shadow-2xl hover:border-primary-pink transition-all duration-300" style="aspect-ratio: 9/16;">
-						<video 
-							class="w-full h-full object-cover video-player" 
-							autoplay
-							loop 
-							muted 
-							playsinline
-							data-video-id="video-2"
-						>
-							<source src="/videos/tiktok-mmi.mp4" type="video/mp4">
-						</video>
-						
-						<!-- Contrôles personnalisés -->
-						<div class="absolute top-4 right-4 flex gap-2 z-20">
-							<button class="video-sound-btn bg-black/60 hover:bg-primary-blue/80 text-white p-2 rounded-full transition-all" data-video="video-2" title="Activer/Désactiver le son">
-								<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-									<path class="sound-off" d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-									<path class="sound-on hidden" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-								</svg>
-							</button>
-							<button class="video-fullscreen-btn bg-black/60 hover:bg-primary-pink/80 text-white p-2 rounded-full transition-all" data-video="video-2" title="Plein écran">
-								<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-									<path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
-								</svg>
-							</button>
-						</div>
+      <!-- Mosaïque de compétences -->
+      <div
+        class="skills-grid grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6 mt-16 scroll-reveal"
+      >
+        {
+          competences.map((competence, index) => (
+            <SkillCard
+              nom={competence.nom}
+              logo={competence.logo}
+              taille={competence.taille}
+              couleur={competence.couleur}
+            />
+          ))
+        }
+      </div>
 
-						<div class="absolute bottom-0 left-0 right-0 p-3 z-10 pointer-events-none bg-gradient-to-t from-black/80 to-transparent">
-							<h4 class="text-white font-semibold text-xs md:text-sm">TikTok Pour Le Compte MMI</h4>
-						</div>
-					</div>
-				</div>
-			</div>
+      <!-- Légende des catégories -->
+      <div class="mt-12 flex flex-wrap justify-center gap-6 scroll-reveal">
+        <div class="flex items-center gap-2">
+          <div
+            class="w-3 h-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-500"
+          >
+          </div>
+          <span class="text-gray-400 text-sm">Design</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div
+            class="w-3 h-3 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500"
+          >
+          </div>
+          <span class="text-gray-400 text-sm">Développement</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div
+            class="w-3 h-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500"
+          >
+          </div>
+          <span class="text-gray-400 text-sm">Vidéo</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <div
+            class="w-3 h-3 rounded-full bg-gradient-to-r from-pink-500 to-rose-500"
+          >
+          </div>
+          <span class="text-gray-400 text-sm">Autres</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
-			<!-- Calque 3 : Vidéo au premier plan (milieu droite) -->
-			<div class="parallax-layer parallax-layer-3 absolute inset-0 flex items-center justify-end pr-8 md:pr-16 lg:pr-24">
-				<div class="relative w-[280px] md:w-[360px] lg:w-[450px] group">
-					<div class="relative overflow-hidden rounded-2xl border-2 border-primary-pink/30 shadow-2xl hover:border-primary-pink transition-all duration-300" style="aspect-ratio: 9/16;">
-						<video 
-							class="w-full h-full object-cover video-player" 
-							autoplay
-							loop 
-							muted 
-							playsinline
-							data-video-id="video-3"
-						>
-							<source src="/videos/tiktok-jeux-video.mp4" type="video/mp4">
-						</video>
-						
-						<!-- Contrôles personnalisés -->
-						<div class="absolute top-4 right-4 flex gap-2 z-20">
-							<button class="video-sound-btn bg-black/60 hover:bg-primary-blue/80 text-white p-2 rounded-full transition-all" data-video="video-3" title="Activer/Désactiver le son">
-								<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-									<path class="sound-off" d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-									<path class="sound-on hidden" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-								</svg>
-							</button>
-							<button class="video-fullscreen-btn bg-black/60 hover:bg-primary-pink/80 text-white p-2 rounded-full transition-all" data-video="video-3" title="Plein écran">
-								<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-									<path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
-								</svg>
-							</button>
-						</div>
+  <!-- Section "Mes passions" refondue (chapitres sticky) -->
+  <section id="passions" class="relative min-h-[250vh] md:min-h-[400vh] overflow-hidden">
+    <!-- Intro sticky -->
+    <div class="h-[62.5vh] md:h-screen">
+      <div
+        id="passions-intro-panel"
+        class="sticky top-0 z-10 flex h-screen items-center justify-center bg-black px-6 text-center"
+      >
+        <div class="max-w-3xl">
+          <h2 class="text-5xl md:text-7xl lg:text-8xl font-bold">
+            <span class="text-white">MES </span><span class="neon-pink">PASSIONS</span>
+          </h2>
+          <p class="mt-6 text-base md:text-xl text-gray-400">
+            Faites défiler pour explorer
+          </p>
+          <div class="mt-8 flex justify-center">
+            <span class="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 text-white/80 animate-pulse">
+              <svg class="h-5 w-5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
 
-						<div class="absolute bottom-0 left-0 right-0 p-3 z-10 pointer-events-none bg-gradient-to-t from-black/80 to-transparent">
-							<h4 class="text-white font-semibold text-xs md:text-sm">Les Jeux Vidéos</h4>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+    <!-- Chapitre 01 -->
+    <div class="h-[62.5vh] md:h-screen">
+      <article class="passion-chapter sticky top-0 z-20 h-screen overflow-hidden bg-black" data-chapter="1">
+        <div class="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black"></div>
+        <div class="absolute left-[10%] top-1/2 h-[360px] w-[360px] -translate-y-1/2 rounded-full bg-[#d019d0] opacity-15 blur-[120px]"></div>
+
+        <div class="relative z-10 mx-auto flex h-full w-full max-w-7xl flex-col-reverse items-center justify-center gap-8 px-6 py-14 md:flex-row md:gap-14 md:px-10">
+          <div data-el="text" class="relative w-full md:w-1/2">
+            <span
+              data-el="number"
+              class="pointer-events-none absolute -top-20 left-0 text-[5rem] md:text-[clamp(6rem,15vw,12rem)] font-bold leading-none text-white opacity-[0.06] md:opacity-[0.08]"
+            >
+              01
+            </span>
+
+            <span
+              data-el="tag"
+              class="relative inline-flex rounded-full border border-primary-pink/70 px-4 py-1 text-xs md:text-sm font-semibold uppercase tracking-[0.18em] text-primary-pink"
+            >
+              Jeux vidéo
+            </span>
+
+            <h3
+              data-el="title"
+              class="relative mt-5 text-[clamp(2.5rem,6vw,5rem)] font-bold leading-[0.95] text-white"
+            >
+              Jeux vidéo
+            </h3>
+
+            <p
+              data-el="description"
+              class="relative mt-5 max-w-xl text-lg text-gray-300"
+              style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"
+            >
+              Une passion pour les univers immersifs, le game design et la narration
+              interactive qui nourrit ma créativité visuelle.
+            </p>
+
+            <div class="relative mt-10 h-[2px] w-full max-w-md overflow-hidden rounded-full bg-white/20">
+              <div
+                data-el="progress"
+                class="h-full w-0 bg-gradient-to-r from-primary-pink to-white/80"
+              ></div>
+            </div>
+          </div>
+
+          <div data-el="media" class="flex w-full md:w-1/2 justify-center">
+            <div class="relative w-full max-w-[240px] md:max-w-[360px]">
+              <div class="pointer-events-none absolute left-1/2 top-3 z-20 h-4 w-24 -translate-x-1/2 rounded-b-2xl border border-white/10 bg-black/80"></div>
+              <div
+                data-el="phone"
+                class="relative overflow-hidden rounded-[2rem] border border-primary-pink/70 bg-black/70 p-2 shadow-[0_0_50px_rgba(208,25,208,0.35)]"
+              >
+                <div class="relative aspect-[9/16] overflow-hidden rounded-[1.55rem]">
+                  <video
+                    class="video-player h-full w-full object-cover"
+                    autoplay
+                    loop
+                    muted
+                    playsinline
+                    data-video-id="video-1"
+                  >
+                    <source src="/videos/tiktok-jeux-video.mp4" type="video/mp4" />
+                  </video>
+
+                  <div class="absolute right-3 top-3 z-20 flex gap-2">
+                    <button
+                      class="video-sound-btn rounded-full bg-black/60 p-2 text-white transition-all hover:bg-primary-blue/80"
+                      data-video="video-1"
+                      title="Activer/Désactiver le son"
+                    >
+                      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                          class="sound-off"
+                          d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"
+                        ></path>
+                        <path
+                          class="sound-on hidden"
+                          d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"
+                        ></path>
+                      </svg>
+                    </button>
+                    <button
+                      class="video-fullscreen-btn rounded-full bg-black/60 p-2 text-white transition-all hover:bg-primary-pink/80"
+                      data-video="video-1"
+                      title="Plein écran"
+                    >
+                      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                          d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"
+                        ></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- Chapitre 02 -->
+    <div class="h-[62.5vh] md:h-screen">
+      <article class="passion-chapter sticky top-0 z-30 h-screen overflow-hidden bg-black" data-chapter="2">
+        <div class="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black"></div>
+        <div class="absolute right-[10%] top-1/2 h-[360px] w-[360px] -translate-y-1/2 rounded-full bg-[#1974d1] opacity-15 blur-[120px]"></div>
+
+        <div class="relative z-10 mx-auto flex h-full w-full max-w-7xl flex-col-reverse items-center justify-center gap-8 px-6 py-14 md:flex-row md:gap-14 md:px-10">
+          <div data-el="text" class="relative w-full md:w-1/2">
+            <span
+              data-el="number"
+              class="pointer-events-none absolute -top-20 left-0 text-[5rem] md:text-[clamp(6rem,15vw,12rem)] font-bold leading-none text-white opacity-[0.06] md:opacity-[0.08]"
+            >
+              02
+            </span>
+
+            <span
+              data-el="tag"
+              class="relative inline-flex rounded-full border border-primary-blue/70 px-4 py-1 text-xs md:text-sm font-semibold uppercase tracking-[0.18em] text-primary-blue"
+            >
+              Création vidéo
+            </span>
+
+            <h3
+              data-el="title"
+              class="relative mt-5 text-[clamp(2.5rem,6vw,5rem)] font-bold leading-[0.95] text-white"
+            >
+              Création vidéo
+            </h3>
+
+            <p
+              data-el="description"
+              class="relative mt-5 max-w-xl text-lg text-gray-300"
+              style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"
+            >
+              Storytelling, rythme, montage et direction artistique pour transformer
+              des idées en contenus courts impactants.
+            </p>
+
+            <div class="relative mt-10 h-[2px] w-full max-w-md overflow-hidden rounded-full bg-white/20">
+              <div
+                data-el="progress"
+                class="h-full w-0 bg-gradient-to-r from-primary-blue to-white/80"
+              ></div>
+            </div>
+          </div>
+
+          <div data-el="media" class="flex w-full md:w-1/2 justify-center">
+            <div class="relative w-full max-w-[240px] md:max-w-[360px]">
+              <div class="pointer-events-none absolute left-1/2 top-3 z-20 h-4 w-24 -translate-x-1/2 rounded-b-2xl border border-white/10 bg-black/80"></div>
+              <div
+                data-el="phone"
+                class="relative overflow-hidden rounded-[2rem] border border-primary-blue/70 bg-black/70 p-2 shadow-[0_0_50px_rgba(25,116,209,0.35)]"
+              >
+                <div class="relative aspect-[9/16] overflow-hidden rounded-[1.55rem]">
+                  <video
+                    class="video-player h-full w-full object-cover"
+                    autoplay
+                    loop
+                    muted
+                    playsinline
+                    data-video-id="video-2"
+                  >
+                    <source src="/videos/tiktok-mmi.mp4" type="video/mp4" />
+                  </video>
+
+                  <div class="absolute right-3 top-3 z-20 flex gap-2">
+                    <button
+                      class="video-sound-btn rounded-full bg-black/60 p-2 text-white transition-all hover:bg-primary-blue/80"
+                      data-video="video-2"
+                      title="Activer/Désactiver le son"
+                    >
+                      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                          class="sound-off"
+                          d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"
+                        ></path>
+                        <path
+                          class="sound-on hidden"
+                          d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"
+                        ></path>
+                      </svg>
+                    </button>
+                    <button
+                      class="video-fullscreen-btn rounded-full bg-black/60 p-2 text-white transition-all hover:bg-primary-pink/80"
+                      data-video="video-2"
+                      title="Plein écran"
+                    >
+                      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                          d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"
+                        ></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- Chapitre 03 -->
+    <div class="h-[62.5vh] md:h-screen">
+      <article class="passion-chapter sticky top-0 z-40 h-screen overflow-hidden bg-black" data-chapter="3">
+        <div class="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black"></div>
+        <div class="absolute left-1/2 top-1/2 h-[390px] w-[390px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#7c3aed] opacity-15 blur-[120px]"></div>
+
+        <div class="relative z-10 mx-auto flex h-full w-full max-w-7xl flex-col-reverse items-center justify-center gap-8 px-6 py-14 md:flex-row md:gap-14 md:px-10">
+          <div data-el="text" class="relative w-full md:w-1/2">
+            <span
+              data-el="number"
+              class="pointer-events-none absolute -top-20 left-0 text-[5rem] md:text-[clamp(6rem,15vw,12rem)] font-bold leading-none text-white opacity-[0.06] md:opacity-[0.08]"
+            >
+              03
+            </span>
+
+            <span
+              data-el="tag"
+              class="relative inline-flex rounded-full border border-primary-pink/70 px-4 py-1 text-xs md:text-sm font-semibold uppercase tracking-[0.18em] text-primary-pink"
+            >
+              Anime & culture
+            </span>
+
+            <h3
+              data-el="title"
+              class="relative mt-5 text-[clamp(2.5rem,6vw,5rem)] font-bold leading-[0.95] text-white"
+            >
+              Anime & culture
+            </h3>
+
+            <p
+              data-el="description"
+              class="relative mt-5 max-w-xl text-lg text-gray-300"
+              style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"
+            >
+              Références graphiques fortes, esthétique japonaise et culture pop : un
+              terrain d'exploration visuelle permanent.
+            </p>
+
+            <div class="relative mt-10 h-[2px] w-full max-w-md overflow-hidden rounded-full bg-white/20">
+              <div
+                data-el="progress"
+                class="h-full w-0 bg-gradient-to-r from-[#7c3aed] to-white/80"
+              ></div>
+            </div>
+          </div>
+
+          <div data-el="media" class="flex w-full md:w-1/2 justify-center">
+            <div class="relative w-full max-w-[240px] md:max-w-[360px]">
+              <div class="pointer-events-none absolute left-1/2 top-3 z-20 h-4 w-24 -translate-x-1/2 rounded-b-2xl border border-white/10 bg-black/80"></div>
+              <div
+                data-el="phone"
+                class="relative overflow-hidden rounded-[2rem] border border-primary-pink/70 bg-black/70 p-2 shadow-[0_0_50px_rgba(124,58,237,0.35)]"
+              >
+                <div class="relative aspect-[9/16] overflow-hidden rounded-[1.55rem]">
+                  <video
+                    class="video-player h-full w-full object-cover"
+                    autoplay
+                    loop
+                    muted
+                    playsinline
+                    data-video-id="video-3"
+                  >
+                    <source src="/videos/tiktok-rwld.mp4" type="video/mp4" />
+                  </video>
+
+                  <div class="absolute right-3 top-3 z-20 flex gap-2">
+                    <button
+                      class="video-sound-btn rounded-full bg-black/60 p-2 text-white transition-all hover:bg-primary-blue/80"
+                      data-video="video-3"
+                      title="Activer/Désactiver le son"
+                    >
+                      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                          class="sound-off"
+                          d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"
+                        ></path>
+                        <path
+                          class="sound-on hidden"
+                          d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"
+                        ></path>
+                      </svg>
+                    </button>
+                    <button
+                      class="video-fullscreen-btn rounded-full bg-black/60 p-2 text-white transition-all hover:bg-primary-pink/80"
+                      data-video="video-3"
+                      title="Plein écran"
+                    >
+                      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                          d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"
+                        ></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
 </Layout>
 
 <script>
-	import { gsap } from 'gsap';
-	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-	// Enregistrer le plugin ScrollTrigger
-	gsap.registerPlugin(ScrollTrigger);
+  // Enregistrer le plugin ScrollTrigger
+  gsap.registerPlugin(ScrollTrigger);
 
-	// Animation au scroll (Intersection Observer) pour les autres sections
-	const observerOptions = {
-		threshold: 0.2,
-		rootMargin: '0px 0px -50px 0px'
-	};
+  // Animation au scroll (Intersection Observer) pour les autres sections
+  const observerOptions = {
+    threshold: 0.2,
+    rootMargin: "0px 0px -50px 0px",
+  };
 
-	const observer = new IntersectionObserver((entries) => {
-		entries.forEach(entry => {
-			if (entry.isIntersecting) {
-				setTimeout(() => {
-					entry.target.classList.add('animate-fade-in');
-				}, 50);
-				observer.unobserve(entry.target);
-			}
-		});
-	}, observerOptions);
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add("animate-fade-in");
+        }, 50);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
 
-	// Observer tous les éléments avec la classe scroll-reveal
-	document.addEventListener('DOMContentLoaded', () => {
-		const elements = document.querySelectorAll('.scroll-reveal');
-		elements.forEach((el, index) => {
-			if (el instanceof HTMLElement) {
-				el.style.transitionDelay = `${index * 0.1}s`;
-			}
-			observer.observe(el);
-		});
+  // Observer tous les éléments avec la classe scroll-reveal
+  document.addEventListener("DOMContentLoaded", () => {
+    const elements = document.querySelectorAll(".scroll-reveal");
+    elements.forEach((el, index) => {
+      if (el instanceof HTMLElement) {
+        el.style.transitionDelay = `${index * 0.1}s`;
+      }
+      observer.observe(el);
+    });
 
-		// Smooth scroll pour les liens d'ancrage
-		document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-			anchor.addEventListener('click', function (e: Event) {
-				e.preventDefault();
-				const href = (e.currentTarget as HTMLAnchorElement).getAttribute('href');
-				if (href) {
-					const target = document.querySelector(href);
-					if (target) {
-						target.scrollIntoView({
-							behavior: 'smooth',
-							block: 'start'
-						});
-					}
-				}
-			});
-		});
+    // Smooth scroll pour les liens d'ancrage
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener("click", function (e: Event) {
+        e.preventDefault();
+        const href = (e.currentTarget as HTMLAnchorElement).getAttribute(
+          "href",
+        );
+        if (href) {
+          const target = document.querySelector(href);
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        }
+      });
+    });
 
-		// Animation de la timeline
-		animateTimeline();
+    // Animation de la timeline
+    animateTimeline();
 
-		// Initialiser l'effet de parallaxe GSAP pour la section "Mes passions"
-		initPassionsParallax();
+    // Initialiser l'effet de parallaxe GSAP pour la section "Mes passions"
+    initPassionsParallax();
 
-		// Gérer les contrôles vidéo personnalisés
-		initVideoControls();
-	});
+    // Gérer les contrôles vidéo personnalisés
+    initVideoControls();
+  });
 
-	function animateTimeline() {
-		const timeline = document.querySelector('.timeline-wave');
-		if (timeline) {
-			let position = 0;
-			setInterval(() => {
-				position += 1;
-				(timeline as HTMLElement).style.backgroundPosition = `${position}px 0`;
-			}, 50);
-		}
-	}
+  function animateTimeline() {
+    const timeline = document.querySelector(".timeline-wave");
+    if (timeline) {
+      let position = 0;
+      setInterval(() => {
+        position += 1;
+        (timeline as HTMLElement).style.backgroundPosition = `${position}px 0`;
+      }, 50);
+    }
+  }
 
-	/**
-	 * 🎥 Gestion des contrôles vidéo personnalisés
-	 */
-	function initVideoControls() {
-		// Boutons de son
-		const soundButtons = document.querySelectorAll('.video-sound-btn');
-		soundButtons.forEach(btn => {
-			btn.addEventListener('click', (e) => {
-				e.stopPropagation();
-				const videoId = (btn as HTMLElement).getAttribute('data-video');
-				const video = document.querySelector(`[data-video-id="${videoId}"]`) as HTMLVideoElement;
-				const soundOff = btn.querySelector('.sound-off') as HTMLElement;
-				const soundOn = btn.querySelector('.sound-on') as HTMLElement;
-				
-				if (video) {
-					video.muted = !video.muted;
-					if (soundOff && soundOn) {
-						soundOff.classList.toggle('hidden');
-						soundOn.classList.toggle('hidden');
-					}
-				}
-			});
-		});
+  /**
+   * 🎥 Gestion des contrôles vidéo personnalisés
+   */
+  function initVideoControls() {
+    // Boutons de son
+    const soundButtons = document.querySelectorAll(".video-sound-btn");
+    soundButtons.forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const videoId = (btn as HTMLElement).getAttribute("data-video");
+        const video = document.querySelector(
+          `[data-video-id="${videoId}"]`,
+        ) as HTMLVideoElement;
+        const soundOff = btn.querySelector(".sound-off") as HTMLElement;
+        const soundOn = btn.querySelector(".sound-on") as HTMLElement;
 
-		// Boutons plein écran
-		const fullscreenButtons = document.querySelectorAll('.video-fullscreen-btn');
-		fullscreenButtons.forEach(btn => {
-			btn.addEventListener('click', (e) => {
-				e.stopPropagation();
-				const videoId = (btn as HTMLElement).getAttribute('data-video');
-				const video = document.querySelector(`[data-video-id="${videoId}"]`) as HTMLVideoElement;
-				
-				if (video) {
-					if (video.requestFullscreen) {
-						video.requestFullscreen();
-					} else if ((video as any).webkitRequestFullscreen) {
-						(video as any).webkitRequestFullscreen();
-					} else if ((video as any).mozRequestFullScreen) {
-						(video as any).mozRequestFullScreen();
-					} else if ((video as any).msRequestFullscreen) {
-						(video as any).msRequestFullscreen();
-					}
-				}
-			});
-		});
-	}
+        if (video) {
+          video.muted = !video.muted;
+          if (soundOff && soundOn) {
+            soundOff.classList.toggle("hidden");
+            soundOn.classList.toggle("hidden");
+          }
+        }
+      });
+    });
 
-	/**
-	 * 🎬 Animation GSAP pour la section "Mes passions"
-	 * 
-	 * Phase 0 : Le texte est invisible jusqu'à ce qu'on arrive à la section
-	 * Phase 1 : Le texte apparaît quand on arrive à la section
-	 * Phase 2 : Au scroll, le texte disparaît (fade + déplacement vers le haut)
-	 * Phase 3 : Les vidéos apparaissent en fond avec effet de parallaxe
-	 */
-	function initPassionsParallax() {
-		const passionsSection = document.querySelector('#passions');
-		const textContainer = document.querySelector('#passions-text-container');
-		const videosContainer = document.querySelector('#passions-videos-container');
-		const title = document.querySelector('#passions-title');
-		const description = document.querySelector('#passions-description');
+    // Boutons plein écran
+    const fullscreenButtons = document.querySelectorAll(
+      ".video-fullscreen-btn",
+    );
+    fullscreenButtons.forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const videoId = (btn as HTMLElement).getAttribute("data-video");
+        const video = document.querySelector(
+          `[data-video-id="${videoId}"]`,
+        ) as HTMLVideoElement;
 
-		// Vérifier que tous les éléments existent
-		if (!passionsSection || !textContainer || !videosContainer || !title || !description) {
-			console.warn('Section Passions : éléments manquants pour l\'animation GSAP');
-			return;
-		}
+        if (video) {
+          if (video.requestFullscreen) {
+            video.requestFullscreen();
+          } else if ((video as any).webkitRequestFullscreen) {
+            (video as any).webkitRequestFullscreen();
+          } else if ((video as any).mozRequestFullScreen) {
+            (video as any).mozRequestFullScreen();
+          } else if ((video as any).msRequestFullscreen) {
+            (video as any).msRequestFullscreen();
+          }
+        }
+      });
+    });
+  }
 
-		// ===== ANIMATION 0 : Apparition du texte quand on arrive à la section =====
-		gsap.to(textContainer, {
-			opacity: 1,
-			scrollTrigger: {
-				trigger: passionsSection,
-				start: 'top 30%', // Commence à apparaître quand la section est à 30% du viewport
-				end: 'top top', // Complètement visible quand la section arrive en haut
-				scrub: 1,
-			}
-		});
+  /**
+   * 🎬 Animation GSAP pour la section "Mes passions"
+   *
+   * Phase 0 : Le texte est invisible jusqu'à ce qu'on arrive à la section
+   * Phase 1 : Le texte apparaît quand on arrive à la section
+   * Phase 2 : Au scroll, le texte disparaît (fade + déplacement vers le haut)
+   * Phase 3 : Les vidéos apparaissent en fond avec effet de parallaxe
+   */
+  function initPassionsParallax() {
+    const passionsSection = document.querySelector<HTMLElement>("#passions");
+    const introPanel = document.querySelector<HTMLElement>("#passions-intro-panel");
+    const chapters = gsap.utils.toArray<HTMLElement>("#passions .passion-chapter");
 
-		// ===== ANIMATION 1 : Disparition du texte =====
-		const textTimeline = gsap.timeline({
-			scrollTrigger: {
-				trigger: passionsSection,
-				start: 'top top', // Démarre quand la section atteint le haut
-				end: '20% top', // Se termine à 20% du scroll (plus rapide)
-				scrub: 1,
-			}
-		});
+    if (!passionsSection || !introPanel || chapters.length === 0) {
+      console.warn("Section Passions : éléments manquants pour l'animation GSAP");
+      return;
+    }
 
-		// Le titre disparaît plus vite et monte plus haut
-		textTimeline.to(title, {
-			opacity: 0,
-			y: -100,
-			ease: 'power2.in'
-		}, 0);
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
-		// La description disparaît légèrement après
-		textTimeline.to(description, {
-			opacity: 0,
-			y: -60,
-			ease: 'power2.in'
-		}, 0.2);
+    passionsSection.style.setProperty(
+      "min-height",
+      isMobile ? "250vh" : "400vh",
+      "important",
+    );
+    passionsSection.style.setProperty("padding", "0", "important");
 
-		// ===== ANIMATION 2 : Apparition des vidéos =====
-		const videosTimeline = gsap.timeline({
-			scrollTrigger: {
-				trigger: passionsSection,
-				start: '15% top', // Les vidéos commencent à apparaître après le texte
-				end: '35% top',
-				scrub: 1,
-			}
-		});
+    gsap.fromTo(
+      introPanel,
+      {
+        autoAlpha: 1,
+        y: 0,
+      },
+      {
+        autoAlpha: 0,
+        y: -50,
+        ease: "none",
+        scrollTrigger: {
+          trigger: passionsSection,
+          start: "top top",
+          end: "10% top",
+          scrub: 1,
+        },
+      },
+    );
 
-		// Le conteneur des vidéos devient visible
-		videosTimeline.to(videosContainer, {
-			opacity: 1,
-			ease: 'power2.out'
-		});
+    chapters.forEach((chapter) => {
+      const numberEl = chapter.querySelector<HTMLElement>("[data-el='number']");
+      const tagEl = chapter.querySelector<HTMLElement>("[data-el='tag']");
+      const titleEl = chapter.querySelector<HTMLElement>("[data-el='title']");
+      const descriptionEl = chapter.querySelector<HTMLElement>("[data-el='description']");
+      const progressEl = chapter.querySelector<HTMLElement>("[data-el='progress']");
+      const textWrapEl = chapter.querySelector<HTMLElement>("[data-el='text']");
+      const mediaWrapEl = chapter.querySelector<HTMLElement>("[data-el='media']");
+      const phoneFrameEl = chapter.querySelector<HTMLElement>("[data-el='phone']");
 
-		// ===== ANIMATION 3 : Parallaxe des vidéos (effet de profondeur) =====
-		// Chaque calque se déplace à une vitesse différente pour créer la profondeur
+      const triggerConfig = {
+        trigger: chapter,
+        start: "top center",
+        end: "bottom center",
+        scrub: 1,
+      };
 
-		// Calque 1 (fond) : se déplace lentement
-		gsap.to('.parallax-layer-1', {
-			y: () => -200, // Déplacement de 200px vers le haut
-			ease: 'none',
-			scrollTrigger: {
-				trigger: passionsSection,
-				start: 'top top',
-				end: 'bottom top',
-				scrub: 2, // Plus fluide (scrub = vitesse de réponse au scroll)
-			}
-		});
+      if (numberEl) {
+        gsap.fromTo(
+          numberEl,
+          {
+            autoAlpha: 0,
+            y: isMobile ? 0 : 30,
+          },
+          {
+            autoAlpha: 1,
+            y: 0,
+            ease: "none",
+            scrollTrigger: triggerConfig,
+          },
+        );
+      }
 
-		// Calque 2 (milieu) : se déplace à vitesse moyenne
-		gsap.to('.parallax-layer-2', {
-			y: () => -350,
-			ease: 'none',
-			scrollTrigger: {
-				trigger: passionsSection,
-				start: 'top top',
-				end: 'bottom top',
-				scrub: 1.5,
-			}
-		});
+      if (tagEl) {
+        gsap.fromTo(
+          tagEl,
+          {
+            autoAlpha: 0,
+            y: isMobile ? 0 : 18,
+          },
+          {
+            autoAlpha: 1,
+            y: 0,
+            delay: isMobile ? 0 : 0.08,
+            ease: "none",
+            scrollTrigger: triggerConfig,
+          },
+        );
+      }
 
-		// Calque 3 (premier plan) : se déplace plus vite
-		gsap.to('.parallax-layer-3', {
-			y: () => -500,
-			ease: 'none',
-			scrollTrigger: {
-				trigger: passionsSection,
-				start: 'top top',
-				end: 'bottom top',
-				scrub: 1,
-			}
-		});
+      if (titleEl) {
+        gsap.fromTo(
+          titleEl,
+          {
+            autoAlpha: 0,
+            x: isMobile ? 0 : -60,
+          },
+          {
+            autoAlpha: 1,
+            x: 0,
+            ease: "none",
+            scrollTrigger: triggerConfig,
+          },
+        );
+      }
 
-		// ===== EFFET BONUS : Léger zoom + rotation au scroll =====
-		gsap.to('.parallax-layer-1 > div', {
-			scale: 1.1,
-			rotation: 2,
-			ease: 'none',
-			scrollTrigger: {
-				trigger: passionsSection,
-				start: 'top top',
-				end: 'bottom top',
-				scrub: 2,
-			}
-		});
+      if (descriptionEl) {
+        gsap.fromTo(
+          descriptionEl,
+          {
+            autoAlpha: 0,
+            y: isMobile ? 0 : 14,
+          },
+          {
+            autoAlpha: 1,
+            y: 0,
+            delay: isMobile ? 0 : 0.14,
+            ease: "none",
+            scrollTrigger: triggerConfig,
+          },
+        );
+      }
 
-		gsap.to('.parallax-layer-2 > div', {
-			scale: 1.15,
-			rotation: -3,
-			ease: 'none',
-			scrollTrigger: {
-				trigger: passionsSection,
-				start: 'top top',
-				end: 'bottom top',
-				scrub: 1.5,
-			}
-		});
+      if (progressEl) {
+        gsap.fromTo(
+          progressEl,
+          {
+            width: "0%",
+          },
+          {
+            width: "100%",
+            ease: "none",
+            scrollTrigger: triggerConfig,
+          },
+        );
+      }
 
-		gsap.to('.parallax-layer-3 > div', {
-			scale: 1.2,
-			rotation: 3,
-			ease: 'none',
-			scrollTrigger: {
-				trigger: passionsSection,
-				start: 'top top',
-				end: 'bottom top',
-				scrub: 1,
-			}
-		});
-	}
+      if (phoneFrameEl) {
+        gsap.fromTo(
+          phoneFrameEl,
+          isMobile
+            ? {
+                autoAlpha: 0,
+              }
+            : {
+                autoAlpha: 0,
+                scale: 0.85,
+                rotate: -3,
+              },
+          isMobile
+            ? {
+                autoAlpha: 1,
+                ease: "none",
+                scrollTrigger: triggerConfig,
+              }
+            : {
+                autoAlpha: 1,
+                scale: 1,
+                rotate: 0,
+                ease: "none",
+                scrollTrigger: triggerConfig,
+              },
+        );
+      }
+
+      if (textWrapEl && mediaWrapEl && !isMobile) {
+        ScrollTrigger.create({
+          trigger: chapter,
+          start: "top center",
+          end: "bottom center",
+          onLeave: () => {
+            gsap.to(textWrapEl, {
+              y: -80,
+              autoAlpha: 0,
+              duration: 0.5,
+              ease: "power2.out",
+              overwrite: "auto",
+            });
+            gsap.to(mediaWrapEl, {
+              y: 60,
+              autoAlpha: 0,
+              duration: 0.4,
+              ease: "power2.out",
+              overwrite: "auto",
+            });
+          },
+          onEnterBack: () => {
+            gsap.to(textWrapEl, {
+              y: 0,
+              autoAlpha: 1,
+              duration: 0.45,
+              ease: "power2.out",
+              overwrite: "auto",
+            });
+            gsap.to(mediaWrapEl, {
+              y: 0,
+              autoAlpha: 1,
+              duration: 0.35,
+              ease: "power2.out",
+              overwrite: "auto",
+            });
+          },
+        });
+      }
+    });
+  }
 </script>
 
 <style>
-	/* Styles pour la page À propos */
+  /* Styles pour la page À propos */
 
-	/* Animation de la timeline */
-	.timeline-wave {
-		background: linear-gradient(90deg, 
-			#D019D0 0%, 
-			#1974D1 25%, 
-			#D019D0 50%, 
-			#1974D1 75%, 
-			#D019D0 100%);
-		background-size: 200% 100%;
-		animation: waveFlow 3s linear infinite;
-	}
+  /* Animation de la timeline */
+  .timeline-wave {
+    background: linear-gradient(
+      90deg,
+      #d019d0 0%,
+      #1974d1 25%,
+      #d019d0 50%,
+      #1974d1 75%,
+      #d019d0 100%
+    );
+    background-size: 200% 100%;
+    animation: waveFlow 3s linear infinite;
+  }
 
-	@keyframes waveFlow {
-		0% {
-			background-position: 0% 0%;
-		}
-		100% {
-			background-position: 200% 0%;
-		}
-	}
+  @keyframes waveFlow {
+    0% {
+      background-position: 0% 0%;
+    }
+    100% {
+      background-position: 200% 0%;
+    }
+  }
 
-	/* Styles des cartes timeline */
-	.timeline-card {
-		position: relative;
-	}
+  /* Styles des cartes timeline */
+  .timeline-card {
+    position: relative;
+  }
 
-	.timeline-card::before {
-		content: '';
-		position: absolute;
-		top: -20px;
-		left: 50%;
-		transform: translateX(-50%);
-		width: 16px;
-		height: 16px;
-		background: linear-gradient(135deg, #D019D0, #1974D1);
-		border-radius: 50%;
-		box-shadow: 0 0 20px rgba(208, 25, 208, 0.6);
-		display: none;
-	}
+  .timeline-card::before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 16px;
+    background: linear-gradient(135deg, #d019d0, #1974d1);
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(208, 25, 208, 0.6);
+    display: none;
+  }
 
-	@media (min-width: 768px) {
-		.timeline-card::before {
-			display: block;
-		}
-	}
+  @media (min-width: 768px) {
+    .timeline-card::before {
+      display: block;
+    }
+  }
 
-	/* Grid responsive pour les compétences */
-	.skills-grid {
-		display: grid;
-		grid-auto-flow: dense;
-	}
+  /* Grid responsive pour les compétences */
+  .skills-grid {
+    display: grid;
+    grid-auto-flow: dense;
+  }
 
-	/* ===== STYLES POUR LA SECTION "MES PASSIONS" ===== */
-	
-	/* Section principale avec hauteur étendue pour le scroll */
-	#passions {
-		position: relative;
-		background: linear-gradient(180deg, rgba(0, 0, 0, 0.9) 0%, rgba(10, 5, 20, 0.95) 50%, rgba(0, 0, 0, 0.9) 100%);
-	}
+  /* ===== STYLES POUR LA SECTION "MES PASSIONS" ===== */
 
-	/* Conteneur du texte fixe (plein écran) */
-	#passions-text-container {
-		will-change: opacity, transform;
-	}
+  /* Section principale avec hauteur étendue pour le scroll */
+  #passions {
+    position: relative;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.9) 0%,
+      rgba(10, 5, 20, 0.95) 50%,
+      rgba(0, 0, 0, 0.9) 100%
+    );
+  }
 
-	#passions-title,
-	#passions-description {
-		will-change: opacity, transform;
-	}
+  /* Conteneur du texte fixe (plein écran) */
+  #passions-text-container {
+    will-change: opacity, transform;
+  }
 
-	/* Conteneur des vidéos en fond */
-	#passions-videos-container {
-		will-change: opacity;
-	}
+  #passions-title,
+  #passions-description {
+    will-change: opacity, transform;
+  }
 
-	/* Calques de parallaxe avec z-index distincts */
-	.parallax-layer {
-		will-change: transform;
-		backface-visibility: hidden;
-		-webkit-backface-visibility: hidden;
-		pointer-events: none; /* Désactiver les clics sur le conteneur */
-	}
+  /* Conteneur des vidéos en fond */
+  #passions-videos-container {
+    will-change: opacity;
+  }
 
-	.parallax-layer > div {
-		pointer-events: auto; /* Réactiver les clics sur le contenu */
-	}
+  /* Calques de parallaxe avec z-index distincts */
+  .parallax-layer {
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    pointer-events: none; /* Désactiver les clics sur le conteneur */
+  }
 
-	/* Forcer le format vertical (9:16) des vidéos en plein écran */
-	.video-player:fullscreen {
-		width: auto !important;
-		height: 100% !important;
-		max-width: 56.25vh; /* 9/16 * 100vh pour garder le ratio */
-		margin: 0 auto;
-		object-fit: contain;
-	}
+  .parallax-layer > div {
+    pointer-events: auto; /* Réactiver les clics sur le contenu */
+  }
 
-	.video-player:-webkit-full-screen {
-		width: auto !important;
-		height: 100% !important;
-		max-width: 56.25vh;
-		margin: 0 auto;
-		object-fit: contain;
-	}
+  /* Forcer le format vertical (9:16) des vidéos en plein écran */
+  .video-player:fullscreen {
+    width: auto !important;
+    height: 100% !important;
+    max-width: 56.25vh; /* 9/16 * 100vh pour garder le ratio */
+    margin: 0 auto;
+    object-fit: contain;
+  }
 
-	.video-player:-moz-full-screen {
-		width: auto !important;
-		height: 100% !important;
-		max-width: 56.25vh;
-		margin: 0 auto;
-		object-fit: contain;
-	}
+  .video-player:-webkit-full-screen {
+    width: auto !important;
+    height: 100% !important;
+    max-width: 56.25vh;
+    margin: 0 auto;
+    object-fit: contain;
+  }
 
-	.video-player:-ms-fullscreen {
-		width: auto !important;
-		height: 100% !important;
-		max-width: 56.25vh;
-		margin: 0 auto;
-		object-fit: contain;
-	}
+  .video-player:-moz-full-screen {
+    width: auto !important;
+    height: 100% !important;
+    max-width: 56.25vh;
+    margin: 0 auto;
+    object-fit: contain;
+  }
 
-	/* Calque 1 : Fond (le plus éloigné) */
-	.parallax-layer-1 {
-		z-index: 1;
-	}
+  .video-player:-ms-fullscreen {
+    width: auto !important;
+    height: 100% !important;
+    max-width: 56.25vh;
+    margin: 0 auto;
+    object-fit: contain;
+  }
 
-	/* Calque 2 : Milieu */
-	.parallax-layer-2 {
-		z-index: 2;
-	}
+  /* Calque 1 : Fond (le plus éloigné) */
+  .parallax-layer-1 {
+    z-index: 1;
+  }
 
-	/* Calque 3 : Premier plan (le plus proche) */
-	.parallax-layer-3 {
-		z-index: 3;
-	}
+  /* Calque 2 : Milieu */
+  .parallax-layer-2 {
+    z-index: 2;
+  }
 
-	/* Effet de hover sur les vidéos */
-	.parallax-layer > div {
-		transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-	}
+  /* Calque 3 : Premier plan (le plus proche) */
+  .parallax-layer-3 {
+    z-index: 3;
+  }
 
-	/* Ombres portées pour accentuer la profondeur */
-	.parallax-layer-1 > div {
-		filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
-	}
+  /* Effet de hover sur les vidéos */
+  .parallax-layer > div {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
-	.parallax-layer-2 > div {
-		filter: drop-shadow(0 20px 50px rgba(0, 0, 0, 0.4));
-	}
+  /* Ombres portées pour accentuer la profondeur */
+  .parallax-layer-1 > div {
+    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+  }
 
-	.parallax-layer-3 > div {
-		filter: drop-shadow(0 30px 70px rgba(0, 0, 0, 0.5));
-	}
+  .parallax-layer-2 > div {
+    filter: drop-shadow(0 20px 50px rgba(0, 0, 0, 0.4));
+  }
 
-	/* Responsive : désactiver les effets complexes sur mobile */
-	@media (max-width: 768px) {
-		#passions {
-			min-height: auto !important;
-			padding: 4rem 0;
-		}
+  .parallax-layer-3 > div {
+    filter: drop-shadow(0 30px 70px rgba(0, 0, 0, 0.5));
+  }
 
-		#passions-text-container {
-			position: relative !important;
-			margin-bottom: 3rem;
-		}
+  /* Responsive : désactiver les effets complexes sur mobile */
+  @media (max-width: 768px) {
+    #passions {
+      min-height: auto !important;
+      padding: 4rem 0;
+    }
 
-		#passions-videos-container {
-			position: relative !important;
-			opacity: 1 !important;
-		}
+    #passions-text-container {
+      position: relative !important;
+      margin-bottom: 3rem;
+    }
 
-		.parallax-layer {
-			position: relative !important;
-			display: block !important;
-			margin-bottom: 2rem;
-			transform: none !important;
-		}
+    #passions-videos-container {
+      position: relative !important;
+      opacity: 1 !important;
+    }
 
-		.parallax-layer > div {
-			margin: 0 auto;
-			max-width: 300px;
-			opacity: 1 !important;
-		}
-	}
+    .parallax-layer {
+      position: relative !important;
+      display: block !important;
+      margin-bottom: 2rem;
+      transform: none !important;
+    }
 
-	/* Animation supplémentaire pour les éléments */
-	@media (prefers-reduced-motion: no-preference) {
-		.scroll-reveal {
-			animation-play-state: running;
-		}
-	}
+    .parallax-layer > div {
+      margin: 0 auto;
+      max-width: 300px;
+      opacity: 1 !important;
+    }
+  }
 
-	@media (prefers-reduced-motion: reduce) {
-		.scroll-reveal,
-		.parallax-layer,
-		#passions-text-container,
-		#passions-videos-container {
-			animation: none !important;
-			transition: none !important;
-			transform: none !important;
-		}
-	}
+  /* Animation supplémentaire pour les éléments */
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-reveal {
+      animation-play-state: running;
+    }
+  }
 
-	/* Responsive adjustments */
-	@media (max-width: 768px) {
-		.timeline-card::before {
-			display: none;
-		}
-		
-		.skills-grid {
-			grid-template-columns: repeat(2, 1fr);
-		}
-	}
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-reveal,
+    .parallax-layer,
+    #passions-text-container,
+    #passions-videos-container {
+      animation: none !important;
+      transition: none !important;
+      transform: none !important;
+    }
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .timeline-card::before {
+      display: none;
+    }
+
+    .skills-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
 </style>
