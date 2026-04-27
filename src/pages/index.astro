@@ -62,97 +62,209 @@ import Layout from '../layouts/Layout.astro';
 		</section>
 
 		<!-- À propos de moi -->
-		<section id="about" class="py-24 px-4">
-			<div class="max-w-5xl mx-auto">
-				<div class="text-center mb-16 scroll-reveal">
-					<h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-						<span class="text-white">A PROPOS DE </span><span class="neon-pink">MOI</span>
-					</h2>
-				</div>
+		<section id="about" class="py-32 px-4">
+			<div class="max-w-6xl mx-auto">
+				<div class="relative grid grid-cols-1 gap-16 md:grid-cols-2 lg:gap-20">
+					<div class="pointer-events-none absolute left-1/2 top-0 hidden h-full w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-primary-pink/40 to-transparent md:block" aria-hidden="true"></div>
 
-				<div class="text-center scroll-reveal">
-					<h3 class="text-2xl md:text-3xl font-bold text-white mb-8">
-						Étudiant En MMI / Designer Graphique
-					</h3>
-					
-					<div class="max-w-4xl mx-auto space-y-6 text-base md:text-lg leading-relaxed text-gray-300">
-						<p>
-							Depuis quelques années, je me passionne pour le design graphique et la communication visuelle. 
-							j’ai eu l’occasion de développer mes compétences à travers différents projets mêlant création visuelle, conception web et identité graphique.
+					<div class="flex flex-col items-start">
+						<p data-about-label class="text-sm uppercase tracking-widest text-white opacity-50">À PROPOS</p>
+
+						<h2 class="mt-6 text-4xl font-bold leading-tight md:text-5xl lg:text-6xl">
+							<span data-about-line-1 class="block text-white">Je transforme</span>
+							<span data-about-line-2 class="block neon-pink">les idées en design</span>
+						</h2>
+
+						<p data-about-paragraph class="mt-6 max-w-xl text-base leading-relaxed text-gray-300 md:text-lg">
+							Étudiant en MMI, je conçois des visuels modernes qui allient créativité et stratégie. Photoshop, Figma, Illustrator - j'aime transformer une idée brute en identité visuelle forte.
 						</p>
-						<p>
-							<span class="text-primary-pink font-semibold">Mon approche ?</span>,  Combiner créativité et réflexion pour proposer des visuels qui attirent l’œil tout en transmettant un vrai message. Je suis à l’aise avec les outils comme Photoshop, Illustrator ou Figma, et j’aime expérimenter de nouvelles façons de donner vie aux idées.
-						</p>
-						<p>
-							Mon objectif est simple : concevoir des projets qui marquent et qui reflètent l’identité de ceux qui les portent.
-						</p>
+
+						<div class="mt-8 flex flex-wrap items-center gap-y-3 text-sm text-gray-200 md:text-base">
+							<span data-about-pill class="inline-flex items-center gap-2">
+								<span class="h-2.5 w-2.5 rounded-full bg-primary-pink"></span>
+								Design graphique
+							</span>
+							<span class="mx-3 text-gray-500">·</span>
+							<span data-about-pill class="inline-flex items-center gap-2">
+								<span class="h-2.5 w-2.5 rounded-full bg-primary-blue"></span>
+								UX/UI
+							</span>
+							<span class="mx-3 text-gray-500">·</span>
+							<span data-about-pill class="inline-flex items-center gap-2">
+								<span class="h-2.5 w-2.5 rounded-full bg-[#7c3aed]"></span>
+								Communication
+							</span>
+						</div>
+
+						<a data-about-button href="/A-propos" class="btn btn-primary btn-lg btn-neon mt-12 inline-flex">
+							Découvrir plus
+						</a>
 					</div>
 
-                
-					<div class="mt-12">
-						<a href="/A-propos" class="scroll-link">
-						<button class="btn btn-primary btn-lg btn-neon">
-							Découvrir plus
-						</button>
-						</a>
+					<div data-about-stats class="relative">
+						<div class="grid grid-cols-3 gap-4 md:flex md:flex-col">
+							<div class="rounded-2xl border border-white/10 bg-gray-900/60 p-4 backdrop-blur-sm transition-all duration-300 ease-out hover:scale-[1.02] hover:border-primary-pink/40 md:p-6">
+								<div class="flex items-center gap-3">
+									<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0 text-[#d019d0]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M8 2v3m8-3v3M3.5 9.5h17M5 5.5h14A1.5 1.5 0 0120.5 7v12A1.5 1.5 0 0119 20.5H5A1.5 1.5 0 013.5 19V7A1.5 1.5 0 015 5.5z"/>
+									</svg>
+									<p class="text-[11px] text-gray-400 md:text-sm">Années d'expérience</p>
+								</div>
+								<div class="mt-4">
+									<span data-about-stat data-target="2" class="text-3xl font-bold leading-none text-[#d019d0] md:text-5xl">0</span>
+								</div>
+							</div>
+
+							<div class="rounded-2xl border border-white/10 bg-gray-900/60 p-4 backdrop-blur-sm transition-all duration-300 ease-out hover:scale-[1.02] hover:border-primary-pink/40 md:p-6">
+								<div class="flex items-center gap-3">
+									<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0 text-[#1974d1]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M3.5 6.5A1.5 1.5 0 015 5h4l2 2h8A1.5 1.5 0 0120.5 8.5v10A1.5 1.5 0 0119 20H5a1.5 1.5 0 01-1.5-1.5v-12z"/>
+										<path stroke-linecap="round" stroke-linejoin="round" d="M7 10h10M7 13h7"/>
+									</svg>
+									<p class="text-[11px] text-gray-400 md:text-sm">Projets réalisés</p>
+								</div>
+								<div class="mt-4">
+									<span data-about-stat data-target="15" data-suffix="+" class="text-3xl font-bold leading-none text-[#1974d1] md:text-5xl">0+</span>
+								</div>
+							</div>
+
+							<div class="rounded-2xl border border-white/10 bg-gray-900/60 p-4 backdrop-blur-sm transition-all duration-300 ease-out hover:scale-[1.02] hover:border-primary-pink/40 md:p-6">
+								<div class="flex items-center gap-3">
+									<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0 text-[#7c3aed]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M15 7l2-2 2 2-2 2m-2-2l-2 2m2-2l-3.5 3.5m-6 6l3-3m-4.5 1.5l2 2a1.5 1.5 0 002.12 0l8.88-8.88a1.5 1.5 0 000-2.12l-2-2a1.5 1.5 0 00-2.12 0L4.5 13.38a1.5 1.5 0 000 2.12z"/>
+									</svg>
+									<p class="text-[11px] text-gray-400 md:text-sm">Outils maîtrisés</p>
+								</div>
+								<div class="mt-4">
+									<span data-about-stat data-target="8" class="text-3xl font-bold leading-none text-[#7c3aed] md:text-5xl">0</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="mt-4 rounded-xl border border-primary-pink/30 bg-primary-pink/10 p-4">
+							<div class="flex items-center gap-2 text-sm text-white">
+								<span class="h-2.5 w-2.5 rounded-full bg-green-400 animate-pulse"></span>
+								Disponible pour une collaboration
+							</div>
+							<p class="mt-1 text-xs text-gray-300">Alternance · Projet</p>
+						</div>
 					</div>
 				</div>
 			</div>
 		</section>
 
 		<!-- Mes compétences -->
-		<section id="skills" class="py-24 px-4">
+		<section id="skills" class="py-32 px-4">
 			<div class="max-w-6xl mx-auto">
-				<div class="text-center mb-16 scroll-reveal">
-					<h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-						<span class="text-white">MES </span><span class="neon-pink">COMPETENCES</span>
+				<div data-skills-heading class="max-w-3xl">
+					<p class="text-sm uppercase tracking-widest text-white opacity-40">MES COMPÉTENCES</p>
+					<h2 class="mt-4 text-5xl font-bold text-white md:text-6xl">
+						Mon arsenal <span class="neon-pink">créatif</span>
 					</h2>
+					<p class="mt-3 text-base text-gray-500">Les outils et savoir-faire que j'utilise au quotidien</p>
 				</div>
 
-				<div class="grid md:grid-cols-3 gap-6">
-					<!-- Carte UX/UI Designer -->
-					<div class="card bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm shadow-2xl border border-primary-pink/20 scroll-reveal card-hover">
-						<div class="card-body items-center text-center p-8">
-							<div class="mb-6 p-6 rounded-2xl bg-primary-pink/10">
-								<svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-primary-pink" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-								</svg>
-							</div>
-							<h3 class="card-title text-2xl md:text-3xl font-bold text-white mb-4">UX/UI DESIGNER</h3>
-							<p class="text-gray-400 text-sm leading-relaxed mb-6">
-							Je conçois des interfaces modernes et intuitives en mettant l’utilisateur au centre. Mon objectif est de créer des expériences fluides et esthétiques, en alliant ergonomie, design et créativité.							</p>
-							
+				<div class="relative mt-16 overflow-hidden">
+					<div class="absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-[#050510] to-transparent"></div>
+					<div class="absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-[#050510] to-transparent"></div>
+
+					<div class="flex flex-col gap-4">
+						<div class="flex w-fit items-center whitespace-nowrap animate-marquee-left">
+							{
+								[
+									{ nom: 'Figma', logo: '/logos/figma.svg' },
+									{ nom: 'Photoshop', logo: '/logos/photoshop.svg' },
+									{ nom: 'Illustrator', logo: '/logos/illustrator.svg' },
+									{ nom: 'Premiere Pro', logo: '/logos/premiere.svg' },
+									{ nom: 'VS Code', logo: '/logos/vscode.svg' },
+									{ nom: 'Astro', logo: '/logos/astro.jpg' },
+									{ nom: 'TailwindCSS', logo: '/logos/tailwind.svg' },
+									{ nom: 'Figma', logo: '/logos/figma.svg' },
+									{ nom: 'Photoshop', logo: '/logos/photoshop.svg' },
+									{ nom: 'Illustrator', logo: '/logos/illustrator.svg' },
+									{ nom: 'Premiere Pro', logo: '/logos/premiere.svg' },
+									{ nom: 'VS Code', logo: '/logos/vscode.svg' },
+									{ nom: 'Astro', logo: '/logos/astro.jpg' },
+									{ nom: 'TailwindCSS', logo: '/logos/tailwind.svg' }
+								].map((item) => (
+									<div class="mx-2 inline-flex w-max shrink-0 items-center gap-3 whitespace-nowrap rounded-xl border border-white/10 bg-gray-900/80 px-3 py-2.5 text-xs transition-all duration-200 hover:scale-105 hover:border-primary-pink/50 md:px-5 md:py-3 md:text-sm">
+										<img src={item.logo} alt={`Logo ${item.nom}`} class="h-5 w-5 shrink-0 object-contain md:h-6 md:w-6" loading="lazy" decoding="async" />
+										<span class="whitespace-nowrap font-medium leading-none text-gray-300">{item.nom}</span>
+									</div>
+								))
+							}
+						</div>
+
+						<div class="flex w-fit items-center whitespace-nowrap animate-marquee-right">
+							{
+								[
+									{ nom: 'After Effects', logo: '/logos/after-effects.svg' },
+									{ nom: 'Figma', logo: '/logos/figma.svg' },
+									{ nom: 'GitHub', logo: '/logos/github.svg' },
+									{ nom: 'JavaScript', logo: '/logos/javascript.svg' },
+									{ nom: 'CSS', logo: '/logos/html-css.svg' },
+									{ nom: 'HTML', logo: '/logos/html-css.svg' },
+									{ nom: 'After Effects', logo: '/logos/after-effects.svg' },
+									{ nom: 'Figma', logo: '/logos/figma.svg' },
+									{ nom: 'GitHub', logo: '/logos/github.svg' },
+									{ nom: 'JavaScript', logo: '/logos/javascript.svg' },
+									{ nom: 'CSS', logo: '/logos/html-css.svg' },
+									{ nom: 'HTML', logo: '/logos/html-css.svg' }
+								].map((item) => (
+									<div class="mx-2 inline-flex w-max shrink-0 items-center gap-3 whitespace-nowrap rounded-xl border border-white/10 bg-gray-900/80 px-3 py-2.5 text-xs transition-all duration-200 hover:scale-105 hover:border-primary-pink/50 md:px-5 md:py-3 md:text-sm">
+										<img src={item.logo} alt={`Logo ${item.nom}`} class="h-5 w-5 shrink-0 object-contain md:h-6 md:w-6" loading="lazy" decoding="async" />
+										<span class="whitespace-nowrap font-medium leading-none text-gray-300">{item.nom}</span>
+									</div>
+								))
+							}
 						</div>
 					</div>
+				</div>
 
-					<!-- Carte Web Developer -->
-					<div class="card bg-gradient-to-br from-primary-blue/20 to-purple-900/30 backdrop-blur-sm shadow-2xl border border-primary-blue/30 scroll-reveal card-hover" style="animation-delay: 0.2s;">
-						<div class="card-body items-center text-center p-8">
-							<div class="mb-6 p-6 rounded-2xl bg-primary-blue/20">
-								<svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-primary-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-								</svg>
+				<div data-skills-progress class="mt-24">
+					<h3 class="mb-12 text-2xl font-bold text-white">Savoir-faire</h3>
+
+					<div class="flex flex-col gap-8">
+						<div data-skill-row data-target="85" class="flex flex-col gap-3">
+							<div class="flex items-start justify-between gap-6">
+								<h4 class="text-lg font-semibold text-white">UX/UI Designer</h4>
+								<div class="flex flex-col items-end">
+									<span data-skill-value class="text-sm font-medium text-[#d019d0]">0%</span>
+									<span class="mt-1 h-2 w-2 rounded-full bg-[#d019d0] animate-pulse"></span>
+								</div>
 							</div>
-							<h3 class="card-title text-2xl md:text-3xl font-bold text-white mb-4">WEB DEVELOPER</h3>
-							<p class="text-gray-400 text-sm leading-relaxed mb-6">
-							Je développe des sites web dynamiques et responsives avec une attention particulière à la performance et à l’accessibilité.De l’intégration au développement front-end, j’aime transformer un design en projet concret et fonctionnel.</p>
-							
+							<p class="text-xs text-gray-500">Figma · Photoshop · Illustrator</p>
+							<div class="h-1.5 overflow-hidden rounded-full bg-white/10">
+								<div data-skill-bar class="h-full w-0 rounded-full" style="background: linear-gradient(90deg, #d019d0, #9333ea);"></div>
+							</div>
 						</div>
-					</div>
 
-					<!-- Carte Digital Communication -->
-					<div class="card bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm shadow-2xl border border-primary-pink/20 scroll-reveal card-hover" style="animation-delay: 0.4s;">
-						<div class="card-body items-center text-center p-8">
-							<div class="mb-6 p-6 rounded-2xl bg-primary-pink/10">
-								<svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-primary-pink" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
-								</svg>
+						<div data-skill-row data-target="70" class="flex flex-col gap-3">
+							<div class="flex items-start justify-between gap-6">
+								<h4 class="text-lg font-semibold text-white">Web Developer</h4>
+								<div class="flex flex-col items-end">
+									<span data-skill-value class="text-sm font-medium text-[#1974d1]">0%</span>
+									<span class="mt-1 h-2 w-2 rounded-full bg-[#1974d1] animate-pulse"></span>
+								</div>
 							</div>
-							<h3 class="card-title text-2xl md:text-3xl font-bold text-white mb-4">DIGITAL<br/>COMMUNICATION</h3>
-							<p class="text-gray-400 text-sm leading-relaxed mb-6">
-							Je crée des supports visuels adaptés aux réseaux sociaux et au web afin d’optimiser la visibilité d’une marque. J’aime trouver le bon équilibre entre créativité et stratégie pour capter l’attention et transmettre un message clair.	
-							</p>
-							
+							<p class="text-xs text-gray-500">Astro · TailwindCSS · JavaScript · HTML/CSS</p>
+							<div class="h-1.5 overflow-hidden rounded-full bg-white/10">
+								<div data-skill-bar class="h-full w-0 rounded-full" style="background: linear-gradient(90deg, #1974d1, #06b6d4);"></div>
+							</div>
+						</div>
+
+						<div data-skill-row data-target="90" class="flex flex-col gap-3">
+							<div class="flex items-start justify-between gap-6">
+								<h4 class="text-lg font-semibold text-white">Digital Communication</h4>
+								<div class="flex flex-col items-end">
+									<span data-skill-value class="text-sm font-medium text-[#7c3aed]">0%</span>
+									<span class="mt-1 h-2 w-2 rounded-full bg-[#7c3aed] animate-pulse"></span>
+								</div>
+							</div>
+							<p class="text-xs text-gray-500">Premiere Pro · After Effects · TikTok · Stratégie</p>
+							<div class="h-1.5 overflow-hidden rounded-full bg-white/10">
+								<div data-skill-bar class="h-full w-0 rounded-full" style="background: linear-gradient(90deg, #7c3aed, #d019d0);"></div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -160,90 +272,200 @@ import Layout from '../layouts/Layout.astro';
 		</section>
 
 		<!-- Mes projets -->
-		<section id="projects" class="py-24 px-4">
+		<section id="projects" class="py-32 px-4">
 			<div class="max-w-6xl mx-auto">
-				<div class="text-center mb-16 scroll-reveal">
+				<div class="text-center mb-8">
 					<h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
 						<span class="text-white">MES </span><span class="neon-pink">PROJETS</span>
 					</h2>
+					<p class="text-base text-gray-500 mb-16">Une sélection de projets mêlant design, développement et stratégie créative.</p>
 				</div>
 
-				<div class="grid md:grid-cols-3 gap-6">
-					<!-- Projet planning -->
-					<div class="card bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm shadow-2xl border border-primary-pink/30 overflow-hidden scroll-reveal card-hover group">
-						<figure class="relative h-48 overflow-hidden bg-gradient-to-br from-pink-500 via-teal-400 to-green-300">
-							<div class="absolute inset-0 flex items-center justify-center">
-								<div class="text-center">
-									<div class="text-5xl font-bold text-white mb-2" style="font-family: 'Brush Script MT', cursive;">Planning</div>
-									<div class="w-20 h-20 mx-auto rounded-full bg-teal-400 border-4 border-white"></div>
+				<div data-projects-grid class="grid grid-cols-1 md:grid-cols-3 gap-6">
+					<article data-project-card class="group relative h-[380px] md:h-[480px] overflow-hidden rounded-3xl" style="opacity: 0;">
+						<div class="absolute inset-0 z-0 transition-transform duration-700 ease-out group-hover:scale-110">
+							<div class="relative h-full w-full bg-gradient-to-br from-teal-500 via-emerald-400 to-green-300">
+								<div class="absolute inset-0 flex items-center justify-center p-6">
+									<div class="w-full max-w-[260px] rounded-2xl border border-white/35 bg-white/20 p-4 backdrop-blur-sm">
+										<p class="mb-3 text-center text-4xl text-white/95" style="font-family: 'Brush Script MT', cursive;">Planning</p>
+										<div class="space-y-2">
+											<div class="h-3 w-4/5 rounded-md bg-pink-400/80"></div>
+											<div class="h-3 w-3/5 rounded-md bg-cyan-300/80"></div>
+											<div class="h-3 w-full rounded-md bg-emerald-100/80"></div>
+										</div>
+									</div>
 								</div>
 							</div>
-							<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-						</figure>
-						<div class="card-body p-6">
-							<h3 class="card-title text-xl text-white">Planning Photoshop</h3>
-							<p class="text-gray-400 text-sm">
-								Planning Photoshop est un projet personnel dans lequel j'ai créé une série de maquettes pour une application de gestion de projets. J'ai utilisé Photoshop pour concevoir des interfaces utilisateur modernes et intuitives.
-							</p>
-							<a href="/Projets" class="mt-4">
-							<div class="card-actions justify-end mt-4">
-								<button class="btn btn-primary btn-sm btn-neon">Voir le projet</button>
+						</div>
+
+						<div class="absolute bottom-0 left-0 right-0 z-10 h-[40%] bg-gradient-to-t from-black/85 to-transparent">
+							<div class="absolute bottom-0 left-0 p-6">
+								<p class="text-xs text-gray-500 font-mono">01</p>
+								<p class="text-lg font-bold text-white">Planning Photoshop</p>
 							</div>
+						</div>
+
+						<div class="project-hover-overlay absolute inset-0 z-20 flex translate-y-5 flex-col justify-end bg-gradient-to-t from-black/95 to-black/30 p-6 opacity-0 transition-all duration-[400ms] [transition-timing-function:cubic-bezier(0.4,0,0.2,1)] group-hover:translate-y-0 group-hover:opacity-100">
+							<div class="mb-3 flex flex-wrap gap-2">
+								<span class="inline-flex items-center rounded-full border border-[#31A8FF]/30 bg-[#31A8FF]/10 px-2.5 py-1 text-xs font-medium text-[#31A8FF]">Photoshop</span>
+								<span class="inline-flex items-center rounded-full border border-[#FF9A00]/30 bg-[#FF9A00]/10 px-2.5 py-1 text-xs font-medium text-[#FF9A00]">Illustrator</span>
+							</div>
+							<h3 class="text-xl font-bold text-white">Planning Photoshop</h3>
+							<p class="project-desc-clamp text-sm text-gray-300">Série de maquettes pour une application de gestion de projets, conçues avec Photoshop pour des interfaces modernes et intuitives.</p>
+							<a href="/Projets" class="inline-flex w-fit items-center gap-2 rounded-lg border border-primary-pink/50 px-4 py-2 text-sm font-medium text-primary-pink transition-all duration-200 hover:bg-primary-pink hover:text-white">
+								Voir le projet
+								<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+								</svg>
 							</a>
 						</div>
-					</div>
+					</article>
 
-					<!-- Projet Romance World Website -->
-					<div class="card bg-gradient-to-br from-purple-900/40 to-blue-900/40 backdrop-blur-sm shadow-2xl border border-primary-blue/30 overflow-hidden scroll-reveal card-hover group" style="animation-delay: 0.2s;">
-						<figure class="relative h-48 overflow-hidden bg-gradient-to-br from-purple-600 via-pink-500 to-blue-600">
-							<div class="absolute inset-0 flex items-center justify-center">
-								<div class="text-center">
-									<svg class="w-24 h-24 text-white mx-auto" fill="currentColor" viewBox="0 0 24 24">
-										<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-									</svg>
+					<article data-project-card class="group relative h-[380px] md:h-[480px] overflow-hidden rounded-3xl" style="opacity: 0;">
+						<div class="absolute inset-0 z-0 transition-transform duration-700 ease-out group-hover:scale-110">
+							<div class="relative h-full w-full bg-gradient-to-br from-purple-700 via-pink-600 to-blue-700">
+								<div class="absolute inset-0 flex items-center justify-center p-6">
+									<div class="w-full max-w-[300px] rounded-2xl border border-white/20 bg-white/10 p-3 backdrop-blur-sm">
+										<div class="mb-3 flex items-center gap-2">
+											<span class="h-2.5 w-2.5 rounded-full bg-red-400/80"></span>
+											<span class="h-2.5 w-2.5 rounded-full bg-yellow-400/80"></span>
+											<span class="h-2.5 w-2.5 rounded-full bg-green-400/80"></span>
+											<span class="ml-2 h-2 w-28 rounded-full bg-white/20"></span>
+										</div>
+										<div class="grid grid-cols-2 gap-2">
+											<div class="h-14 rounded-lg bg-white/20"></div>
+											<div class="h-14 rounded-lg bg-white/15"></div>
+											<div class="h-10 rounded-lg bg-white/15"></div>
+											<div class="h-10 rounded-lg bg-white/20"></div>
+										</div>
+									</div>
 								</div>
 							</div>
-							<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-						</figure>
-						<div class="card-body p-6">
-							<h3 class="card-title text-xl text-white">ROMANCE WORLD WEBSITE</h3>
-							<p class="text-gray-400 text-sm">
-								J'ai développé un site web qui référence un catalogue exhaustif d'animes du genre romance. Ce projet a été entièrement réalisé avec Astro, TailwindCSS et du JS. Toutes les données sont stockées et gérées via une base de données Pocketbase.
-							</p>
-							<!-- bouton qui redirige vers la page projet -->
-							<a href="/Projets" class="mt-4">
-							<div class="card-actions justify-end mt-4">
+						</div>
 
-									<button class="btn btn-info btn-sm btn-neon">Voir le projet</button>
-								</div>
+						<div class="absolute bottom-0 left-0 right-0 z-10 h-[40%] bg-gradient-to-t from-black/85 to-transparent">
+							<div class="absolute bottom-0 left-0 p-6">
+								<p class="text-xs text-gray-500 font-mono">02</p>
+								<p class="text-lg font-bold text-white">Romance World</p>
+							</div>
+						</div>
+
+						<div class="project-hover-overlay absolute inset-0 z-20 flex translate-y-5 flex-col justify-end bg-gradient-to-t from-black/95 to-black/30 p-6 opacity-0 transition-all duration-[400ms] [transition-timing-function:cubic-bezier(0.4,0,0.2,1)] group-hover:translate-y-0 group-hover:opacity-100">
+							<div class="mb-3 flex flex-wrap gap-2">
+								<span class="inline-flex items-center rounded-full border border-[#FF5D01]/30 bg-[#FF5D01]/10 px-2.5 py-1 text-xs font-medium text-[#FF5D01]">Astro</span>
+								<span class="inline-flex items-center rounded-full border border-[#06B6D4]/30 bg-[#06B6D4]/10 px-2.5 py-1 text-xs font-medium text-[#06B6D4]">TailwindCSS</span>
+								<span class="inline-flex items-center rounded-full border border-[#B8DBD9]/30 bg-[#B8DBD9]/10 px-2.5 py-1 text-xs font-medium text-[#B8DBD9]">PocketBase</span>
+								<span class="inline-flex items-center rounded-full border border-[#F7DF1E]/30 bg-[#F7DF1E]/10 px-2.5 py-1 text-xs font-medium text-[#F7DF1E]">JavaScript</span>
+							</div>
+							<h3 class="text-xl font-bold text-white">Romance World Website</h3>
+							<p class="project-desc-clamp text-sm text-gray-300">Site web référençant un catalogue exhaustif d'animes romance. Développé avec Astro, TailwindCSS et une base de données PocketBase.</p>
+							<a href="/Projets" class="inline-flex w-fit items-center gap-2 rounded-lg border border-primary-blue/50 px-4 py-2 text-sm font-medium text-primary-blue transition-all duration-200 hover:bg-primary-blue hover:text-white">
+								Voir le projet
+								<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+								</svg>
 							</a>
 						</div>
-					</div>
+					</article>
 
-					<!-- Projet Romance World Communication -->
-					<div class="card bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm shadow-2xl border border-primary-pink/30 overflow-hidden scroll-reveal card-hover group" style="animation-delay: 0.4s;">
-						<figure class="relative h-48 overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600">
-							<div class="absolute inset-0 flex items-center justify-center">
-								<div class="text-9xl font-black text-white opacity-90">
-									R
+					<article data-project-card class="group relative h-[380px] md:h-[480px] overflow-hidden rounded-3xl" style="opacity: 0;">
+						<div class="absolute inset-0 z-0 transition-transform duration-700 ease-out group-hover:scale-110">
+							<div class="relative h-full w-full bg-gradient-to-br from-blue-700 via-purple-700 to-pink-700">
+								<div class="pointer-events-none absolute inset-0 flex items-center justify-center text-9xl font-black text-white opacity-[0.15]">R</div>
+								<div class="absolute inset-0 flex items-center justify-center p-6">
+									<div class="relative h-56 w-full max-w-[300px]">
+										<div class="absolute left-6 top-10 h-28 w-16 -rotate-6 rounded-xl border border-white/20 bg-white/10"></div>
+										<div class="absolute left-24 top-4 h-32 w-[72px] rotate-2 rounded-xl border border-white/25 bg-white/15"></div>
+										<div class="absolute left-44 top-12 h-28 w-16 rotate-6 rounded-xl border border-white/20 bg-white/10"></div>
+									</div>
 								</div>
 							</div>
-							<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-						</figure>
-						<div class="card-body p-6">
-							<h3 class="card-title text-xl text-white">ROMANCE WORLD COMMUNICATION</h3>
-							<p class="text-gray-400 text-sm">
-								Romance World est une communauté engagée, principalement active sur Discord et TikTok. En tant qu'adjoint du créateur, je suis responsable de la stratégie de communication, ce qui inclut la planification de contenu, la gestion des publications et l'animation de la communauté.
-							</p>
-							<a href="/Projets" class="mt-4">
-								<div class="card-actions justify-end mt-4">
-									<button class="btn btn-secondary btn-sm btn-neon">Voir le projet</button>
-								</div>
+						</div>
+
+						<div class="absolute bottom-0 left-0 right-0 z-10 h-[40%] bg-gradient-to-t from-black/85 to-transparent">
+							<div class="absolute bottom-0 left-0 p-6">
+								<p class="text-xs text-gray-500 font-mono">03</p>
+								<p class="text-lg font-bold text-white">Romance World Comm.</p>
+							</div>
+						</div>
+
+						<div class="project-hover-overlay absolute inset-0 z-20 flex translate-y-5 flex-col justify-end bg-gradient-to-t from-black/95 to-black/30 p-6 opacity-0 transition-all duration-[400ms] [transition-timing-function:cubic-bezier(0.4,0,0.2,1)] group-hover:translate-y-0 group-hover:opacity-100">
+							<div class="mb-3 flex flex-wrap gap-2">
+								<span class="inline-flex items-center rounded-full border border-white/20 bg-white/10 px-2.5 py-1 text-xs font-medium text-white">TikTok</span>
+								<span class="inline-flex items-center rounded-full border border-[#5865F2]/30 bg-[#5865F2]/10 px-2.5 py-1 text-xs font-medium text-[#5865F2]">Discord</span>
+								<span class="inline-flex items-center rounded-full border border-[#7c3aed]/30 bg-[#7c3aed]/10 px-2.5 py-1 text-xs font-medium text-[#7c3aed]">Stratégie</span>
+								<span class="inline-flex items-center rounded-full border border-[#31A8FF]/30 bg-[#31A8FF]/10 px-2.5 py-1 text-xs font-medium text-[#31A8FF]">Photoshop</span>
+							</div>
+							<h3 class="text-xl font-bold text-white">Romance World Communication</h3>
+							<p class="project-desc-clamp text-sm text-gray-300">Stratégie de communication, planification de contenu et animation de la communauté Discord et TikTok de Romance World.</p>
+							<a href="/Projets" class="inline-flex w-fit items-center gap-2 rounded-lg border border-[#7c3aed]/50 px-4 py-2 text-sm font-medium text-[#7c3aed] transition-all duration-200 hover:bg-[#7c3aed] hover:text-white">
+								Voir le projet
+								<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+								</svg>
 							</a>
 						</div>
-					</div>
+					</article>
+				</div>
+
+				<div class="mt-12 text-center">
+					<a data-projects-cta href="/Projets" style="opacity: 0;" class="inline-flex items-center gap-2 text-sm text-gray-400 transition-colors duration-200 hover:text-primary-pink">
+						<span>→ Voir tous mes projets</span>
+						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+						</svg>
+					</a>
 				</div>
 			</div>
+
+			<script>
+				import { gsap } from 'gsap';
+				import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+				gsap.registerPlugin(ScrollTrigger);
+
+				document.addEventListener('DOMContentLoaded', () => {
+					const projectsGrid = document.querySelector('[data-projects-grid]');
+					if (!projectsGrid) return;
+
+					const cards = gsap.utils.toArray<HTMLElement>('[data-project-card]');
+					const cta = document.querySelector('[data-projects-cta]') as HTMLElement | null;
+
+					cards.forEach((card, index) => {
+						gsap.fromTo(card, {
+							y: 60,
+							autoAlpha: 0
+						}, {
+							y: 0,
+							autoAlpha: 1,
+							duration: 0.8,
+							ease: 'power2.out',
+							delay: index * 0.15,
+							scrollTrigger: {
+								trigger: projectsGrid,
+								start: 'top 80%',
+								once: true
+							}
+						});
+					});
+
+					if (cta) {
+						gsap.fromTo(cta, {
+							autoAlpha: 0
+						}, {
+							autoAlpha: 1,
+							duration: 0.6,
+							delay: 0.6,
+							ease: 'power2.out',
+							scrollTrigger: {
+								trigger: projectsGrid,
+								start: 'top 80%',
+								once: true
+							}
+						});
+					}
+				});
+			</script>
 		</section>
 
 		<!-- Contact -->
@@ -294,6 +516,11 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <script>
+	import { gsap } from 'gsap';
+	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+	gsap.registerPlugin(ScrollTrigger);
+
 	// Animation au scroll (Intersection Observer)
 	const observerOptions = {
 		threshold: 0.2,
@@ -340,6 +567,12 @@ import Layout from '../layouts/Layout.astro';
 
 		// Animation des particules de fond (optionnel - effet spatial)
 		createFloatingParticles();
+
+		// Animations et compteurs de la section À propos
+		initAboutSection();
+
+		// Animations de la section compétences
+		initSkillsSection();
 	});
 
 	// Fonction pour créer des particules flottantes
@@ -356,6 +589,172 @@ import Layout from '../layouts/Layout.astro';
 			particle.style.animationDuration = `${6 + Math.random() * 4}s`;
 			hero.appendChild(particle);
 		}
+	}
+
+	function initAboutSection() {
+		const aboutSection = document.querySelector('#about');
+		if (!aboutSection) return;
+
+		const label = aboutSection.querySelector('[data-about-label]') as HTMLElement | null;
+		const titleLine1 = aboutSection.querySelector('[data-about-line-1]') as HTMLElement | null;
+		const titleLine2 = aboutSection.querySelector('[data-about-line-2]') as HTMLElement | null;
+		const paragraph = aboutSection.querySelector('[data-about-paragraph]') as HTMLElement | null;
+		const button = aboutSection.querySelector('[data-about-button]') as HTMLElement | null;
+		const pills = gsap.utils.toArray<HTMLElement>('[data-about-pill]');
+		const statsColumn = aboutSection.querySelector('[data-about-stats]') as HTMLElement | null;
+		const stats = gsap.utils.toArray<HTMLElement>('[data-about-stat]');
+
+		if (label && titleLine1 && titleLine2 && paragraph && button) {
+			const isMobile = window.matchMedia('(max-width: 768px)').matches;
+			const textTimeline = gsap.timeline({
+				scrollTrigger: {
+					trigger: aboutSection,
+					start: 'top 80%',
+					once: true
+				}
+			});
+
+			textTimeline.from(label, {
+				autoAlpha: 0,
+				duration: 0.45,
+				ease: 'power2.out'
+			}, 0);
+
+			if (isMobile) {
+				textTimeline.from([titleLine1, titleLine2], {
+					autoAlpha: 0,
+					duration: 0.6,
+					stagger: 0.12,
+					ease: 'power2.out'
+				}, 0.1);
+			} else {
+				textTimeline.from(titleLine1, {
+					x: -40,
+					autoAlpha: 0,
+					duration: 0.7,
+					ease: 'power3.out'
+				}, 0.1);
+
+				textTimeline.from(titleLine2, {
+					x: -40,
+					autoAlpha: 0,
+					duration: 0.7,
+					ease: 'power3.out'
+				}, 0.25);
+			}
+
+			textTimeline.from(paragraph, {
+				autoAlpha: 0,
+				duration: 0.6,
+				ease: 'power2.out'
+			}, 0.3);
+
+			if (pills.length > 0) {
+				textTimeline.from(pills, {
+					autoAlpha: 0,
+					duration: 0.45,
+					stagger: 0.1,
+					ease: 'power2.out'
+				}, 0.4);
+			}
+
+			textTimeline.from(button, {
+				autoAlpha: 0,
+				duration: 0.6,
+				ease: 'power2.out'
+			}, 0.5);
+		}
+
+		if (statsColumn && stats.length > 0) {
+			ScrollTrigger.create({
+				trigger: statsColumn,
+				start: 'top 80%',
+				once: true,
+				onEnter: () => {
+					stats.forEach((stat, index) => {
+						const targetValue = Number(stat.dataset.target ?? '0');
+						const suffix = stat.dataset.suffix ?? '';
+						const counter = { val: 0 };
+
+						gsap.to(counter, {
+							val: targetValue,
+							duration: 2,
+							delay: index * 0.2,
+							ease: 'power2.out',
+							onUpdate: () => {
+								stat.textContent = `${Math.round(counter.val)}${suffix}`;
+							}
+						});
+					});
+				}
+			});
+		}
+	}
+
+	function initSkillsSection() {
+		const skillsSection = document.querySelector('#skills');
+		if (!skillsSection) return;
+
+		const heading = skillsSection.querySelector('[data-skills-heading]') as HTMLElement | null;
+		const progressBlock = skillsSection.querySelector('[data-skills-progress]') as HTMLElement | null;
+
+		if (heading) {
+			gsap.from(heading, {
+				x: -40,
+				autoAlpha: 0,
+				duration: 0.8,
+				ease: 'power2.out',
+				scrollTrigger: {
+					trigger: heading,
+					start: 'top 80%',
+					once: true
+				}
+			});
+		}
+
+		if (!progressBlock) return;
+
+		const skillRows = Array.from(progressBlock.querySelectorAll<HTMLElement>('[data-skill-row]'));
+
+		skillRows.forEach((row, index) => {
+			const barElement = row.querySelector('[data-skill-bar]') as HTMLElement | null;
+			const valueElement = row.querySelector('[data-skill-value]') as HTMLElement | null;
+			const targetValue = Number(row.dataset.target ?? '0');
+			const delay = index * 0.2;
+
+			if (barElement) {
+				gsap.to(barElement, {
+					width: `${targetValue}%`,
+					duration: 1.5,
+					ease: 'power2.out',
+					delay,
+					scrollTrigger: {
+						trigger: progressBlock,
+						start: 'top 80%',
+						once: true
+					}
+				});
+			}
+
+			if (valueElement) {
+				const counter = { val: 0 };
+
+				gsap.to(counter, {
+					val: targetValue,
+					duration: 1.5,
+					ease: 'power2.out',
+					delay,
+					scrollTrigger: {
+						trigger: progressBlock,
+						start: 'top 80%',
+						once: true
+					},
+					onUpdate: () => {
+						valueElement.textContent = `${Math.round(counter.val)}%`;
+					}
+				});
+			}
+		});
 	}
 
 	// Effet de parallaxe léger sur les cercles de fond
@@ -430,6 +829,51 @@ import Layout from '../layouts/Layout.astro';
 		}
 		51%, 100% {
 			opacity: 0;
+		}
+	}
+
+	@keyframes marquee-left {
+		0% {
+			transform: translateX(0);
+		}
+		100% {
+			transform: translateX(-50%);
+		}
+	}
+
+	@keyframes marquee-right {
+		0% {
+			transform: translateX(-50%);
+		}
+		100% {
+			transform: translateX(0);
+		}
+	}
+
+	.animate-marquee-left {
+		animation: marquee-left 25s linear infinite;
+	}
+
+	.animate-marquee-right {
+		animation: marquee-right 25s linear infinite;
+	}
+
+	.animate-marquee-left:hover,
+	.animate-marquee-right:hover {
+		animation-play-state: paused;
+	}
+
+	.project-desc-clamp {
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		overflow: hidden;
+	}
+
+	@media (hover: none) and (pointer: coarse) {
+		.project-hover-overlay {
+			opacity: 1 !important;
+			transform: translateY(0) !important;
 		}
 	}
 
