@@ -617,30 +617,32 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 
 	/* FIX taille image : le conteneur s'adapte à l'image, pas l'inverse */
 	.lightbox-container {
-		position: relative;
-		z-index: 10;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		max-width: 92vw;
-		max-height: 88vh;
-	}
+	  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Espace réservé : ~60px navbar haut + ~90px thumbnails bas + marges */
+  max-width: 80vw;
+  max-height: calc(100vh - 180px);
+  margin-top: -30px; /* compense visuellement les thumbnails */
+}
 
 	/* FIX taille image : contraintes max uniquement, taille naturelle sinon */
 	.lightbox-image {
 		display: block;
-		max-width: 92vw;
-		max-height: 88vh;
-		width: auto;
-		height: auto;
-		object-fit: contain;
-		border-radius: 12px;
-		border: 1px solid rgba(208, 25, 208, 0.3);
-		box-shadow:
-			0 0 60px rgba(208, 25, 208, 0.2),
-			0 0 80px rgba(25, 116, 209, 0.15),
-			0 40px 80px rgba(0, 0, 0, 0.6);
-	}
+  max-width: 80vw;
+  max-height: calc(100vh - 180px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 12px;
+  border: 1px solid rgba(208, 25, 208, 0.3);
+  box-shadow:
+    0 0 60px rgba(208, 25, 208, 0.2),
+    0 0 80px rgba(25, 116, 209, 0.15),
+    0 40px 80px rgba(0, 0, 0, 0.6);
+}
 
 	.lightbox-close {
 		position: fixed;
