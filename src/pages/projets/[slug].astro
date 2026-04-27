@@ -294,7 +294,7 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 								<img 
 									src={url} 
 									alt={`${projet.titre} - Image ${index + 1}`}
-									class="w-full h-64 object-cover hover:scale-110 transition-transform duration-500"
+									class="w-full h-64 object-cover hover:scale-110 transition-transform duration-500 pointer-events-none"
 								/>
 							</div>
 						))}
@@ -355,57 +355,49 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 
 	<!-- LIGHTBOX HTML -->
 	<div id="lightbox" class="lightbox-overlay" aria-hidden="true" role="dialog" aria-modal="true">
-		<!-- Fond cliquable pour fermer -->
 		<div id="lightbox-backdrop" class="lightbox-backdrop"></div>
 
-		<!-- Conteneur image centré -->
 		<div id="lightbox-container" class="lightbox-container">
 			<img id="lightbox-img" src="" alt="" class="lightbox-image" />
-
-			<!-- Compteur -->
 			<div id="lightbox-counter" class="lightbox-counter">
 				<span id="lightbox-current">1</span> / <span id="lightbox-total">1</span>
 			</div>
 		</div>
 
-		<!-- Bouton fermer -->
 		<button id="lightbox-close" class="lightbox-close" aria-label="Fermer">
 			<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
 			</svg>
 		</button>
 
-		<!-- Bouton précédent -->
 		<button id="lightbox-prev" class="lightbox-nav lightbox-nav-prev" aria-label="Image précédente">
 			<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
 			</svg>
 		</button>
 
-		<!-- Bouton suivant -->
 		<button id="lightbox-next" class="lightbox-nav lightbox-nav-next" aria-label="Image suivante">
 			<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
 			</svg>
 		</button>
 
-		<!-- Thumbnails en bas -->
 		<div id="lightbox-thumbs" class="lightbox-thumbs"></div>
 	</div>
 </Layout>
 
 <script>
 	import { gsap } from 'gsap';
-	// Animation au scroll avec déclenchement progressif
+
+	// Animation au scroll
 	const observerOptions = {
-		threshold: 0.2, // L'élément doit être visible à 20% avant de déclencher
-		rootMargin: '0px 0px -50px 0px' // Déclenche un peu avant que l'élément soit totalement visible
+		threshold: 0.2,
+		rootMargin: '0px 0px -50px 0px'
 	};
 
 	const observer = new IntersectionObserver((entries) => {
 		entries.forEach(entry => {
 			if (entry.isIntersecting) {
-				// Petit délai pour une animation plus naturelle
 				setTimeout(() => {
 					entry.target.classList.add('animate-fade-in');
 				}, 50);
@@ -417,7 +409,6 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 	document.addEventListener('DOMContentLoaded', () => {
 		const elements = document.querySelectorAll('.scroll-reveal');
 		elements.forEach((el, index) => {
-			// Ajouter un délai progressif pour chaque élément
 			if (el instanceof HTMLElement) {
 				el.style.transitionDelay = `${index * 0.1}s`;
 			}
@@ -437,7 +428,6 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 		const lightboxContainer = document.getElementById('lightbox-container');
 
 		if (lightbox && lightboxImg) {
-			// Collecter toutes les images de la galerie
 			const galleryItems = document.querySelectorAll('.gallery-item');
 			const images: { src: string; alt: string }[] = [];
 			let currentLightboxIndex = 0;
@@ -449,28 +439,34 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 
 				images.push({ src: img.src, alt: img.alt });
 
-				// Créer le thumbnail
+				// Thumbnail
 				const thumb = document.createElement('img');
 				thumb.src = img.src;
 				thumb.alt = img.alt;
 				thumb.className = 'lightbox-thumb';
 				thumb.dataset.index = index.toString();
-				thumb.addEventListener('click', () => openLightbox(index));
+				thumb.addEventListener('click', (e) => {
+					e.stopPropagation();
+					openLightbox(index);
+				});
 				lightboxThumbsContainer?.appendChild(thumb);
 
-				// Ouvrir la lightbox au clic sur la gallery-item
-				item.addEventListener('click', () => openLightbox(index));
+				// FIX bug double ouverture : stopPropagation sur l'item
+				item.addEventListener('click', (e) => {
+					e.stopPropagation();
+					openLightbox(index);
+				});
 
-				// Changer le cursor en pointer
-				(item as HTMLElement).style.cursor = 'pointer';
+				// FIX bug double ouverture : bloquer le clic sur l'img enfant
+				img.addEventListener('click', (e) => {
+					e.stopPropagation();
+				});
 			});
 
-			// Marquer comme single si une seule image
 			if (images.length <= 1) {
 				lightbox.setAttribute('data-single', 'true');
 			}
 
-			// Mettre à jour le total
 			if (lightboxTotal) lightboxTotal.textContent = images.length.toString();
 
 			// ---- FONCTIONS ----
@@ -479,19 +475,15 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 				if (!lightbox || !lightboxImg) return;
 				currentLightboxIndex = index;
 
-				// Charger l'image
 				lightboxImg.src = images[index].src;
 				lightboxImg.alt = images[index].alt;
 
-				// Mettre à jour le compteur + thumbs
 				updateLightboxUI();
 
-				// Afficher l'overlay
 				lightbox.classList.add('is-open');
 				lightbox.setAttribute('aria-hidden', 'false');
 				document.body.classList.add('lightbox-is-open');
 
-				// Animation GSAP ouverture
 				gsap.killTweensOf([lightbox, lightboxContainer]);
 				gsap.fromTo(
 					lightbox,
@@ -508,7 +500,6 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 			function closeLightbox() {
 				if (!lightbox || !lightboxContainer) return;
 
-				// Animation GSAP fermeture
 				gsap.to(lightboxContainer, {
 					scale: 0.88,
 					opacity: 0,
@@ -534,7 +525,6 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 				if (images.length <= 1) return;
 				const newIndex = (currentLightboxIndex + direction + images.length) % images.length;
 
-				// Animation de transition image
 				if (lightboxContainer) {
 					const xFrom = direction > 0 ? 40 : -40;
 					gsap.to(lightboxContainer, {
@@ -561,35 +551,26 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 			}
 
 			function updateLightboxUI() {
-				// Compteur
 				if (lightboxCurrent) lightboxCurrent.textContent = (currentLightboxIndex + 1).toString();
 
-				// Boutons prev/next
 				if (lightboxPrev) lightboxPrev.disabled = false;
 				if (lightboxNext) lightboxNext.disabled = false;
 
-				// Thumbnails actifs
 				const thumbs = lightboxThumbsContainer?.querySelectorAll('.lightbox-thumb');
 				thumbs?.forEach((thumb, i) => {
 					thumb.classList.toggle('active', i === currentLightboxIndex);
 				});
 
-				// Scroll le thumbnail actif dans la vue
 				const activeThumb = lightboxThumbsContainer?.querySelector('.lightbox-thumb.active') as HTMLElement | null;
 				activeThumb?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
 			}
 
 			// ---- EVENT LISTENERS ----
-
-			// Fermer
 			lightboxClose?.addEventListener('click', closeLightbox);
 			lightboxBackdrop?.addEventListener('click', closeLightbox);
-
-			// Navigation
 			lightboxPrev?.addEventListener('click', () => navigateLightbox(-1));
 			lightboxNext?.addEventListener('click', () => navigateLightbox(1));
 
-			// Clavier
 			document.addEventListener('keydown', (e: KeyboardEvent) => {
 				if (!lightbox.classList.contains('is-open')) return;
 				if (e.key === 'Escape') closeLightbox();
@@ -597,7 +578,6 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 				if (e.key === 'ArrowRight') navigateLightbox(1);
 			});
 
-			// Swipe tactile
 			let touchStartX = 0;
 			lightbox.addEventListener('touchstart', (e: TouchEvent) => {
 				touchStartX = e.touches[0].clientX;
@@ -635,19 +615,22 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 		-webkit-backdrop-filter: blur(8px);
 	}
 
+	/* FIX taille image : le conteneur s'adapte à l'image, pas l'inverse */
 	.lightbox-container {
 		position: relative;
 		z-index: 10;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 90vw;
-		height: 85vh;
+		max-width: 92vw;
+		max-height: 88vh;
 	}
 
+	/* FIX taille image : contraintes max uniquement, taille naturelle sinon */
 	.lightbox-image {
-		max-width: 100%;
-		max-height: 100%;
+		display: block;
+		max-width: 92vw;
+		max-height: 88vh;
 		width: auto;
 		height: auto;
 		object-fit: contain;
@@ -718,7 +701,6 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 	.lightbox-nav-prev { left: 1.25rem; }
 	.lightbox-nav-next { right: 1.25rem; }
 
-	/* Sur desktop : décaler les boutons nav pour éviter chevauchement avec la croix */
 	@media (min-width: 768px) {
 		.lightbox-nav-prev { left: 2rem; }
 		.lightbox-nav-next { right: 2rem; }
@@ -774,12 +756,10 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 		box-shadow: 0 0 12px rgba(208, 25, 208, 0.4);
 	}
 
-	/* Empêcher le scroll du body quand la lightbox est ouverte */
 	body.lightbox-is-open {
 		overflow: hidden;
 	}
 
-	/* Masquer prev/next si une seule image */
 	.lightbox-overlay[data-single="true"] .lightbox-nav,
 	.lightbox-overlay[data-single="true"] .lightbox-thumbs,
 	.lightbox-overlay[data-single="true"] .lightbox-counter {
@@ -837,6 +817,7 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 
 	.gallery-item img {
 		display: block;
+		pointer-events: none; /* FIX : empêche l'img de capter les clics */
 	}
 
 	/* Styles pour les blocs d'informations */
