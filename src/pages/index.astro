@@ -367,6 +367,9 @@ import Layout from "../layouts/Layout.astro";
                 { nom: "After Effects", logo: "/logos/after-effects.svg" },
                 { nom: "Figma", logo: "/logos/figma.svg" },
                 { nom: "GitHub", logo: "/logos/github.svg" },
+                { nom: "Claude", logo: "/logos/claude.svg" },
+                { nom: "ChatGPT", logo: "/logos/chatgpt.svg" },
+                { nom: "Gemini", logo: "/logos/gemini.svg" },
                 { nom: "JavaScript", logo: "/logos/javascript.svg" },
                 { nom: "CSS", logo: "/logos/html-css.svg" },
                 { nom: "HTML", logo: "/logos/html-css.svg" },
@@ -884,9 +887,9 @@ import Layout from "../layouts/Layout.astro";
             <p
               class="text-gray-400 text-sm leading-relaxed max-w-sm mt-4 mx-auto lg:mx-0"
             >
-              Je suis à la recherche d'une opportunité d'alternance et je reste ouvert aux
-              collaborations créatives. N'hésite pas à me contacter, je
-              réponds sous 24h.
+              Je suis à la recherche d'une opportunité d'alternance et je reste
+              ouvert aux collaborations créatives. N'hésite pas à me contacter,
+              je réponds sous 24h.
             </p>
           </div>
 
@@ -1519,9 +1522,11 @@ import Layout from "../layouts/Layout.astro";
         }
 
         if (!hasError) {
-          const submitBtn = document.getElementById("btn-submit") as HTMLButtonElement | null;
+          const submitBtn = document.getElementById(
+            "btn-submit",
+          ) as HTMLButtonElement | null;
           const originalBtnContent = submitBtn ? submitBtn.innerHTML : "";
-          
+
           if (submitBtn) {
             submitBtn.disabled = true;
             submitBtn.innerHTML = `
@@ -1536,13 +1541,21 @@ import Layout from "../layouts/Layout.astro";
           }
 
           const formData = {
-            prenom: (document.getElementById("input-prenom") as HTMLInputElement).value,
-            nom: (document.getElementById("input-nom") as HTMLInputElement).value,
-            email: (document.getElementById("input-email") as HTMLInputElement).value,
-            telephone: (document.getElementById("input-tel") as HTMLInputElement).value || "",
+            prenom: (
+              document.getElementById("input-prenom") as HTMLInputElement
+            ).value,
+            nom: (document.getElementById("input-nom") as HTMLInputElement)
+              .value,
+            email: (document.getElementById("input-email") as HTMLInputElement)
+              .value,
+            telephone:
+              (document.getElementById("input-tel") as HTMLInputElement)
+                .value || "",
             sujet: "autre",
-            message: (document.getElementById("input-message") as HTMLTextAreaElement).value,
-            statut: "nouveau"
+            message: (
+              document.getElementById("input-message") as HTMLTextAreaElement
+            ).value,
+            statut: "nouveau",
           };
 
           try {
@@ -1550,7 +1563,9 @@ import Layout from "../layouts/Layout.astro";
             showSuccessState();
           } catch (error) {
             console.error("Erreur lors de l'envoi:", error);
-            alert("Une erreur s'est produite lors de l'envoi du message. Veuillez réessayer.");
+            alert(
+              "Une erreur s'est produite lors de l'envoi du message. Veuillez réessayer.",
+            );
             if (submitBtn) {
               submitBtn.disabled = false;
               submitBtn.innerHTML = originalBtnContent;

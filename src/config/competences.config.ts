@@ -72,6 +72,29 @@ export const competences: Competence[] = [
     categorie: 'dev'
   },
   {
+    nom: 'Claude',
+    logo: '/logos/claude.svg',
+    taille: 'medium',
+    couleur: '#7d7d7dff',
+    categorie: 'dev'
+  },
+  {
+    nom: 'ChatGPT',
+    logo: '/logos/chatgpt.svg',
+    taille: 'small',
+    couleur: '#E572B0ff',
+    categorie: 'dev'
+  },
+  {
+    nom: 'Gemini',
+    logo: '/logos/gemini.svg',
+    taille: 'small',
+    couleur: '#E572B0ff',
+    categorie: 'dev'
+  },
+
+
+  {
     nom: 'HTML/CSS',
     logo: '/logos/html-css.svg',
     taille: 'small',
