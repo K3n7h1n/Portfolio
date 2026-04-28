@@ -353,8 +353,8 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 		</div>
 	</section>
 
-	<!-- LIGHTBOX HTML — dialog natif : unique dans le DOM, pas de doublon possible -->
-	<dialog id="lightbox" class="lightbox-dialog" aria-label="Visionneuse d'images">
+	<!-- LIGHTBOX HTML — div classique pour éviter les doublons du dialog natif -->
+	<div id="lightbox" class="lightbox-dialog" aria-label="Visionneuse d'images" aria-modal="true" role="dialog" tabindex="-1">
 		<!-- Backdrop cliquable pour fermer -->
 		<div id="lightbox-backdrop" class="lightbox-backdrop"></div>
 
@@ -384,7 +384,7 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 		</button>
 
 		<div id="lightbox-thumbs" class="lightbox-thumbs"></div>
-	</dialog>
+	</div>
 </Layout>
 
 <script>
@@ -405,9 +405,9 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 		scrollObserver.observe(el);
 	});
 
-	// ===== LIGHTBOX — dialog natif =====
-	// Le <dialog> est unique dans le DOM par nature : impossible d'en avoir deux.
-	const lightbox        = document.getElementById('lightbox') as HTMLDialogElement | null;
+	// ===== LIGHTBOX =====
+	// Remplacement du dialog natif par un div pour éviter les conflits CSS/DaisyUI (doublon de fenêtres)
+	const lightbox        = document.getElementById('lightbox') as HTMLDivElement | null;
 	const lightboxImg     = document.getElementById('lightbox-img') as HTMLImageElement | null;
 	const lightboxBackdrop        = document.getElementById('lightbox-backdrop');
 	const lightboxClose           = document.getElementById('lightbox-close');
@@ -454,8 +454,8 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 		lightboxImg!.alt = images[index].alt;
 		updateUI();
 
-		// showModal() est natif : si le dialog est déjà ouvert il ne fait rien
-		lightbox!.showModal();
+		// Affichage avec style flex au lieu de showModal() pour éviter les conflits
+		lightbox!.style.display = 'flex';
 		document.body.classList.add('lightbox-is-open');
 
 		gsap.killTweensOf([lightbox, lightboxContainer]);
@@ -471,7 +471,7 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 		gsap.to(lightbox, {
 			opacity: 0, duration: 0.3, ease: 'power2.in', delay: 0.05,
 			onComplete: () => {
-				lightbox!.close();
+				lightbox!.style.display = 'none';
 				document.body.classList.remove('lightbox-is-open');
 				lightboxImg!.src = '';
 			}
@@ -514,8 +514,9 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 	lightboxPrev?.addEventListener('click', () => navigate(-1));
 	lightboxNext?.addEventListener('click', () => navigate(1));
 
-	// Fermeture via Escape natif du dialog ou flèches
-	lightbox.addEventListener('keydown', (e: KeyboardEvent) => {
+	// Navigation clavier globale
+	window.addEventListener('keydown', (e: KeyboardEvent) => {
+		if (lightbox!.style.display !== 'flex') return;
 		if (e.key === 'Escape')     { e.preventDefault(); closeLightbox(); }
 		if (e.key === 'ArrowLeft')  navigate(-1);
 		if (e.key === 'ArrowRight') navigate(1);
@@ -532,9 +533,8 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 <style>
 	/* ===== LIGHTBOX — dialog natif ===== */
 
-	/* Reset du dialog natif */
+	/* Reset du conteneur classique */
 	.lightbox-dialog {
-		/* Le dialog natif est centré automatiquement par le navigateur */
 		position: fixed;
 		inset: 0;
 		margin: auto;
@@ -552,18 +552,7 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 		opacity: 0; /* géré par GSAP */
 	}
 
-	/* Quand le dialog est ouvert (attribut open posé par showModal()) */
-	.lightbox-dialog[open] {
-		display: flex;
-	}
-
-	/* Backdrop natif du dialog — masqué, on utilise uniquement le nôtre */
-	.lightbox-dialog::backdrop {
-		display: none;
-		background: transparent;
-	}
-
-	/* Notre backdrop personnalisé — couvre tout le dialog */
+	/* Notre backdrop personnalisé — couvre tout le container */
 	.lightbox-backdrop {
 		position: absolute;
 		inset: 0;
@@ -581,16 +570,20 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		padding: 5dvh 10vw; /* Marge pour être plus petit que l'écran */
+		width: 100vw;
+		height: 100dvh;
 	}
 
-	/* Image : 80% max de l'écran, proportions naturelles, jamais déformée */
+	/* Image : respecte le padding du conteneur, proportions naturelles (contain), jamais déformée */
 	.lightbox-image {
 		display: block;
-		max-width: 80vw;
-		max-height: 80dvh;
+		max-width: 100%;
+		max-height: 100%;
 		width: auto;
 		height: auto;
 		object-fit: contain;
+		flex-shrink: 1;
 		border-radius: 12px;
 		border: 1px solid rgba(208, 25, 208, 0.3);
 		box-shadow:
