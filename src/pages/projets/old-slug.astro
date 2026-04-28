@@ -389,166 +389,221 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 <script>
 	import { gsap } from 'gsap';
 
-	// ============================================================
-	// GUARD ABSOLU : on marque le lightbox dans le DOM lui-même.
-	// Si l'élément #lightbox porte déjà data-lb-ready="1",
-	// c'est qu'on a déjà tout branché → on sort immédiatement.
-	// Cela résiste aux modules ES réutilisés, HMR, et tout
-	// scénario où le script s'exécute plus d'une fois sur le
-	// même DOM.
-	// ============================================================
-	const lightboxEl = document.getElementById('lightbox');
-	if (lightboxEl && lightboxEl.dataset.lbReady === '1') {
-		// déjà initialisé, on ne fait rien
-	} else if (lightboxEl) {
-		lightboxEl.dataset.lbReady = '1';
-		init();
-	}
+	// Animation au scroll
+	const observerOptions = {
+		threshold: 0.2,
+		rootMargin: '0px 0px -50px 0px'
+	};
 
-	function init() {
-		// ===== Animation au scroll =====
-		const observer = new IntersectionObserver((entries) => {
-			entries.forEach(entry => {
-				if (entry.isIntersecting) {
-					setTimeout(() => entry.target.classList.add('animate-fade-in'), 50);
-					observer.unobserve(entry.target);
-				}
-			});
-		}, { threshold: 0.2, rootMargin: '0px 0px -50px 0px' });
+	const observer = new IntersectionObserver((entries) => {
+		entries.forEach(entry => {
+			if (entry.isIntersecting) {
+				setTimeout(() => {
+					entry.target.classList.add('animate-fade-in');
+				}, 50);
+				observer.unobserve(entry.target);
+			}
+		});
+	}, observerOptions);
 
-		document.querySelectorAll('.scroll-reveal').forEach((el, index) => {
-			if (el instanceof HTMLElement) el.style.transitionDelay = `${index * 0.1}s`;
+	function initPage() {
+		// ===== GUARD: évite la double initialisation (View Transitions / HMR) =====
+		if ((window as any).__lightboxInitialized) return;
+		(window as any).__lightboxInitialized = true;
+
+		const elements = document.querySelectorAll('.scroll-reveal');
+		elements.forEach((el, index) => {
+			if (el instanceof HTMLElement) {
+				el.style.transitionDelay = `${index * 0.1}s`;
+			}
 			observer.observe(el);
 		});
 
 		// ===== LIGHTBOX =====
-		const lightbox       = document.getElementById('lightbox')!;
-		const lightboxImg    = document.getElementById('lightbox-img') as HTMLImageElement;
-		const lightboxBackdrop       = document.getElementById('lightbox-backdrop');
-		const lightboxClose          = document.getElementById('lightbox-close');
-		const lightboxPrev           = document.getElementById('lightbox-prev') as HTMLButtonElement;
-		const lightboxNext           = document.getElementById('lightbox-next') as HTMLButtonElement;
-		const lightboxCurrent        = document.getElementById('lightbox-current');
-		const lightboxTotal          = document.getElementById('lightbox-total');
+		const lightbox = document.getElementById('lightbox');
+		const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement | null;
+		const lightboxBackdrop = document.getElementById('lightbox-backdrop');
+		const lightboxClose = document.getElementById('lightbox-close');
+		const lightboxPrev = document.getElementById('lightbox-prev') as HTMLButtonElement | null;
+		const lightboxNext = document.getElementById('lightbox-next') as HTMLButtonElement | null;
+		const lightboxCurrent = document.getElementById('lightbox-current');
+		const lightboxTotal = document.getElementById('lightbox-total');
 		const lightboxThumbsContainer = document.getElementById('lightbox-thumbs');
-		const lightboxContainer      = document.getElementById('lightbox-container');
+		const lightboxContainer = document.getElementById('lightbox-container');
 
-		const galleryItems = document.querySelectorAll('.gallery-item');
-		const images: { src: string; alt: string }[] = [];
-		let currentIndex = 0;
+		if (lightbox && lightboxImg) {
+			const galleryItems = document.querySelectorAll('.gallery-item');
+			const images: { src: string; alt: string }[] = [];
+			let currentLightboxIndex = 0;
 
-		// Vider les thumbnails existants (au cas où) et reconstruire
-		if (lightboxThumbsContainer) lightboxThumbsContainer.innerHTML = '';
+			// Construire le tableau d'images et les thumbnails
+			galleryItems.forEach((item, index) => {
+				const img = item.querySelector('img') as HTMLImageElement | null;
+				if (!img) return;
 
-		galleryItems.forEach((item, index) => {
-			const img = item.querySelector('img') as HTMLImageElement | null;
-			if (!img) return;
+				images.push({ src: img.src, alt: img.alt });
 
-			images.push({ src: img.src, alt: img.alt });
+				// Thumbnail
+				const thumb = document.createElement('img');
+				thumb.src = img.src;
+				thumb.alt = img.alt;
+				thumb.className = 'lightbox-thumb';
+				thumb.dataset.index = index.toString();
+				thumb.addEventListener('click', (e) => {
+					e.stopPropagation();
+					openLightbox(index);
+				});
+				lightboxThumbsContainer?.appendChild(thumb);
 
-			// Thumbnail
-			const thumb = document.createElement('img');
-			thumb.src = img.src;
-			thumb.alt = img.alt;
-			thumb.className = 'lightbox-thumb';
-			thumb.dataset.index = String(index);
-			thumb.addEventListener('click', (e) => { e.stopPropagation(); openLightbox(index); });
-			lightboxThumbsContainer?.appendChild(thumb);
+				// FIX bug double ouverture : stopPropagation sur l'item
+				item.addEventListener('click', (e) => {
+					e.stopPropagation();
+					openLightbox(index);
+				});
 
-			// Clic sur la carte — on utilise un attribut pour éviter d'ajouter
-			// plusieurs fois le même listener si le script était rappelé
-			if (!item.dataset.lbBound) {
-				item.dataset.lbBound = '1';
-				item.addEventListener('click', (e) => { e.stopPropagation(); openLightbox(index); });
+				// FIX bug double ouverture : bloquer le clic sur l'img enfant
+				img.addEventListener('click', (e) => {
+					e.stopPropagation();
+				});
+			});
+
+			if (images.length <= 1) {
+				lightbox.setAttribute('data-single', 'true');
 			}
-		});
 
-		if (images.length <= 1) lightbox.setAttribute('data-single', 'true');
-		if (lightboxTotal) lightboxTotal.textContent = String(images.length);
+			if (lightboxTotal) lightboxTotal.textContent = images.length.toString();
 
-		// ---- Fonctions ----
+			// ---- FONCTIONS ----
 
-		function openLightbox(index: number) {
-			currentIndex = index;
-			lightboxImg.src = images[index].src;
-			lightboxImg.alt = images[index].alt;
-			updateUI();
+			function openLightbox(index: number) {
+				if (!lightbox || !lightboxImg) return;
+				currentLightboxIndex = index;
 
-			lightbox.classList.add('is-open');
-			lightbox.setAttribute('aria-hidden', 'false');
-			document.body.classList.add('lightbox-is-open');
+				lightboxImg.src = images[index].src;
+				lightboxImg.alt = images[index].alt;
 
-			gsap.killTweensOf([lightbox, lightboxContainer]);
-			gsap.fromTo(lightbox, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' });
-			gsap.fromTo(lightboxContainer,
-				{ scale: 0.82, opacity: 0, y: 20 },
-				{ scale: 1, opacity: 1, y: 0, duration: 0.4, ease: 'back.out(1.4)', delay: 0.05 }
-			);
-		}
+				updateLightboxUI();
 
-		function closeLightbox() {
-			gsap.to(lightboxContainer, { scale: 0.88, opacity: 0, y: 10, duration: 0.25, ease: 'power2.in' });
-			gsap.to(lightbox, {
-				opacity: 0, duration: 0.3, ease: 'power2.in', delay: 0.05,
-				onComplete: () => {
-					lightbox.classList.remove('is-open');
-					lightbox.setAttribute('aria-hidden', 'true');
-					document.body.classList.remove('lightbox-is-open');
-					lightboxImg.src = '';
+				lightbox.classList.add('is-open');
+				lightbox.setAttribute('aria-hidden', 'false');
+				document.body.classList.add('lightbox-is-open');
+
+				gsap.killTweensOf([lightbox, lightboxContainer]);
+				gsap.fromTo(
+					lightbox,
+					{ opacity: 0 },
+					{ opacity: 1, duration: 0.3, ease: 'power2.out' }
+				);
+				gsap.fromTo(
+					lightboxContainer,
+					{ scale: 0.82, opacity: 0, y: 20 },
+					{ scale: 1, opacity: 1, y: 0, duration: 0.4, ease: 'back.out(1.4)', delay: 0.05 }
+				);
+			}
+
+			function closeLightbox() {
+				if (!lightbox || !lightboxContainer) return;
+
+				gsap.to(lightboxContainer, {
+					scale: 0.88,
+					opacity: 0,
+					y: 10,
+					duration: 0.25,
+					ease: 'power2.in'
+				});
+				gsap.to(lightbox, {
+					opacity: 0,
+					duration: 0.3,
+					ease: 'power2.in',
+					delay: 0.05,
+					onComplete: () => {
+						lightbox.classList.remove('is-open');
+						lightbox.setAttribute('aria-hidden', 'true');
+						document.body.classList.remove('lightbox-is-open');
+						if (lightboxImg) lightboxImg.src = '';
+					}
+				});
+			}
+
+			function navigateLightbox(direction: number) {
+				if (images.length <= 1) return;
+				const newIndex = (currentLightboxIndex + direction + images.length) % images.length;
+
+				if (lightboxContainer) {
+					const xFrom = direction > 0 ? 40 : -40;
+					gsap.to(lightboxContainer, {
+						opacity: 0,
+						x: -xFrom,
+						scale: 0.95,
+						duration: 0.18,
+						ease: 'power2.in',
+						onComplete: () => {
+							currentLightboxIndex = newIndex;
+							if (lightboxImg) {
+								lightboxImg.src = images[newIndex].src;
+								lightboxImg.alt = images[newIndex].alt;
+							}
+							updateLightboxUI();
+							gsap.fromTo(
+								lightboxContainer,
+								{ opacity: 0, x: xFrom, scale: 0.95 },
+								{ opacity: 1, x: 0, scale: 1, duration: 0.22, ease: 'power2.out' }
+							);
+						}
+					});
 				}
+			}
+
+			function updateLightboxUI() {
+				if (lightboxCurrent) lightboxCurrent.textContent = (currentLightboxIndex + 1).toString();
+
+				if (lightboxPrev) lightboxPrev.disabled = false;
+				if (lightboxNext) lightboxNext.disabled = false;
+
+				const thumbs = lightboxThumbsContainer?.querySelectorAll('.lightbox-thumb');
+				thumbs?.forEach((thumb, i) => {
+					thumb.classList.toggle('active', i === currentLightboxIndex);
+				});
+
+				const activeThumb = lightboxThumbsContainer?.querySelector('.lightbox-thumb.active') as HTMLElement | null;
+				activeThumb?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+			}
+
+			// ---- EVENT LISTENERS ----
+			lightboxClose?.addEventListener('click', closeLightbox);
+			lightboxBackdrop?.addEventListener('click', closeLightbox);
+			lightboxPrev?.addEventListener('click', () => navigateLightbox(-1));
+			lightboxNext?.addEventListener('click', () => navigateLightbox(1));
+
+			document.addEventListener('keydown', (e: KeyboardEvent) => {
+				if (!lightbox.classList.contains('is-open')) return;
+				if (e.key === 'Escape') closeLightbox();
+				if (e.key === 'ArrowLeft') navigateLightbox(-1);
+				if (e.key === 'ArrowRight') navigateLightbox(1);
 			});
+
+			let touchStartX = 0;
+			lightbox.addEventListener('touchstart', (e: TouchEvent) => {
+				touchStartX = e.touches[0].clientX;
+			}, { passive: true });
+			lightbox.addEventListener('touchend', (e: TouchEvent) => {
+				const diff = touchStartX - e.changedTouches[0].clientX;
+				if (Math.abs(diff) > 50) navigateLightbox(diff > 0 ? 1 : -1);
+			}, { passive: true });
 		}
-
-		function navigate(direction: number) {
-			if (images.length <= 1) return;
-			const newIndex = (currentIndex + direction + images.length) % images.length;
-			const xFrom = direction > 0 ? 40 : -40;
-			gsap.to(lightboxContainer, {
-				opacity: 0, x: -xFrom, scale: 0.95, duration: 0.18, ease: 'power2.in',
-				onComplete: () => {
-					currentIndex = newIndex;
-					lightboxImg.src = images[newIndex].src;
-					lightboxImg.alt = images[newIndex].alt;
-					updateUI();
-					gsap.fromTo(lightboxContainer,
-						{ opacity: 0, x: xFrom, scale: 0.95 },
-						{ opacity: 1, x: 0, scale: 1, duration: 0.22, ease: 'power2.out' }
-					);
-				}
-			});
-		}
-
-		function updateUI() {
-			if (lightboxCurrent) lightboxCurrent.textContent = String(currentIndex + 1);
-			if (lightboxPrev) lightboxPrev.disabled = false;
-			if (lightboxNext) lightboxNext.disabled = false;
-			lightboxThumbsContainer?.querySelectorAll('.lightbox-thumb').forEach((t, i) => {
-				t.classList.toggle('active', i === currentIndex);
-			});
-			const active = lightboxThumbsContainer?.querySelector('.lightbox-thumb.active') as HTMLElement | null;
-			active?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-		}
-
-		// ---- Listeners (attachés une seule fois grâce au guard data-lb-ready) ----
-		lightboxClose?.addEventListener('click', closeLightbox);
-		lightboxBackdrop?.addEventListener('click', closeLightbox);
-		lightboxPrev?.addEventListener('click', () => navigate(-1));
-		lightboxNext?.addEventListener('click', () => navigate(1));
-
-		document.addEventListener('keydown', (e: KeyboardEvent) => {
-			if (!lightbox.classList.contains('is-open')) return;
-			if (e.key === 'Escape')     closeLightbox();
-			if (e.key === 'ArrowLeft')  navigate(-1);
-			if (e.key === 'ArrowRight') navigate(1);
-		});
-
-		let touchStartX = 0;
-		lightbox.addEventListener('touchstart', (e: TouchEvent) => { touchStartX = e.touches[0].clientX; }, { passive: true });
-		lightbox.addEventListener('touchend',   (e: TouchEvent) => {
-			const diff = touchStartX - e.changedTouches[0].clientX;
-			if (Math.abs(diff) > 50) navigate(diff > 0 ? 1 : -1);
-		}, { passive: true });
 	}
+
+	// Compatibilité DOMContentLoaded + Astro View Transitions
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initPage);
+	} else {
+		initPage();
+	}
+	// Réinitialisation propre à chaque navigation View Transitions
+	document.addEventListener('astro:page-load', () => {
+		(window as any).__lightboxInitialized = false;
+		initPage();
+	});
 </script>
 
 <style>
