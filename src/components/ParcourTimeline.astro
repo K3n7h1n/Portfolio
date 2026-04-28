@@ -1,0 +1,800 @@
+---
+// ParcourTimeline.astro
+// Timeline immersive scroll-pinned avec barre de progression néon
+// Utilise Anime.js pour les animations synchronisées au scroll
+
+const steps = [
+  {
+    percent: 0,
+    year: "2019",
+    color: "pink",
+    label: "Les débuts",
+    description:
+      "Découverte de la typographie et premières créations graphiques. Naissance d'une passion pour le design visuel.",
+    icon: "✏️",
+  },
+  {
+    percent: 20,
+    year: "2020",
+    color: "blue",
+    label: "Premier Code",
+    description:
+      "Intérêt croissant pour le développement web. Premières lignes de HTML, CSS et JavaScript.",
+    icon: "💻",
+  },
+  {
+    percent: 40,
+    year: "2021",
+    color: "pink",
+    label: "Projets perso",
+    description:
+      "Réalisation des premiers projets personnels et exploration approfondie du design UI/UX.",
+    icon: "🎨",
+  },
+  {
+    percent: 60,
+    year: "2024",
+    color: "blue",
+    label: "Entrée en MMI",
+    description:
+      "Intégration du BUT MMI. Découverte approfondie du design, de la communication et du développement web avancé.",
+    icon: "🎓",
+  },
+  {
+    percent: 80,
+    year: "2025",
+    color: "pink",
+    label: "Projets & Portfolio",
+    description:
+      "Réalisation de projets associatifs et audiovisuels professionnels. Construction d'un portfolio complet.",
+    icon: "🚀",
+  },
+  {
+    percent: 100,
+    year: "2026",
+    color: "blue",
+    label: "Motion Design & Stage",
+    description:
+      "Réalisation de logos et animations en motion design. Premier stage : découverte du monde du travail dans le numérique et du travail d'équipe en entreprise.",
+    icon: "🎬",
+  },
+];
+---
+
+<!-- Wrapper haute qui accumule le scroll -->
+<div id="parcours-scroll-wrapper" class="parcours-scroll-wrapper">
+  <!-- Panneau sticky plein écran -->
+  <div id="parcours-sticky-panel" class="parcours-sticky-panel">
+    <!-- Fond avec particules -->
+    <div class="parcours-bg-grid" aria-hidden="true"></div>
+
+    <!-- Halo ambiant animé -->
+    <div class="parcours-halo parcours-halo-pink" aria-hidden="true"></div>
+    <div class="parcours-halo parcours-halo-blue" aria-hidden="true"></div>
+
+    <!-- Contenu principal -->
+    <div class="parcours-inner">
+      <!-- En-tête -->
+      <header class="parcours-header">
+        <h2 class="parcours-title">
+          <span class="parcours-title-white">MON </span>
+          <span class="parcours-title-pink">PARCOURS</span>
+        </h2>
+        <p class="parcours-subtitle">Faites défiler pour explorer mon évolution</p>
+      </header>
+
+      <!-- Barre de progression globale -->
+      <div class="parcours-progress-container" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="parcours-progress-bar-container">
+        <div class="parcours-progress-track">
+          <!-- Barre remplie -->
+          <div id="parcours-progress-fill" class="parcours-progress-fill"></div>
+          <!-- Curseur lumineux -->
+          <div id="parcours-progress-cursor" class="parcours-progress-cursor">
+            <div class="parcours-cursor-glow"></div>
+          </div>
+        </div>
+        <!-- Pourcentage affiché -->
+        <div id="parcours-percent-label" class="parcours-percent-label">0%</div>
+      </div>
+
+      <!-- Étapes de la timeline -->
+      <div class="parcours-steps">
+        {
+          steps.map((step, i) => (
+            <div
+              class={`parcours-step parcours-step--${step.color}`}
+              id={`parcours-step-${i}`}
+              data-percent={step.percent}
+              aria-hidden="true"
+            >
+              <!-- Marqueur sur la barre -->
+              <div
+                class="parcours-step-marker"
+                style={`left: ${step.percent}%`}
+              >
+                <div class="parcours-step-dot">
+                  <span class="parcours-step-icon">{step.icon}</span>
+                </div>
+                <div class="parcours-step-year">{step.year}</div>
+              </div>
+
+              <!-- Carte de contenu -->
+              <div class="parcours-step-card" id={`parcours-card-${i}`}>
+                <div class="parcours-card-inner">
+                  <div class="parcours-card-tag">
+                    <span class="parcours-card-year-badge">{step.year}</span>
+                    <span class="parcours-card-label">{step.label}</span>
+                  </div>
+                  <p class="parcours-card-description">{step.description}</p>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      <!-- Indicateur de scroll -->
+      <div id="parcours-scroll-hint" class="parcours-scroll-hint">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Continuez à défiler</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { animate } from "animejs";
+
+  // ─── Config ───────────────────────────────────────────────────────────────
+  const steps = [
+    { percent: 0,   year: "2019", color: "pink" },
+    { percent: 20,  year: "2020", color: "blue" },
+    { percent: 40,  year: "2021", color: "pink" },
+    { percent: 60,  year: "2024", color: "blue" },
+    { percent: 80,  year: "2025", color: "pink" },
+    { percent: 100, year: "2026", color: "blue" },
+  ];
+
+  // ─── Éléments ─────────────────────────────────────────────────────────────
+  const wrapper   = document.getElementById("parcours-scroll-wrapper") as HTMLElement;
+  const panel     = document.getElementById("parcours-sticky-panel")   as HTMLElement;
+  const fill      = document.getElementById("parcours-progress-fill")  as HTMLElement;
+  const cursor    = document.getElementById("parcours-progress-cursor") as HTMLElement;
+  const label     = document.getElementById("parcours-percent-label")  as HTMLElement;
+  const hint      = document.getElementById("parcours-scroll-hint")    as HTMLElement;
+  const progressBarContainer = document.getElementById("parcours-progress-bar-container") as HTMLElement;
+
+  if (!wrapper || !panel || !fill || !cursor || !label) {
+    console.warn("ParcourTimeline: éléments manquants");
+  } else {
+    // ─── État ─────────────────────────────────────────────────────────────
+    let activeStepIndex = -1;   // index de la carte actuellement visible
+    let isTransitioning = false; // verrou pendant les animations de transition
+    const activatedDots = new Set<number>(); // dots déjà apparus (ne disparaissent pas)
+
+    // ─── Calcul du scroll ─────────────────────────────────────────────────
+    function getScrollProgress(): number {
+      const rect    = wrapper.getBoundingClientRect();
+      const wHeight = window.innerHeight;
+      const total   = wrapper.offsetHeight - wHeight;
+      const scrolled = -rect.top;
+      return Math.max(0, Math.min(1, scrolled / total));
+    }
+
+    // ─── Mise à jour de la barre et du label ──────────────────────────────
+    function updateBar(pct: number) {
+      fill.style.width  = `${pct}%`;
+      cursor.style.left = `${pct}%`;
+      label.textContent = `${Math.round(pct)}%`;
+      if (progressBarContainer) {
+        progressBarContainer.setAttribute("aria-valuenow", String(Math.round(pct)));
+      }
+      const hue = Math.round(300 - pct * 1.2);
+      fill.style.background = `linear-gradient(90deg, #d019d0, hsl(${hue}, 90%, 60%))`;
+    }
+
+    // ─── Déterminer l'index actif selon le % ──────────────────────────────
+    function getTargetIndex(pct: number): number {
+      let idx = -1;
+      steps.forEach((step, i) => {
+        if (pct >= step.percent - 1) idx = i;
+      });
+      return idx;
+    }
+
+    // ─── Cacher la carte d'un index (out animé) ───────────────────────────
+    function hideCard(index: number, onDone?: () => void) {
+      const card = document.getElementById(`parcours-card-${index}`) as HTMLElement;
+      if (!card || card.style.display === "none") {
+        onDone?.();
+        return;
+      }
+      animate(card, {
+        opacity:    [1, 0],
+        translateY: [0, -24],
+        scale:      [1, 0.94],
+        duration:   280,
+        ease:       "inCubic",
+        onComplete: () => {
+          card.style.display = "none";
+          onDone?.();
+        },
+      });
+    }
+
+    // ─── Afficher la carte d'un index (in animé) ──────────────────────────
+    function showCard(index: number, fromBelow = true) {
+      const card = document.getElementById(`parcours-card-${index}`) as HTMLElement;
+      if (!card) return;
+      card.style.display = "block";
+      animate(card, {
+        opacity:    [0, 1],
+        translateY: [fromBelow ? 28 : -28, 0],
+        scale:      [0.93, 1],
+        duration:   380,
+        ease:       "outCubic",
+      });
+    }
+
+    // ─── Activer le dot d'un index ────────────────────────────────────────
+    function activateDot(index: number) {
+      if (activatedDots.has(index)) return;
+      activatedDots.add(index);
+      const step = document.getElementById(`parcours-step-${index}`) as HTMLElement;
+      const dot  = step?.querySelector(".parcours-step-dot") as HTMLElement;
+      if (dot) {
+        animate(dot, {
+          scale:   [0, 1],
+          opacity: [0, 1],
+          duration: 380,
+          ease:    "outBack(1.5)",
+        });
+      }
+    }
+
+    // ─── Désactiver le dot d'un index (scroll arrière) ────────────────────
+    function deactivateDot(index: number) {
+      if (!activatedDots.has(index)) return;
+      activatedDots.delete(index);
+      const step = document.getElementById(`parcours-step-${index}`) as HTMLElement;
+      const dot  = step?.querySelector(".parcours-step-dot") as HTMLElement;
+      if (dot) {
+        animate(dot, {
+          scale:   [1, 0],
+          opacity: [1, 0],
+          duration: 220,
+          ease:    "inCubic",
+        });
+      }
+    }
+
+    // ─── Transition vers un nouvel index ──────────────────────────────────
+    function transitionTo(targetIdx: number, scrollingForward: boolean) {
+      if (isTransitioning) return;
+      const prevIdx = activeStepIndex;
+      activeStepIndex = targetIdx;
+
+      // Activer/désactiver les dots selon la direction
+      if (scrollingForward) {
+        if (targetIdx >= 0) activateDot(targetIdx);
+      } else {
+        // En arrière : désactiver les dots qui ne sont plus atteints
+        steps.forEach((_, i) => {
+          if (i > targetIdx) deactivateDot(i);
+        });
+      }
+
+      if (prevIdx === targetIdx) return;
+
+      if (prevIdx === -1) {
+        // Première carte : juste afficher
+        if (targetIdx >= 0) showCard(targetIdx, scrollingForward);
+        return;
+      }
+
+      if (targetIdx === -1) {
+        // Plus aucune carte : cacher la précédente
+        hideCard(prevIdx);
+        return;
+      }
+
+      // Transition : cacher l'ancienne, puis afficher la nouvelle
+      isTransitioning = true;
+      hideCard(prevIdx, () => {
+        showCard(targetIdx, scrollingForward);
+        isTransitioning = false;
+      });
+    }
+
+    // ─── Gestion du panneau fixé (contourne overflow-x:hidden du body) ────
+    function updatePanelPosition() {
+      const rect    = wrapper.getBoundingClientRect();
+      const wHeight = window.innerHeight;
+
+      if (rect.top <= 0 && rect.bottom >= wHeight) {
+        if (!panel.classList.contains("is-fixed")) {
+          panel.classList.remove("is-done");
+          panel.classList.add("is-fixed");
+        }
+      } else if (rect.bottom < wHeight) {
+        if (!panel.classList.contains("is-done")) {
+          panel.classList.remove("is-fixed");
+          panel.classList.add("is-done");
+        }
+      } else {
+        panel.classList.remove("is-fixed", "is-done");
+      }
+    }
+
+    // ─── Hint disparaît au début du scroll ────────────────────────────────
+    let hintHidden = false;
+    function hideHint() {
+      if (hintHidden || !hint) return;
+      hintHidden = true;
+      animate(hint, { opacity: [1, 0], translateY: [0, 10], duration: 400, ease: "inCubic" });
+    }
+
+    // ─── Handler scroll principal ─────────────────────────────────────────
+    let rafId: number | null = null;
+    let lastPct = 0;
+
+    function onScroll() {
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+
+        updatePanelPosition();
+
+        const pct = getScrollProgress() * 100;
+        updateBar(pct);
+        if (pct > 2) hideHint();
+
+        const targetIdx      = getTargetIndex(pct);
+        const scrollForward  = pct >= lastPct;
+
+        if (targetIdx !== activeStepIndex) {
+          transitionTo(targetIdx, scrollForward);
+        }
+
+        lastPct = pct;
+      });
+    }
+
+    // ─── Init : cacher toutes les cartes et dots ──────────────────────────
+    steps.forEach((_, i) => {
+      const card = document.getElementById(`parcours-card-${i}`) as HTMLElement;
+      if (card) { card.style.display = "none"; card.style.opacity = "0"; }
+      const stepEl = document.getElementById(`parcours-step-${i}`) as HTMLElement;
+      const dot  = stepEl?.querySelector(".parcours-step-dot") as HTMLElement;
+      if (dot) { dot.style.opacity = "0"; dot.style.transform = "scale(0)"; }
+    });
+
+    // ─── Init : animer l'entrée du header et de la barre ─────────────────
+    const headerEl = panel.querySelector(".parcours-header") as HTMLElement;
+    if (headerEl) {
+      animate(headerEl, { opacity: [0, 1], translateY: [-30, 0], duration: 800, ease: "outCubic", delay: 200 });
+    }
+
+    if (progressBarContainer) {
+      animate(progressBarContainer, { opacity: [0, 1], scaleX: [0.6, 1], duration: 700, ease: "outCubic", delay: 400 });
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    onScroll();
+  }
+</script>
+
+<style>
+  /* ─── Wrapper scroll-pin ─────────────────────────────────────────── */
+  .parcours-scroll-wrapper {
+    position: relative;
+    height: 500vh;
+  }
+
+  /* ─── Panneau : fixed en JS, état initial absolu en haut ──────────── */
+  .parcours-sticky-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+    z-index: 40;
+  }
+
+  /* Quand le panneau est fixé via JS */
+  .parcours-sticky-panel.is-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  /* Quand le scroll est terminé : remettre absolu en bas du wrapper */
+  .parcours-sticky-panel.is-done {
+    position: absolute;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  /* ─── Grille de fond ─────────────────────────────────────────────── */
+  .parcours-bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(208,25,208,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(208,25,208,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  /* ─── Halos ─────────────────────────────────────────────────────── */
+  .parcours-halo {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(100px);
+    opacity: 0.18;
+  }
+
+  .parcours-halo-pink {
+    width: 500px;
+    height: 500px;
+    left: -10%;
+    top: 10%;
+    background: #d019d0;
+    animation: haloPulse 6s ease-in-out infinite;
+  }
+
+  .parcours-halo-blue {
+    width: 450px;
+    height: 450px;
+    right: -8%;
+    bottom: 15%;
+    background: #1974d1;
+    animation: haloPulse 7s ease-in-out infinite reverse;
+  }
+
+  @keyframes haloPulse {
+    0%, 100% { opacity: 0.12; transform: scale(1); }
+    50%       { opacity: 0.22; transform: scale(1.08); }
+  }
+
+  /* ─── Contenu interne ────────────────────────────────────────────── */
+  .parcours-inner {
+    position: relative;
+    z-index: 20;
+    width: 100%;
+    max-width: 900px;
+    padding: 0 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  /* ─── En-tête ────────────────────────────────────────────────────── */
+  .parcours-header {
+    text-align: center;
+  }
+
+  .parcours-title {
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    font-weight: 900;
+    line-height: 1;
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .parcours-title-white { color: #fff; }
+
+  .parcours-title-pink {
+    color: #d019d0;
+    text-shadow:
+      0 0 20px rgba(208,25,208,0.8),
+      0 0 60px rgba(208,25,208,0.4);
+  }
+
+  .parcours-subtitle {
+    color: rgba(255,255,255,0.45);
+    font-size: 0.95rem;
+    margin: 0;
+  }
+
+  /* ─── Barre de progression ───────────────────────────────────────── */
+  .parcours-progress-container {
+    width: 100%;
+    position: relative;
+    padding-bottom: 2rem; /* espace pour les marqueurs de step */
+  }
+
+  .parcours-progress-track {
+    position: relative;
+    height: 6px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 9999px;
+    overflow: visible;
+  }
+
+  .parcours-progress-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, #d019d0, #1974d1);
+    box-shadow: 0 0 16px rgba(208,25,208,0.6);
+    transition: width 0.05s linear;
+    will-change: width;
+  }
+
+  .parcours-progress-cursor {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(-50%, -50%);
+    width: 18px;
+    height: 18px;
+    transition: left 0.05s linear;
+    will-change: left;
+    z-index: 2;
+  }
+
+  .parcours-cursor-glow {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow:
+      0 0 0 3px rgba(208,25,208,0.6),
+      0 0 20px rgba(208,25,208,0.9),
+      0 0 40px rgba(208,25,208,0.4);
+    animation: cursorPulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes cursorPulse {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(208,25,208,0.6), 0 0 20px rgba(208,25,208,0.9), 0 0 40px rgba(208,25,208,0.4); }
+    50%       { box-shadow: 0 0 0 5px rgba(208,25,208,0.4), 0 0 30px rgba(208,25,208,1),   0 0 60px rgba(208,25,208,0.5); }
+  }
+
+  /* ─── Label % ────────────────────────────────────────────────────── */
+  .parcours-percent-label {
+    position: absolute;
+    right: 0;
+    top: -2rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.6);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.05em;
+  }
+
+  /* ─── Étapes ─────────────────────────────────────────────────────── */
+  .parcours-steps {
+    position: relative;
+    width: 100%;
+    height: 0; /* Les markers sont positionnés en absolute par rapport à la barre */
+  }
+
+  .parcours-step {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+  }
+
+  /* Marqueur sur la barre (point + année) */
+  .parcours-step-marker {
+    position: absolute;
+    top: -3.5rem; /* au-dessus de la barre de progression */
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .parcours-step-dot {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #000;
+    border: 2px solid rgba(208,25,208,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    opacity: 0;
+    transform: scale(0);
+    transition: border-color 0.3s;
+  }
+
+  .parcours-step--blue .parcours-step-dot {
+    border-color: rgba(25,116,209,0.5);
+  }
+
+  .parcours-step-icon {
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  .parcours-step-year {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  /* ─── Cartes de contenu ──────────────────────────────────────────── */
+  .parcours-step-card {
+    display: none;
+    position: absolute;
+    top: 4rem; /* Sous la barre */
+    width: 220px;
+    max-width: 80vw;
+  }
+
+  /* Positionnement des cartes selon leur % sur la barre (6 étapes) */
+  #parcours-step-0 .parcours-step-card { left: 0%;   transform: translateX(-5%); }
+  #parcours-step-1 .parcours-step-card { left: 20%;  transform: translateX(-35%); }
+  #parcours-step-2 .parcours-step-card { left: 40%;  transform: translateX(-45%); }
+  #parcours-step-3 .parcours-step-card { left: 60%;  transform: translateX(-55%); }
+  #parcours-step-4 .parcours-step-card { left: 80%;  transform: translateX(-65%); }
+  #parcours-step-5 .parcours-step-card { left: 100%; transform: translateX(-95%); }
+
+  .parcours-card-inner {
+    background: rgba(10,5,20,0.85);
+    border: 1px solid rgba(208,25,208,0.25);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow:
+      0 0 20px rgba(208,25,208,0.1),
+      inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+
+  .parcours-step--blue .parcours-card-inner {
+    border-color: rgba(25,116,209,0.25);
+    box-shadow:
+      0 0 20px rgba(25,116,209,0.12),
+      inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+
+  .parcours-card-tag {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .parcours-card-year-badge {
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: #d019d0;
+    background: rgba(208,25,208,0.12);
+    border: 1px solid rgba(208,25,208,0.3);
+    border-radius: 999px;
+    padding: 0.15rem 0.5rem;
+    letter-spacing: 0.06em;
+  }
+
+  .parcours-step--blue .parcours-card-year-badge {
+    color: #1974d1;
+    background: rgba(25,116,209,0.12);
+    border-color: rgba(25,116,209,0.3);
+  }
+
+  .parcours-card-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.8);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .parcours-card-description {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* ─── Hint de scroll ─────────────────────────────────────────────── */
+  .parcours-scroll-hint {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(255,255,255,0.35);
+    font-size: 0.8rem;
+    animation: hintBounce 2s ease-in-out infinite;
+  }
+
+  .parcours-scroll-hint svg {
+    animation: arrowBounce 1.8s ease-in-out infinite;
+    color: rgba(208,25,208,0.7);
+  }
+
+  @keyframes hintBounce {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(5px); }
+  }
+
+  @keyframes arrowBounce {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(4px); }
+  }
+
+  /* ─── RESPONSIVE ─────────────────────────────────────────────────── */
+
+  /* Mobile : les cartes s'empilent verticalement */
+  @media (max-width: 640px) {
+    .parcours-scroll-wrapper {
+      height: 600vh; /* plus de scroll pour laisser le temps de voir */
+    }
+
+    .parcours-inner {
+      gap: 1.5rem;
+      padding: 0 1rem;
+    }
+
+    .parcours-title {
+      font-size: clamp(2rem, 10vw, 3rem);
+    }
+
+    .parcours-step-card {
+      width: 160px;
+    }
+
+    .parcours-card-inner {
+      padding: 0.75rem 1rem;
+    }
+
+    /* Sur mobile, centrer toutes les cartes sous la barre */
+    #parcours-step-0 .parcours-step-card,
+    #parcours-step-1 .parcours-step-card,
+    #parcours-step-2 .parcours-step-card,
+    #parcours-step-3 .parcours-step-card,
+    #parcours-step-4 .parcours-step-card,
+    #parcours-step-5 .parcours-step-card {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .parcours-step-marker {
+      top: -3rem;
+    }
+
+    .parcours-step-dot {
+      width: 30px;
+      height: 30px;
+      font-size: 0.85rem;
+    }
+
+    /* Sur mobile, une seule carte visible (la plus récente révélée) */
+    .parcours-step-card {
+      top: 3.5rem;
+    }
+  }
+
+  /* Tablet */
+  @media (min-width: 641px) and (max-width: 900px) {
+    .parcours-step-card {
+      width: 180px;
+    }
+
+    #parcours-step-0 .parcours-step-card { transform: translateX(-5%); }
+    #parcours-step-4 .parcours-step-card { transform: translateX(-95%); }
+  }
+</style>
