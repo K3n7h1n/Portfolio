@@ -557,14 +557,15 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 		display: flex;
 	}
 
-	/* Backdrop natif du dialog — on le masque et on utilise le nôtre */
+	/* Backdrop natif du dialog — masqué, on utilise uniquement le nôtre */
 	.lightbox-dialog::backdrop {
 		display: none;
+		background: transparent;
 	}
 
-	/* Notre backdrop personnalisé */
+	/* Notre backdrop personnalisé — couvre tout le dialog */
 	.lightbox-backdrop {
-		position: fixed;
+		position: absolute;
 		inset: 0;
 		background: rgba(0, 0, 0, 0.88);
 		backdrop-filter: blur(8px);
@@ -572,9 +573,10 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 		z-index: 0;
 	}
 
-	/* Conteneur image — centré, taille dictée par l'image */
+	/* Conteneur image — prend tout l'espace du dialog et centre l'image */
 	.lightbox-container {
-		position: relative;
+		position: absolute;
+		inset: 0;
 		z-index: 10;
 		display: flex;
 		align-items: center;
