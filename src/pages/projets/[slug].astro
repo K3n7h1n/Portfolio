@@ -383,7 +383,6 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 			</svg>
 		</button>
 
-		<div id="lightbox-thumbs" class="lightbox-thumbs"></div>
 	</div>
 </Layout>
 
@@ -419,10 +418,10 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 		const lightboxNext            = lightbox?.querySelector<HTMLButtonElement>('#lightbox-next') ?? null;
 		const lightboxCurrent         = lightbox?.querySelector('#lightbox-current');
 		const lightboxTotal           = lightbox?.querySelector('#lightbox-total');
-		const lightboxThumbsContainer = lightbox?.querySelector('#lightbox-thumbs');
-		const lightboxContainer       = lightbox?.querySelector('#lightbox-container');
 
 		if (!lightbox || !lightboxImg) return;
+		const lightboxContainer = lightbox.querySelector<HTMLDivElement>('#lightbox-container');
+		if (!lightboxContainer) return;
 		if (lightbox.dataset.init === 'true') return;
 		lightbox.dataset.init = 'true';
 
@@ -433,9 +432,6 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 		const images: { src: string; alt: string }[] = [];
 		let currentIndex = 0;
 
-		// Construire images + thumbnails
-		if (lightboxThumbsContainer) lightboxThumbsContainer.innerHTML = '';
-
 		const pageRoot = lightbox.closest('main') ?? document;
 
 		pageRoot.querySelectorAll('.gallery-item').forEach((item, index) => {
@@ -444,22 +440,9 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 
 			images.push({ src: img.src, alt: img.alt });
 
-			const thumb = document.createElement('img');
-			thumb.src = img.src;
-			thumb.alt = img.alt;
-			thumb.className = 'lightbox-thumb';
-			thumb.dataset.index = String(index);
-			thumb.addEventListener('click', (e) => { e.stopPropagation(); openLightbox(index); });
-			lightboxThumbsContainer?.appendChild(thumb);
-
 			item.addEventListener('click', (e) => { e.stopPropagation(); openLightbox(index); });
 		});
 
-		if (images.length <= 1) {
-			lightbox.setAttribute('data-single', 'true');
-		} else {
-			lightbox.removeAttribute('data-single');
-		}
 		if (lightboxTotal) lightboxTotal.textContent = String(images.length);
 
 		// ---- Fonctions ----
@@ -517,11 +500,6 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 			if (lightboxCurrent) lightboxCurrent.textContent = String(currentIndex + 1);
 			if (lightboxPrev) lightboxPrev.disabled = false;
 			if (lightboxNext) lightboxNext.disabled = false;
-			lightboxThumbsContainer?.querySelectorAll('.lightbox-thumb').forEach((t, i) => {
-				t.classList.toggle('active', i === currentIndex);
-			});
-			const active = lightboxThumbsContainer?.querySelector('.lightbox-thumb.active') as HTMLElement | null;
-			active?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
 		}
 
 		// ---- Event listeners ----
@@ -693,45 +671,6 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 		white-space: nowrap;
 	}
 
-	.lightbox-thumbs {
-		position: fixed;
-		bottom: 1.25rem;
-		left: 50%;
-		transform: translateX(-50%);
-		z-index: 20;
-		display: flex;
-		gap: 8px;
-		padding: 8px;
-		background: rgba(0, 0, 0, 0.5);
-		border-radius: 12px;
-		backdrop-filter: blur(10px);
-		border: 1px solid rgba(255, 255, 255, 0.08);
-		max-width: 90vw;
-		overflow-x: auto;
-	}
-
-	.lightbox-thumb {
-		width: 48px;
-		height: 48px;
-		border-radius: 6px;
-		object-fit: cover;
-		cursor: pointer;
-		opacity: 0.45;
-		border: 1.5px solid transparent;
-		transition: all 0.2s;
-		flex-shrink: 0;
-	}
-
-	.lightbox-thumb:hover {
-		opacity: 0.75;
-	}
-
-	.lightbox-thumb.active {
-		opacity: 1;
-		border-color: #D019D0;
-		box-shadow: 0 0 12px rgba(208, 25, 208, 0.4);
-	}
-
 	:global(body.lightbox-is-open) {
 		overflow: hidden;
 	}
@@ -741,7 +680,6 @@ const pageDescription = projet.description_courte || 'Découvrez ce projet';
 	}
 
 	.lightbox-dialog[data-single="true"] .lightbox-nav,
-	.lightbox-dialog[data-single="true"] .lightbox-thumbs,
 	.lightbox-dialog[data-single="true"] .lightbox-counter {
 		display: none;
 	}
