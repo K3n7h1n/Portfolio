@@ -405,7 +405,16 @@ const steps = [
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #000;
+    /* Fondu vers le bas : laisse reapparaitre progressivement le fond global de la
+       page au lieu d'une coupure nette avec la section suivante. */
+    background: linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 62%,
+      rgba(0, 0, 0, 0.92) 78%,
+      rgba(0, 0, 0, 0.6) 90%,
+      rgba(0, 0, 0, 0) 100%
+    );
     z-index: 40;
   }
 
@@ -435,6 +444,8 @@ const steps = [
       linear-gradient(90deg, rgba(208,25,208,0.04) 1px, transparent 1px);
     background-size: 60px 60px;
     pointer-events: none;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 62%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 62%, transparent 100%);
   }
 
   /* ─── Halos ─────────────────────────────────────────────────────── */
@@ -583,7 +594,10 @@ const steps = [
   .parcours-steps {
     position: relative;
     width: 100%;
-    height: 0; /* Les markers sont positionnés en absolute par rapport à la barre */
+    /* Les markers et les cartes sont en absolute : sans hauteur reservee ici, le
+       centrage vertical du panneau les ignorait et la derniere carte (la plus
+       longue) etait rognee par l'overflow du panneau. */
+    height: clamp(16rem, 36vh, 22rem);
   }
 
   .parcours-step {
@@ -646,12 +660,15 @@ const steps = [
   }
 
   /* Positionnement des cartes selon leur % sur la barre (6 étapes) */
-  #parcours-step-0 .parcours-step-card { left: 0%;   transform: translateX(-5%); }
-  #parcours-step-1 .parcours-step-card { left: 20%;  transform: translateX(-35%); }
-  #parcours-step-2 .parcours-step-card { left: 40%;  transform: translateX(-45%); }
-  #parcours-step-3 .parcours-step-card { left: 60%;  transform: translateX(-55%); }
-  #parcours-step-4 .parcours-step-card { left: 80%;  transform: translateX(-65%); }
-  #parcours-step-5 .parcours-step-card { left: 100%; transform: translateX(-95%); }
+  /* NB : le decalage horizontal utilise `translate` (propriete individuelle) et NON
+     `transform`, car anime.js ecrit dans `transform` pour animer translateY/scale
+     et effacerait le decalage — la derniere carte sortait alors de l'ecran. */
+  #parcours-step-0 .parcours-step-card { left: 0%;   translate: 0 0; }
+  #parcours-step-1 .parcours-step-card { left: 20%;  translate: -35% 0; }
+  #parcours-step-2 .parcours-step-card { left: 40%;  translate: -45% 0; }
+  #parcours-step-3 .parcours-step-card { left: 60%;  translate: -55% 0; }
+  #parcours-step-4 .parcours-step-card { left: 80%;  translate: -65% 0; }
+  #parcours-step-5 .parcours-step-card { left: 100%; translate: -100% 0; }
 
   .parcours-card-inner {
     background: rgba(10,5,20,0.85);
@@ -769,7 +786,7 @@ const steps = [
     #parcours-step-4 .parcours-step-card,
     #parcours-step-5 .parcours-step-card {
       left: 50%;
-      transform: translateX(-50%);
+      translate: -50% 0;
     }
 
     .parcours-step-marker {
@@ -794,7 +811,7 @@ const steps = [
       width: 180px;
     }
 
-    #parcours-step-0 .parcours-step-card { transform: translateX(-5%); }
-    #parcours-step-4 .parcours-step-card { transform: translateX(-95%); }
+    #parcours-step-0 .parcours-step-card { translate: 0 0; }
+    #parcours-step-5 .parcours-step-card { translate: -100% 0; }
   }
 </style>

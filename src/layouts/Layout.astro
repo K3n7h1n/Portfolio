@@ -86,7 +86,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://enzoloca
 					</a>
 					
 					<!-- Menu Desktop -->
-					<div class="hidden md:flex items-center">
+					<!-- self-stretch + overflow-hidden : confine le fond noir de l'effet gooey
+					     (.effect.filter::before, inset -75px) a la hauteur du nav, ou il se fond
+					     via mix-blend-mode. Sans ce clip il debordait sous le nav en rectangle noir. -->
+					<div class="hidden md:flex items-center self-stretch overflow-hidden">
 						<GooeyNav
 							items={navItems}
 							initialActiveIndex={initialActiveIndex}
