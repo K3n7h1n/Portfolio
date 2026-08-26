@@ -3,6 +3,7 @@ import "../styles/global.css";
 import CustomCursor from "../components/CustomCursor.astro";
 import HeroBackground from "../components/HeroBackground.astro";
 import NoiseOverlay from "../components/NoiseOverlay.astro";
+import GooeyNav from "../components/GooeyNav.astro";
 
 interface Props {
 	title?: string;
@@ -10,11 +11,24 @@ interface Props {
 	image?: string;
 }
 
-const { 
-	title = "Enzo Locatelli - Portfolio | Designer Graphique & UI/UX", 
+const {
+	title = "Enzo Locatelli - Portfolio | Designer Graphique & UI/UX",
 	description = "Étudiant en MMI et designer graphique. Je crée des visuels modernes et percutants pour donner vie aux idées. Découvrez mon portfolio, mes projets en UI/UX et développement web.",
 	image = "/logosite.png"
 } = Astro.props;
+
+const navItems = [
+	{ label: "Accueil", href: "/" },
+	{ label: "A Propos", href: "/A-propos" },
+	{ label: "Projets", href: "/Projets" },
+	{ label: "Contact", href: "/Contact" },
+];
+
+const currentPath = Astro.url.pathname;
+const activeIndex = navItems.findIndex((item) =>
+	item.href === "/" ? currentPath === "/" : currentPath.startsWith(item.href)
+);
+const initialActiveIndex = activeIndex >= 0 ? activeIndex : 0;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://enzolocatelli.fr');
 ---
@@ -72,11 +86,17 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://enzoloca
 					</a>
 					
 					<!-- Menu Desktop -->
-					<div class="hidden md:flex space-x-12 text-sm">
-						<a href="/" class="text-white hover:text-primary-pink transition-colors">Accueil</a>
-						<a href="/A-propos" class="text-white hover:text-primary-pink transition-colors">A Propos</a>
-						<a href="/Projets" class="text-white hover:text-primary-pink transition-colors">Projets</a>
-						<a href="/Contact" class="text-white hover:text-primary-pink transition-colors">Contact</a>
+					<div class="hidden md:flex items-center">
+						<GooeyNav
+							items={navItems}
+							initialActiveIndex={initialActiveIndex}
+							particleCount={15}
+							particleDistances={[90, 10]}
+							particleR={100}
+							animationTime={600}
+							timeVariance={300}
+							colors={[1, 2, 3, 1, 2, 3, 1, 4]}
+						/>
 					</div>
 
 					<!-- Menu Burger Mobile -->

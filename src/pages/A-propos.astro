@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import SkillCard from "../components/SkillCard.astro";
+import ParcourTimeline from "../components/ParcourTimeline.astro";
 import { competences } from "../config/competences.config";
 ---
 
@@ -69,175 +70,8 @@ import { competences } from "../config/competences.config";
     </div>
   </section>
 
-  <!-- Section "Mon parcours" - Timeline -->
-  <section id="parcours" class="py-24 px-4 overflow-hidden">
-    <div class="max-w-7xl mx-auto">
-      <div class="text-center mb-16 scroll-reveal">
-        <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-          <span class="text-white">MON </span><span class="neon-pink"
-            >PARCOURS</span
-          >
-        </h2>
-      </div>
-
-      <!-- Timeline horizontale -->
-      <div class="relative">
-        <!-- Ligne de connexion animée -->
-        <div
-          class="absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-primary-pink via-primary-blue to-primary-pink hidden md:block timeline-wave"
-        >
-        </div>
-
-        <!-- Cartes du parcours -->
-        <div
-          class="flex flex-col md:flex-row justify-between items-center gap-8 md:gap-4 relative z-10"
-        >
-          <!-- 2019 -->
-          <div
-            class="timeline-card scroll-reveal w-full md:w-1/4"
-            style="animation-delay: 0.1s;"
-          >
-            <div
-              class="card bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-sm border-2 border-primary-pink/30 hover:border-primary-pink transition-all duration-300 card-hover"
-            >
-              <div class="card-body p-6 text-center">
-                <div class="text-5xl font-bold neon-pink mb-4">2019</div>
-                <div
-                  class="w-12 h-12 rounded-full bg-primary-pink mx-auto mb-4 flex items-center justify-center"
-                >
-                  <svg
-                    class="w-6 h-6 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                    ></path>
-                  </svg>
-                </div>
-                <p class="text-gray-300 text-sm">
-                  Découverte de la <span class="text-primary-pink font-semibold"
-                    >typographie</span
-                  > et premières créations graphiques
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- 2020-2021 -->
-          <div
-            class="timeline-card scroll-reveal w-full md:w-1/4"
-            style="animation-delay: 0.2s;"
-          >
-            <div
-              class="card bg-gradient-to-br from-primary-blue/20 to-purple-900/30 backdrop-blur-sm border-2 border-primary-blue/30 hover:border-primary-blue transition-all duration-300 card-hover"
-            >
-              <div class="card-body p-6 text-center">
-                <div class="text-4xl font-bold neon-blue mb-4">2020-2021</div>
-                <div
-                  class="w-12 h-12 rounded-full bg-primary-blue mx-auto mb-4 flex items-center justify-center"
-                >
-                  <svg
-                    class="w-6 h-6 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
-                  </svg>
-                </div>
-                <p class="text-gray-300 text-sm">
-                  Intérêt croissant pour le <span
-                    class="text-primary-blue font-semibold"
-                    >développement web</span
-                  > et premières lignes de code
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- 2024 -->
-          <div
-            class="timeline-card scroll-reveal w-full md:w-1/4"
-            style="animation-delay: 0.3s;"
-          >
-            <div
-              class="card bg-gradient-to-br from-primary-pink/20 to-purple-900/30 backdrop-blur-sm border-2 border-primary-pink/30 hover:border-primary-pink transition-all duration-300 card-hover"
-            >
-              <div class="card-body p-6 text-center">
-                <div class="text-5xl font-bold neon-pink mb-4">2024</div>
-                <div
-                  class="w-12 h-12 rounded-full bg-primary-pink mx-auto mb-4 flex items-center justify-center"
-                >
-                  <svg
-                    class="w-6 h-6 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-                    ></path>
-                  </svg>
-                </div>
-                <p class="text-gray-300 text-sm">
-                  Entrée en <span class="text-primary-pink font-semibold"
-                    >MMI</span
-                  >, découverte approfondie du design et de la communication
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- 2025 -->
-          <div
-            class="timeline-card scroll-reveal w-full md:w-1/4"
-            style="animation-delay: 0.4s;"
-          >
-            <div
-              class="card bg-gradient-to-br from-primary-blue/20 to-purple-900/30 backdrop-blur-sm border-2 border-primary-blue/30 hover:border-primary-blue transition-all duration-300 card-hover"
-            >
-              <div class="card-body p-6 text-center">
-                <div class="text-5xl font-bold neon-blue mb-4">2025</div>
-                <div
-                  class="w-12 h-12 rounded-full bg-primary-blue mx-auto mb-4 flex items-center justify-center"
-                >
-                  <svg
-                    class="w-6 h-6 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                  </svg>
-                </div>
-                <p class="text-gray-300 text-sm">
-                  Réalisation de <span class="text-primary-blue font-semibold"
-                    >projets associatifs</span
-                  > et audiovisuels professionnels
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <!-- Section "Mon parcours" - Timeline immersive scroll-pinned -->
+  <ParcourTimeline />
 
   <!-- Section "Mes compétences" -->
   <section id="competences" class="py-24 px-4">
@@ -319,15 +153,28 @@ import { competences } from "../config/competences.config";
       >
         <div class="max-w-3xl">
           <h2 class="text-5xl md:text-7xl lg:text-8xl font-bold">
-            <span class="text-white">MES </span><span class="neon-pink">PASSIONS</span>
+            <span class="text-white">MES </span><span class="neon-pink"
+              >PASSIONS</span
+            >
           </h2>
           <p class="mt-6 text-base md:text-xl text-gray-400">
             Faites défiler pour explorer
           </p>
           <div class="mt-8 flex justify-center">
-            <span class="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 text-white/80 animate-pulse">
-              <svg class="h-5 w-5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            <span
+              class="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 text-white/80 animate-pulse"
+            >
+              <svg
+                class="h-5 w-5 animate-bounce"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"></path>
               </svg>
             </span>
           </div>
@@ -337,11 +184,22 @@ import { competences } from "../config/competences.config";
 
     <!-- Chapitre 01 -->
     <div class="h-screen">
-      <article class="passion-chapter sticky top-0 z-20 h-screen overflow-hidden bg-black" data-chapter="1">
-        <div class="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black"></div>
-        <div class="absolute left-[10%] top-1/2 h-[360px] w-[360px] -translate-y-1/2 rounded-full bg-[#d019d0] opacity-15 blur-[120px]"></div>
+      <article
+        class="passion-chapter sticky top-0 z-20 h-screen overflow-hidden bg-black"
+        data-chapter="1"
+      >
+        <div
+          class="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black"
+        >
+        </div>
+        <div
+          class="absolute left-[10%] top-1/2 h-[360px] w-[360px] -translate-y-1/2 rounded-full bg-[#d019d0] opacity-15 blur-[120px]"
+        >
+        </div>
 
-        <div class="relative z-10 mx-auto flex h-full w-full max-w-7xl flex-col-reverse items-center justify-center gap-8 px-6 py-14 md:flex-row md:gap-14 md:px-10">
+        <div
+          class="relative z-10 mx-auto flex h-full w-full max-w-7xl flex-col-reverse items-center justify-center gap-8 px-6 py-14 md:flex-row md:gap-14 md:px-10"
+        >
           <div data-el="text" class="relative w-full md:w-1/2">
             <div class="relative z-20 mb-6 md:mb-8">
               <span
@@ -352,7 +210,9 @@ import { competences } from "../config/competences.config";
               </span>
             </div>
 
-            <div class="relative min-h-[100px] md:min-h-[200px] flex flex-col justify-center">
+            <div
+              class="relative min-h-[100px] md:min-h-[200px] flex flex-col justify-center"
+            >
               <span
                 data-el="number"
                 class="pointer-events-none absolute top-0 md:-top-4 left-0 text-[5rem] md:text-[clamp(6rem,15vw,12rem)] font-bold leading-none text-white opacity-[0.06] md:opacity-[0.08]"
@@ -373,26 +233,34 @@ import { competences } from "../config/competences.config";
               class="relative mt-4 md:mt-6 max-w-xl text-lg text-gray-300"
               style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"
             >
-              Une passion pour les univers immersifs, le game design et la narration
-              interactive qui nourrit ma créativité visuelle.
+              Une passion pour les univers immersifs, le game design et la
+              narration interactive qui nourrit ma créativité visuelle.
             </p>
 
-            <div class="relative mt-10 h-[2px] w-full max-w-md overflow-hidden rounded-full bg-white/20">
+            <div
+              class="relative mt-10 h-[2px] w-full max-w-md overflow-hidden rounded-full bg-white/20"
+            >
               <div
                 data-el="progress"
                 class="h-full w-0 bg-gradient-to-r from-primary-pink to-white/80"
-              ></div>
+              >
+              </div>
             </div>
           </div>
 
           <div data-el="media" class="flex w-full md:w-1/2 justify-center">
             <div class="relative w-full max-w-[240px] md:max-w-[360px]">
-              <div class="pointer-events-none absolute left-1/2 top-3 z-20 h-4 w-24 -translate-x-1/2 rounded-b-2xl border border-white/10 bg-black/80"></div>
+              <div
+                class="pointer-events-none absolute left-1/2 top-3 z-20 h-4 w-24 -translate-x-1/2 rounded-b-2xl border border-white/10 bg-black/80"
+              >
+              </div>
               <div
                 data-el="phone"
                 class="relative overflow-hidden rounded-[2rem] border border-primary-pink/70 bg-black/70 p-2 shadow-[0_0_50px_rgba(208,25,208,0.35)]"
               >
-                <div class="relative aspect-[9/16] overflow-hidden rounded-[1.55rem]">
+                <div
+                  class="relative aspect-[9/16] overflow-hidden rounded-[1.55rem]"
+                >
                   <video
                     class="video-player h-full w-full object-cover"
                     autoplay
@@ -401,7 +269,10 @@ import { competences } from "../config/competences.config";
                     playsinline
                     data-video-id="video-1"
                   >
-                    <source src="/videos/tiktok-jeux-video.mp4" type="video/mp4" />
+                    <source
+                      src="/videos/tiktok-jeux-video.mp4"
+                      type="video/mp4"
+                    />
                   </video>
 
                   <div class="absolute right-3 top-3 z-20 flex gap-2">
@@ -410,7 +281,11 @@ import { competences } from "../config/competences.config";
                       data-video="video-1"
                       title="Activer/Désactiver le son"
                     >
-                      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <svg
+                        class="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
                         <path
                           class="sound-off"
                           d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"
@@ -426,7 +301,11 @@ import { competences } from "../config/competences.config";
                       data-video="video-1"
                       title="Plein écran"
                     >
-                      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <svg
+                        class="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
                         <path
                           d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"
                         ></path>
@@ -443,11 +322,22 @@ import { competences } from "../config/competences.config";
 
     <!-- Chapitre 02 -->
     <div class="h-screen">
-      <article class="passion-chapter sticky top-0 z-30 h-screen overflow-hidden bg-black" data-chapter="2">
-        <div class="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black"></div>
-        <div class="absolute right-[10%] top-1/2 h-[360px] w-[360px] -translate-y-1/2 rounded-full bg-[#1974d1] opacity-15 blur-[120px]"></div>
+      <article
+        class="passion-chapter sticky top-0 z-30 h-screen overflow-hidden bg-black"
+        data-chapter="2"
+      >
+        <div
+          class="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black"
+        >
+        </div>
+        <div
+          class="absolute right-[10%] top-1/2 h-[360px] w-[360px] -translate-y-1/2 rounded-full bg-[#1974d1] opacity-15 blur-[120px]"
+        >
+        </div>
 
-        <div class="relative z-10 mx-auto flex h-full w-full max-w-7xl flex-col-reverse items-center justify-center gap-8 px-6 py-14 md:flex-row md:gap-14 md:px-10">
+        <div
+          class="relative z-10 mx-auto flex h-full w-full max-w-7xl flex-col-reverse items-center justify-center gap-8 px-6 py-14 md:flex-row md:gap-14 md:px-10"
+        >
           <div data-el="text" class="relative w-full md:w-1/2">
             <div class="relative z-20 mb-6 md:mb-8">
               <span
@@ -458,7 +348,9 @@ import { competences } from "../config/competences.config";
               </span>
             </div>
 
-            <div class="relative min-h-[100px] md:min-h-[200px] flex flex-col justify-center">
+            <div
+              class="relative min-h-[100px] md:min-h-[200px] flex flex-col justify-center"
+            >
               <span
                 data-el="number"
                 class="pointer-events-none absolute top-0 md:-top-4 left-0 text-[5rem] md:text-[clamp(6rem,15vw,12rem)] font-bold leading-none text-white opacity-[0.06] md:opacity-[0.08]"
@@ -479,26 +371,34 @@ import { competences } from "../config/competences.config";
               class="relative mt-4 md:mt-6 max-w-xl text-lg text-gray-300"
               style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"
             >
-              Storytelling, rythme, montage et direction artistique pour transformer
-              des idées en contenus courts impactants.
+              Storytelling, rythme, montage et direction artistique pour
+              transformer des idées en contenus courts impactants.
             </p>
 
-            <div class="relative mt-10 h-[2px] w-full max-w-md overflow-hidden rounded-full bg-white/20">
+            <div
+              class="relative mt-10 h-[2px] w-full max-w-md overflow-hidden rounded-full bg-white/20"
+            >
               <div
                 data-el="progress"
                 class="h-full w-0 bg-gradient-to-r from-primary-blue to-white/80"
-              ></div>
+              >
+              </div>
             </div>
           </div>
 
           <div data-el="media" class="flex w-full md:w-1/2 justify-center">
             <div class="relative w-full max-w-[240px] md:max-w-[360px]">
-              <div class="pointer-events-none absolute left-1/2 top-3 z-20 h-4 w-24 -translate-x-1/2 rounded-b-2xl border border-white/10 bg-black/80"></div>
+              <div
+                class="pointer-events-none absolute left-1/2 top-3 z-20 h-4 w-24 -translate-x-1/2 rounded-b-2xl border border-white/10 bg-black/80"
+              >
+              </div>
               <div
                 data-el="phone"
                 class="relative overflow-hidden rounded-[2rem] border border-primary-blue/70 bg-black/70 p-2 shadow-[0_0_50px_rgba(25,116,209,0.35)]"
               >
-                <div class="relative aspect-[9/16] overflow-hidden rounded-[1.55rem]">
+                <div
+                  class="relative aspect-[9/16] overflow-hidden rounded-[1.55rem]"
+                >
                   <video
                     class="video-player h-full w-full object-cover"
                     autoplay
@@ -516,7 +416,11 @@ import { competences } from "../config/competences.config";
                       data-video="video-2"
                       title="Activer/Désactiver le son"
                     >
-                      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <svg
+                        class="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
                         <path
                           class="sound-off"
                           d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"
@@ -532,7 +436,11 @@ import { competences } from "../config/competences.config";
                       data-video="video-2"
                       title="Plein écran"
                     >
-                      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <svg
+                        class="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
                         <path
                           d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"
                         ></path>
@@ -549,11 +457,22 @@ import { competences } from "../config/competences.config";
 
     <!-- Chapitre 03 -->
     <div class="h-screen">
-      <article class="passion-chapter sticky top-0 z-40 h-screen overflow-hidden bg-black" data-chapter="3">
-        <div class="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black"></div>
-        <div class="absolute left-1/2 top-1/2 h-[390px] w-[390px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#7c3aed] opacity-15 blur-[120px]"></div>
+      <article
+        class="passion-chapter sticky top-0 z-40 h-screen overflow-hidden bg-black"
+        data-chapter="3"
+      >
+        <div
+          class="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-black"
+        >
+        </div>
+        <div
+          class="absolute left-1/2 top-1/2 h-[390px] w-[390px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#7c3aed] opacity-15 blur-[120px]"
+        >
+        </div>
 
-        <div class="relative z-10 mx-auto flex h-full w-full max-w-7xl flex-col-reverse items-center justify-center gap-8 px-6 py-14 md:flex-row md:gap-14 md:px-10">
+        <div
+          class="relative z-10 mx-auto flex h-full w-full max-w-7xl flex-col-reverse items-center justify-center gap-8 px-6 py-14 md:flex-row md:gap-14 md:px-10"
+        >
           <div data-el="text" class="relative w-full md:w-1/2">
             <div class="relative z-20 mb-6 md:mb-8">
               <span
@@ -564,7 +483,9 @@ import { competences } from "../config/competences.config";
               </span>
             </div>
 
-            <div class="relative min-h-[100px] md:min-h-[200px] flex flex-col justify-center">
+            <div
+              class="relative min-h-[100px] md:min-h-[200px] flex flex-col justify-center"
+            >
               <span
                 data-el="number"
                 class="pointer-events-none absolute top-0 md:-top-4 left-0 text-[5rem] md:text-[clamp(6rem,15vw,12rem)] font-bold leading-none text-white opacity-[0.06] md:opacity-[0.08]"
@@ -585,26 +506,34 @@ import { competences } from "../config/competences.config";
               class="relative mt-4 md:mt-6 max-w-xl text-lg text-gray-300"
               style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"
             >
-              Références graphiques fortes, esthétique japonaise et culture pop : un
-              terrain d'exploration visuelle permanent.
+              Références graphiques fortes, esthétique japonaise et culture pop
+              : un terrain d'exploration visuelle permanent.
             </p>
 
-            <div class="relative mt-10 h-[2px] w-full max-w-md overflow-hidden rounded-full bg-white/20">
+            <div
+              class="relative mt-10 h-[2px] w-full max-w-md overflow-hidden rounded-full bg-white/20"
+            >
               <div
                 data-el="progress"
                 class="h-full w-0 bg-gradient-to-r from-[#7c3aed] to-white/80"
-              ></div>
+              >
+              </div>
             </div>
           </div>
 
           <div data-el="media" class="flex w-full md:w-1/2 justify-center">
             <div class="relative w-full max-w-[240px] md:max-w-[360px]">
-              <div class="pointer-events-none absolute left-1/2 top-3 z-20 h-4 w-24 -translate-x-1/2 rounded-b-2xl border border-white/10 bg-black/80"></div>
+              <div
+                class="pointer-events-none absolute left-1/2 top-3 z-20 h-4 w-24 -translate-x-1/2 rounded-b-2xl border border-white/10 bg-black/80"
+              >
+              </div>
               <div
                 data-el="phone"
                 class="relative overflow-hidden rounded-[2rem] border border-primary-pink/70 bg-black/70 p-2 shadow-[0_0_50px_rgba(124,58,237,0.35)]"
               >
-                <div class="relative aspect-[9/16] overflow-hidden rounded-[1.55rem]">
+                <div
+                  class="relative aspect-[9/16] overflow-hidden rounded-[1.55rem]"
+                >
                   <video
                     class="video-player h-full w-full object-cover"
                     autoplay
@@ -622,7 +551,11 @@ import { competences } from "../config/competences.config";
                       data-video="video-3"
                       title="Activer/Désactiver le son"
                     >
-                      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <svg
+                        class="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
                         <path
                           class="sound-off"
                           d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"
@@ -638,7 +571,11 @@ import { competences } from "../config/competences.config";
                       data-video="video-3"
                       title="Plein écran"
                     >
-                      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <svg
+                        class="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
                         <path
                           d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"
                         ></path>
@@ -663,7 +600,7 @@ import { competences } from "../config/competences.config";
   gsap.registerPlugin(ScrollTrigger);
 
   // Animation au scroll (Intersection Observer) pour les autres sections
-  // On utilise un seuil bas (0.05 au lieu de 0.2) pour que les grands éléments comme skills-grid 
+  // On utilise un seuil bas (0.05 au lieu de 0.2) pour que les grands éléments comme skills-grid
   // puissent déclencher l'animation même sur les petits écrans mobiles.
   const observerOptions = {
     threshold: 0.05,
@@ -794,21 +731,23 @@ import { competences } from "../config/competences.config";
    */
   function initPassionsParallax() {
     const passionsSection = document.querySelector<HTMLElement>("#passions");
-    const introPanel = document.querySelector<HTMLElement>("#passions-intro-panel");
-    const chapters = gsap.utils.toArray<HTMLElement>("#passions .passion-chapter");
+    const introPanel = document.querySelector<HTMLElement>(
+      "#passions-intro-panel",
+    );
+    const chapters = gsap.utils.toArray<HTMLElement>(
+      "#passions .passion-chapter",
+    );
 
     if (!passionsSection || !introPanel || chapters.length === 0) {
-      console.warn("Section Passions : éléments manquants pour l'animation GSAP");
+      console.warn(
+        "Section Passions : éléments manquants pour l'animation GSAP",
+      );
       return;
     }
 
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
-    passionsSection.style.setProperty(
-      "min-height",
-      "400vh",
-      "important",
-    );
+    passionsSection.style.setProperty("min-height", "400vh", "important");
     passionsSection.style.setProperty("padding", "0", "important");
 
     gsap.fromTo(
@@ -834,11 +773,17 @@ import { competences } from "../config/competences.config";
       const numberEl = chapter.querySelector<HTMLElement>("[data-el='number']");
       const tagEl = chapter.querySelector<HTMLElement>("[data-el='tag']");
       const titleEl = chapter.querySelector<HTMLElement>("[data-el='title']");
-      const descriptionEl = chapter.querySelector<HTMLElement>("[data-el='description']");
-      const progressEl = chapter.querySelector<HTMLElement>("[data-el='progress']");
+      const descriptionEl = chapter.querySelector<HTMLElement>(
+        "[data-el='description']",
+      );
+      const progressEl = chapter.querySelector<HTMLElement>(
+        "[data-el='progress']",
+      );
       const textWrapEl = chapter.querySelector<HTMLElement>("[data-el='text']");
-      const mediaWrapEl = chapter.querySelector<HTMLElement>("[data-el='media']");
-      const phoneFrameEl = chapter.querySelector<HTMLElement>("[data-el='phone']");
+      const mediaWrapEl =
+        chapter.querySelector<HTMLElement>("[data-el='media']");
+      const phoneFrameEl =
+        chapter.querySelector<HTMLElement>("[data-el='phone']");
 
       const triggerConfig = {
         trigger: chapter,
