@@ -1645,19 +1645,27 @@ import Layout from "../layouts/Layout.astro";
     });
   });
 
-  // Effet de machine à écrire
-  const text = "Designer graphique";
+  // Effet de machine à écrire : boucle sur les differentes casquettes
+  const roles = [
+    "Designer graphique",
+    "Monteur vidéo",
+    "Motion designer",
+    "Développeur web",
+  ];
   const typewriterElement = document.getElementById("typewriter");
   const cursorElement = document.getElementById("cursor");
+  let roleIndex = 0;
   let charIndex = 0;
   let isDeleting = false;
 
   function typeWriter() {
     if (!typewriterElement) return;
 
+    const text = roles[roleIndex];
+
     if (!isDeleting && charIndex < text.length) {
       // Écriture
-      typewriterElement.textContent += text.charAt(charIndex);
+      typewriterElement.textContent = text.substring(0, charIndex + 1);
       charIndex++;
       setTimeout(typeWriter, 100 + Math.random() * 100); // Vitesse variable pour effet réaliste
     } else if (!isDeleting && charIndex === text.length) {
@@ -1670,8 +1678,9 @@ import Layout from "../layouts/Layout.astro";
       charIndex--;
       setTimeout(typeWriter, 50);
     } else if (isDeleting && charIndex === 0) {
-      // Recommencer
+      // Passer a la casquette suivante
       isDeleting = false;
+      roleIndex = (roleIndex + 1) % roles.length;
       setTimeout(typeWriter, 500);
     }
   }
