@@ -28,7 +28,25 @@ export function initLenis() {
   }
 }
 
+// Position de départ d'une section, en px depuis le haut du document.
+// On ne peut pas se fier à getBoundingClientRect() d'une section épinglée :
+// une fois son pin dépassé, GSAP la décale en bas de son pin-spacer (fin du pin),
+// et pendant le pin elle est en position fixe (top = 0). On lit donc le `start`
+// de son ScrollTrigger de pin, ou à défaut le haut de son pin-spacer.
+export function sectionTop(target) {
+  if (typeof target === 'number') return target
+  const el = typeof target === 'string' ? document.querySelector(target) : target
+  if (!el) return null
+  const pin = ScrollTrigger.getAll().find((st) => st.pin === el)
+  if (pin) return pin.start
+  const box = el.parentElement?.classList.contains('pin-spacer') ? el.parentElement : el
+  return box.getBoundingClientRect().top + window.scrollY
+}
+
 export function scrollToSection(target) {
-  if (lenis) lenis.scrollTo(target, { duration: 1.6 })
-  else document.querySelector(target)?.scrollIntoView({ behavior: 'smooth' })
+  const y = sectionTop(target)
+  if (y == null) return
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  if (lenis) lenis.scrollTo(y, reduced ? { immediate: true } : { duration: 1.6 })
+  else window.scrollTo({ top: y, behavior: reduced ? 'auto' : 'smooth' })
 }

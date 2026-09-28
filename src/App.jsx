@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { ScrollTrigger } from './lib/gsap'
-import { initLenis, lenis } from './lib/lenis'
+import { initLenis, lenis, sectionTop } from './lib/lenis'
 import { createStory } from './lib/story'
 import { store } from './lib/store'
 import { loadProjects } from './lib/projects'
@@ -62,7 +62,7 @@ function Site({ layers }) {
     // sur la section, une fois les pin-spacers en place (refresh fait par createStory)
     const target = hash && document.getElementById(hash.slice(1))
     if (target) {
-      lenis.scrollTo(target.getBoundingClientRect().top + window.scrollY, { immediate: true, force: true })
+      lenis.scrollTo(sectionTop(target), { immediate: true, force: true })
       ScrollTrigger.update()
     }
 
