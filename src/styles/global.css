@@ -1557,23 +1557,30 @@ button {
   backdrop-filter: blur(8px);
 }
 
+/* Vignettes en grille : 2 à 3 par ligne, plein écran via les contrôles natifs */
 .pp-videos__list {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 24rem), 1fr));
   gap: 2rem;
-  align-items: flex-start;
+  align-items: start;
 }
 
 .pp-video {
-  flex: 1 1 100%;
-  max-width: 1100px;
+  min-width: 0;
 }
 
 .pp-video video {
   display: block;
   width: 100%;
+  max-height: 55vh;
+  object-fit: contain;
   border-radius: 1rem;
   background: #000;
+}
+
+.pp-video video:fullscreen {
+  max-height: none;
+  border-radius: 0;
 }
 
 .pp-video__frame {
@@ -1593,7 +1600,7 @@ button {
 }
 
 .pp-video.is-vertical {
-  flex: 0 1 340px;
+  max-width: 340px;
 }
 
 .pp-video.is-vertical .pp-video__frame {
@@ -2058,7 +2065,6 @@ html.has-lightbox {
   }
 
   .pp-video.is-vertical {
-    flex-basis: 100%;
     max-width: 340px;
   }
 
