@@ -2,12 +2,13 @@ name: Build and Deploy to VPS
 
 on:
   push:
-    branches: [master] # Vérifie bien que ta branche principale s'appelle 'master' et pas 'main'
+    branches: [master]
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -15,39 +16,32 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '24' # Mise à jour pour Node 24
+        node-version: '24'
         cache: 'npm'
 
     - name: Install dependencies
       run: npm ci
-      
+
+    # Site statique Vite : les variables VITE_* sont injectées au build.
+    # Clé publique (anon / publishable) uniquement, jamais la service_role.
     - name: Build project
-      run: |
-        npm run build
-        cp package.json dist/server/
+      run: npm run build
+      env:
+        VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+        VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+        VITE_PROJECTS_SOURCE: supabase
 
+    # Dossier dédié au nouveau site : l'ancien (/var/www/portfolio, PM2 « etudiant »)
+    # n'est pas touché tant que nginx n'est pas basculé.
     - name: Deploy to VPS via SCP
-      uses: appleboy/scp-action@v0.1.3
+      uses: appleboy/scp-action@v0.1.7
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: 22 # Port SSH standard au lieu de 22036
+        port: 22
         source: "dist/*"
-        target: "/var/www/portfolio/"
+        target: "/var/www/portfolio-k3/"
         strip_components: 1
-        rm: false
+        rm: true
         overwrite: true
-        debug: true
-
-    - name: Install production dependencies and Restart PM2
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USER }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: 22 # Port SSH standard au lieu de 22036
-        script: |
-          cd /var/www/portfolio/server
-          npm ci
-          PORT=8088 pm2 restart etudiant || PORT=8088 pm2 start entry.mjs --name etudiant

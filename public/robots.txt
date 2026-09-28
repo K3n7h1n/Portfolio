@@ -1,3 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://enzolocatelli.fr/sitemap-index.xml

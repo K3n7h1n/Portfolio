@@ -1,33 +1,13 @@
-# build output
-dist/
-
-# generated types
-.astro/
-
-# dependencies
-node_modules/
-
-# logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# environment variables
-.env
-.env.production
-
-# macOS-specific files
+node_modules
+dist
 .DS_Store
+.env
+.env.*
+!.env.example
 
-# jetbrains setting folder
-.idea/
-
-pocketbase/*.md
-pocketbase/pocketbase
-
-# ne pas push l'architecture.md de mon site
-architecture.md
-
-# ne pas push le dossier documentation
-documentation/
+# Fichiers de travail locaux (polices sous licence, sources, notes perso)
+typo/
+docs/
+3D-elements/
+Romance World/
+.claude/

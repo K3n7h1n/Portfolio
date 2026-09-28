@@ -1,0 +1,19 @@
+/* ─────────────────────────────────────────────────────────────
+   Ta typographie : dépose ton fichier dans
+   public/mon_assets/ma_typo.woff2 — elle devient la police
+   principale (titres + texte). Tant qu'il est absent,
+   Instrument Sans prend le relais automatiquement.
+   Si ta typo existe en plusieurs graisses (fichiers séparés),
+   duplique le bloc avec font-weight: 400 / 500 / 700.
+   ───────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'K3 Typo';
+  src: url('/mon_assets/ma_typo.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --font: 'K3 Typo', 'Instrument Sans Variable', 'Helvetica Neue', Arial, sans-serif;
+}

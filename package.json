@@ -1,27 +1,31 @@
 {
-  "name": "portfolio",
+  "name": "portfolio-k3",
+  "private": true,
+  "version": "1.0.0",
   "type": "module",
-  "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "projet:new": "node scripts/new-project.js"
   },
   "dependencies": {
-    "@astrojs/node": "^9.5.0",
-    "@astrojs/sitemap": "^3.7.2",
-    "animejs": "^4.3.6",
-    "astro": "^5.14.5",
-    "gsap": "^3.13.0",
-    "kleur": "^4.1.5",
-    "pocketbase": "^0.26.2"
+    "@fontsource-variable/instrument-sans": "^5.3.0",
+    "@gsap/react": "^2.1.2",
+    "@react-three/drei": "^10.7.8",
+    "@react-three/fiber": "^9.8.0",
+    "@supabase/supabase-js": "^2.117.2",
+    "gsap": "^3.15.0",
+    "lenis": "^1.3.26",
+    "marked": "^18.0.14",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-router-dom": "^7.18.4",
+    "three": "^0.186.0",
+    "yaml": "^2.9.1"
   },
   "devDependencies": {
-    "@astrojs/tailwind": "^6.0.2",
-    "autoprefixer": "^10.4.21",
-    "daisyui": "^5.3.3",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^3.4.18"
+    "@vitejs/plugin-react": "^6.1.1",
+    "vite": "^8.3.0"
   }
 }
