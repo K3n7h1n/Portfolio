@@ -1310,6 +1310,12 @@ button {
   max-width: none;
 }
 
+/* Posée en JS (layoutWrap) : ce bloc n'a pas la place à côté de l'image,
+   il passe dessous avec la suite (un titre ne reste jamais seul) */
+.pp-intro .pp-prose > .pp-clear {
+  clear: left;
+}
+
 /* Listes et citations : blocs autonomes qui se rangent à côté du flottant
    au lieu de glisser dessous (tirets et puces restent visibles) */
 .pp-intro:not(.pp-intro--solo) .pp-prose :is(ul, ol, blockquote, pre) {

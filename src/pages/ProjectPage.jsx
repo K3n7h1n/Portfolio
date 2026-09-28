@@ -215,6 +215,70 @@ function Lightbox({ images, index, title, onClose, onChange }) {
   )
 }
 
+// ─── Habillage de la couverture : un titre reste avec son contenu ───
+// Le texte « À propos » s'enroule autour de la couverture flottante. Après chaque
+// mise en page, on mesure les blocs qui commencent à côté de l'image : un titre
+// sans la place pour lui + 3 lignes du bloc suivant, ou un paragraphe qui n'y
+// mettrait qu'une ligne, passe sous l'image (classe .pp-clear = clear: left).
+// Mesures relatives à .pp-body : insensibles au décalage de l'animation d'entrée.
+const KEEP_LINES_AFTER_HEADING = 3
+const MIN_LINES_BESIDE = 2
+
+function layoutWrap(intro) {
+  const cover = intro?.querySelector('.pp-cover')
+  const body = intro?.querySelector('.pp-body')
+  const blocks = body ? [...body.querySelectorAll('.pp-prose > *')] : []
+  blocks.forEach((el) => el.classList.remove('pp-clear')) // toujours repartir de zéro
+  if (!cover || !blocks.length || getComputedStyle(cover).float === 'none') return
+
+  // Bas de la couverture (marge comprise), dans le repère de .pp-body
+  // (- 1 : offsetTop est arrondi au pixel, les positions mesurées ne le sont pas)
+  const floatBottom = cover.offsetTop + cover.offsetHeight + parseFloat(getComputedStyle(cover).marginBottom) - body.offsetTop - 1
+  const top = (el) => el.getBoundingClientRect().top - body.getBoundingClientRect().top
+  const lineHeight = (el) => parseFloat(getComputedStyle(el.querySelector('li') || el).lineHeight) || 24
+
+  for (const el of blocks) {
+    const y = top(el)
+    if (y >= floatBottom) break // ce bloc et les suivants sont déjà sous l'image
+    const next = el.nextElementSibling
+    if (/^H[2-6]$/.test(el.tagName)) {
+      if (!next || top(next) + KEEP_LINES_AFTER_HEADING * lineHeight(next) > floatBottom) el.classList.add('pp-clear')
+    } else {
+      const spans = y + el.getBoundingClientRect().height > floatBottom
+      if (spans && floatBottom - y < MIN_LINES_BESIDE * lineHeight(el)) el.classList.add('pp-clear')
+    }
+  }
+}
+
+// Recalcul direct (pas de requestAnimationFrame : il est suspendu dans un onglet
+// en arrière-plan). Les rappels de ResizeObserver et les effets passent après la
+// mise en page, la lecture des positions y est sûre.
+function useWrapLayout(ref, enabled) {
+  const run = useCallback(() => layoutWrap(ref.current), [ref])
+  useEffect(() => {
+    const intro = ref.current
+    if (!enabled || !intro) return
+    let key = ''
+    // Ne recalcule que si la largeur ou la hauteur d'écran change (pas quand
+    // nos propres .pp-clear changent la hauteur du bloc : pas d'oscillation)
+    const onResize = () => {
+      const next = `${intro.clientWidth}x${window.innerHeight}`
+      if (next === key) return
+      key = next
+      run()
+    }
+    const ro = new ResizeObserver(onResize)
+    ro.observe(intro)
+    window.addEventListener('resize', onResize)
+    document.fonts?.ready.then(run)
+    return () => {
+      ro.disconnect()
+      window.removeEventListener('resize', onResize)
+    }
+  }, [ref, enabled, run])
+  return run
+}
+
 function Video({ video, title }) {
   if (video.kind === 'file') {
     return (
@@ -245,6 +309,7 @@ function ProjectView({ project }) {
   const next = getNextProject(project.slug)
   const [open, setOpen] = useState(-1)
   const [landscape, setLandscape] = useState(false) // couverture paysage : colonne image plus large
+  const [coverFailed, setCoverFailed] = useState(false) // image injoignable : pas de cadre vide
   const { title, category, short, role, client, year, tools, links, videos, cover, gallery, html } = project
   const infos = [
     ['Rôle', role],
@@ -255,6 +320,12 @@ function ProjectView({ project }) {
   // la galerie) puis la galerie. La grille n'affiche pas la couverture une 2e fois.
   const shots = cover && !gallery.includes(cover) ? [cover, ...gallery] : gallery
   const rest = gallery.filter((src) => src !== cover)
+  const showCover = Boolean(cover) && !coverFailed
+  const intro = useRef()
+  const relayoutWrap = useWrapLayout(intro, showCover && Boolean(html))
+  useEffect(() => {
+    relayoutWrap() // portrait ↔ paysage : la couverture change de largeur
+  }, [landscape, relayoutWrap])
 
   // Page neuve : scroll en haut + smooth scroll Lenis (détruit au démontage)
   useLayoutEffect(() => {
@@ -367,9 +438,9 @@ function ProjectView({ project }) {
           )}
         </section>
 
-        {(cover || html) && (
-          <div className={`pp-intro ${cover ? '' : 'pp-intro--solo'} ${landscape ? 'is-landscape' : ''}`}>
-            {cover && (
+        {(showCover || html) && (
+          <div className={`pp-intro ${showCover ? '' : 'pp-intro--solo'} ${landscape ? 'is-landscape' : ''}`} ref={intro}>
+            {showCover && (
               <figure className="pp-cover">
                 <button className="pp-cover__btn" onClick={() => setOpen(shots.indexOf(cover))} aria-label={`Agrandir le visuel principal de ${title}`}>
                   <img
@@ -378,7 +449,9 @@ function ProjectView({ project }) {
                     onLoad={(e) => {
                       setLandscape(e.currentTarget.naturalWidth > e.currentTarget.naturalHeight * 1.2)
                       onImgLoad()
+                      relayoutWrap() // la hauteur de l'image est connue
                     }}
+                    onError={() => setCoverFailed(true)}
                   />
                 </button>
               </figure>
