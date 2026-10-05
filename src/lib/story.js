@@ -43,20 +43,46 @@ export function createStory({ bg, curtain, webgl }) {
     )
 
     // 4 · Le rideau est recalculé à chaque tick : clip-path CSS + uniforms du shader.
+    //     La taille du rideau (plein écran) n'est lue qu'au redimensionnement :
+    //     lire clientWidth à chaque image, juste après avoir écrit le clip-path,
+    //     forçait un recalcul de style/mise en page synchrone.
+    //     Rien n'est recalculé tant que la progression et la taille ne changent pas.
+    let w = curtain.clientWidth
+    let h = curtain.clientHeight
+    const ro = new ResizeObserver(() => {
+      w = curtain.clientWidth
+      h = curtain.clientHeight
+    })
+    ro.observe(curtain)
     let last = ''
+    let lastKey = ''
+    let covered = false
     const tick = () => {
-      const w = curtain.clientWidth
-      const h = curtain.clientHeight
-      const c = computeCurtain(curtainST.progress, w, h)
+      const p = curtainST.progress
+      const key = `${p}|${w}|${h}`
+      if (key === lastKey) return
+      lastKey = key
+      const c = computeCurtain(p, w, h)
       Object.assign(store.curtain, c)
       const clip = `circle(${c.r.toFixed(1)}px at ${c.cx.toFixed(1)}px ${c.cy.toFixed(1)}px)`
       if (clip !== last) {
         curtain.style.clipPath = clip
         last = clip
       }
+      // Rideau entièrement monté : le fond rouge et ses halos animés sont
+      // cachés dessous (et déjà fondus au noir) ; on cesse de les dessiner
+      const full = p >= 1
+      if (full !== covered) {
+        covered = full
+        bg.classList.toggle('is-covered', full)
+      }
     }
     gsap.ticker.add(tick)
-    return () => gsap.ticker.remove(tick)
+    return () => {
+      gsap.ticker.remove(tick)
+      ro.disconnect()
+      bg.classList.remove('is-covered')
+    }
   })
 
   ScrollTrigger.refresh()

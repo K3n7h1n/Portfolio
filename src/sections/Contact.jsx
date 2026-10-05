@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { gsap, useGSAP } from '../lib/gsap'
+import { gsap, ScrollTrigger, useGSAP } from '../lib/gsap'
 import { contact, identity } from '../data/content'
 
 // Courbes serpentines : elles se prolongent loin à gauche de l'écran
@@ -7,11 +7,21 @@ import { contact, identity } from '../data/content'
 const PATH_A = 'M-3200,380 C-2800,140 -2400,620 -2000,380 S-1200,140 -800,380 S-200,640 200,470 S760,40 1120,250 S1560,560 1900,420'
 const PATH_B = 'M-3200,700 C-2800,900 -2400,460 -2000,700 S-1200,900 -800,700 S-150,420 260,640 S820,900 1140,660 S1560,380 1900,560'
 
-// Longueur d'arc à laquelle le chemin franchit une abscisse donnée
+// Longueur d'arc (multiple de 8) à laquelle le chemin franchit une abscisse donnée.
+// Les courbes avancent toujours vers la droite (x croissant le long du tracé) :
+// une recherche dichotomique sur les pas de 8 donne exactement le même résultat
+// que le parcours pas à pas (~800 appels à getPointAtLength → ~12).
 function lengthAtX(path, x) {
   const total = path.getTotalLength()
-  for (let l = 0; l <= total; l += 8) if (path.getPointAtLength(l).x >= x) return l
-  return total
+  let lo = 0
+  let hi = Math.floor(total / 8)
+  if (path.getPointAtLength(hi * 8).x < x) return total
+  while (lo < hi) {
+    const mid = (lo + hi) >> 1
+    if (path.getPointAtLength(mid * 8).x >= x) hi = mid
+    else lo = mid + 1
+  }
+  return lo * 8
 }
 
 export default function Contact() {
@@ -57,6 +67,15 @@ export default function Contact() {
           scrollTrigger: { trigger: root.current, start: 'top bottom', end: 'top top', scrub: true },
         }
       )
+      // Animations CSS du bouton (vibration, ondes) en pause tant que la
+      // section n'est pas à l'écran (voir .contact:not(.is-inview) dans global.css)
+      ScrollTrigger.create({
+        trigger: root.current,
+        start: 'top bottom',
+        end: 'max',
+        toggleClass: { targets: root.current, className: 'is-inview' },
+      })
+
       gsap.from('.cta-wrap', {
         scale: 0,
         rotation: -90,

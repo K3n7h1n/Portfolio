@@ -1,25 +1,55 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { ScrollTrigger } from './lib/gsap'
 import { initLenis, lenis, sectionTop } from './lib/lenis'
 import { createStory } from './lib/story'
 import { store } from './lib/store'
 import { loadProjects } from './lib/projects'
-import Experience from './three/Experience'
 import Nav, { SECTIONS } from './components/Nav'
 import Hero from './sections/Hero'
 import Parcours from './sections/Parcours'
 import Toolkit from './sections/Toolkit'
 import Projects from './sections/Projects'
 import Contact from './sections/Contact'
-import ProjectPage from './pages/ProjectPage'
 import { PageTransition } from './components/PageTransition'
 import Logo from './components/Logo'
+import { bakeBlobs } from './lib/blobs'
 
 const HOME_TITLE = 'Enzo Locatelli · K3nshin · Portfolio'
 
 // Démarre la requête des projets dès le chargement du module, sans attendre React
 loadProjects()
+
+// Découpage du bundle : la 3D (three, @react-three/*) et la page projet sont
+// dans des chunks séparés (préchargés via <link rel="modulepreload">, voir
+// vite.config.js). Le chunk de la page d'arrivée est attendu avec le loader
+// (useAppReady) : le composant est alors disponible de façon synchrone, sans
+// Suspense ni changement de minutage par rapport à un import statique.
+// L'autre chunk est chargé juste après, en tâche de fond.
+const chunk = (load) => {
+  const c = { Component: null, promise: null }
+  c.load = () => (c.promise ??= load().then((m) => (c.Component = m.default)))
+  return c
+}
+const experienceChunk = chunk(() => import('./three/Experience'))
+const projectPageChunk = chunk(() => import('./pages/ProjectPage'))
+const firstChunk = window.location.pathname.startsWith('/projets/') ? projectPageChunk : experienceChunk
+firstChunk.load()
+
+// Rend le composant d'un chunk, en attendant son chargement si besoin
+// (cas rare : navigation avant la fin du préchargement de l'autre chunk)
+function useChunk(c) {
+  const [, setLoaded] = useState(!!c.Component)
+  useEffect(() => {
+    if (!c.Component) c.load().then(() => setLoaded(true))
+  }, [c])
+  return c.Component
+}
+
+function ProjectRoute() {
+  const ProjectPage = useChunk(projectPageChunk)
+  return ProjectPage ? <ProjectPage /> : null
+}
 
 // Le site n'est monté qu'une fois les polices prêtes (SplitText mesure les lettres)
 // et les projets chargés (les pins de l'accueil dépendent de la hauteur de la liste).
@@ -28,7 +58,11 @@ function useAppReady() {
   const [ready, setReady] = useState(false)
   useEffect(() => {
     const fonts = ['500 1em "K3 Typo"', '500 1em "Instrument Sans Variable"']
-    Promise.allSettled([...fonts.map((f) => document.fonts.load(f)), loadProjects()]).then(() => setReady(true))
+    Promise.allSettled([...fonts.map((f) => document.fonts.load(f)), loadProjects(), firstChunk.load()]).then(() => {
+      setReady(true)
+      experienceChunk.load()
+      projectPageChunk.load()
+    })
   }, [])
   return ready
 }
@@ -74,9 +108,10 @@ function Site({ layers }) {
     }
   }, [layers]) // le hash n'est lu qu'au montage
 
-  return (
-    <>
-      <Nav active={active} />
+  // Les sections ne dépendent pas de `active` : on ne les re-rend pas
+  // à chaque changement de section (seule la navigation change)
+  const story = useMemo(
+    () => (
       <main className="story">
         <Hero />
         <Parcours />
@@ -84,6 +119,14 @@ function Site({ layers }) {
         <Projects />
         <Contact />
       </main>
+    ),
+    []
+  )
+
+  return (
+    <>
+      <Nav active={active} />
+      {story}
     </>
   )
 }
@@ -91,6 +134,11 @@ function Site({ layers }) {
 // Page d'accueil : calques fixes (fond, rideau, canvas 3D) + sections.
 // Tout est démonté en quittant la page, puis recréé au retour.
 function Home() {
+  const Experience = useChunk(experienceChunk)
+  return Experience ? <HomeLayers Experience={Experience} /> : null
+}
+
+function HomeLayers({ Experience }) {
   const bg = useRef()
   const curtain = useRef()
   const webgl = useRef()
@@ -101,6 +149,10 @@ function Home() {
     window.scrollTo(0, 0)
     setLayers({ bg: bg.current, curtain: curtain.current, webgl: webgl.current })
   }, [])
+
+  // Halos flous du fond : le flou est calculé une seule fois (bitmap) au lieu
+  // d'être recalculé par le GPU à chaque image (voir lib/blobs.js)
+  useEffect(() => bakeBlobs(bg.current), [])
 
   return (
     <>
@@ -120,23 +172,32 @@ function Home() {
 
 export default function App() {
   const ready = useAppReady()
+  // Loader retiré du DOM une fois son fondu terminé (son animation « blink »
+  // tournait sinon indéfiniment sous visibility: hidden)
+  const [loaderGone, setLoaderGone] = useState(false)
 
   return (
     <PageTransition>
       {ready && (
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/projets/:slug" element={<ProjectPage />} />
+          <Route path="/projets/:slug" element={<ProjectRoute />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       )}
 
       <div className="grain" aria-hidden="true" />
-      <div className={`loader ${ready ? 'is-done' : ''}`} aria-hidden="true">
-        <span>
-          <Logo />
-        </span>
-      </div>
+      {!loaderGone && (
+        <div
+          className={`loader ${ready ? 'is-done' : ''}`}
+          aria-hidden="true"
+          onTransitionEnd={(e) => ready && e.target === e.currentTarget && (e.propertyName === 'opacity' || e.propertyName === 'visibility') && setLoaderGone(true)}
+        >
+          <span>
+            <Logo />
+          </span>
+        </div>
+      )}
     </PageTransition>
   )
 }

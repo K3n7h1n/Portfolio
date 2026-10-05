@@ -23,7 +23,7 @@ let loading = null
 const mediaUrl = (path) => {
   if (!path || typeof path !== 'string') return null
   if (/^(https?:)?\//.test(path)) return path
-  return supabase.storage.from(BUCKET).getPublicUrl(path.replace(/^\/+/, '')).data.publicUrl
+  return supabase.publicUrl(BUCKET, path)
 }
 
 // Une vidéo de la table : fichier du bucket → URL publique, puis même logique
@@ -71,15 +71,16 @@ async function fetchRemote() {
       reject(new Error(`délai de ${TIMEOUT / 1000} s dépassé`))
     }, TIMEOUT)
   })
-  const query = supabase
-    .from('projects')
-    .select(COLUMNS)
-    .eq('draft', false) // utile si on est connecté en admin : la RLS montrerait aussi les brouillons
-    .order('sort_order')
-    .abortSignal(ctrl.signal)
+  // Mêmes paramètres que supabase.from('projects').select(COLUMNS).eq('draft', false).order('sort_order')
+  // (le filtre draft est utile si on est connecté en admin : la RLS montrerait aussi les brouillons)
+  const query = supabase.select(
+    'projects',
+    { select: COLUMNS, draft: 'eq.false', order: 'sort_order.asc' },
+    { signal: ctrl.signal }
+  )
+  query.catch(() => {}) // délai dépassé : l'abandon de la requête n'est pas une erreur non gérée
   try {
-    const { data, error } = await Promise.race([query, timeout])
-    if (error) throw error
+    const data = await Promise.race([query, timeout])
     return (data || []).map(fromRow)
   } finally {
     clearTimeout(timer)

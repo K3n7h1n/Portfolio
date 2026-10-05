@@ -17,8 +17,11 @@ export default function Hero() {
       // La largeur est figée pour que le scramble ne fasse pas « sauter » la ligne.
       // Elle est exprimée en em (et non en px) : la taille du titre étant en vw,
       // les lettres restent proportionnées après un redimensionnement / une rotation.
-      const inners = split.chars.map((c) => {
-        const w = c.getBoundingClientRect().width / parseFloat(getComputedStyle(c).fontSize)
+      // Toutes les mesures d'abord, puis toutes les écritures : alterner lecture
+      // et écriture forçait une mise en page complète par lettre.
+      const widths = split.chars.map((c) => c.getBoundingClientRect().width / parseFloat(getComputedStyle(c).fontSize))
+      const inners = split.chars.map((c, i) => {
+        const w = widths[i]
         const ch = c.textContent
         c.innerHTML = `<span class="char__in">${ch}</span>`
         c.style.width = `${w}em`

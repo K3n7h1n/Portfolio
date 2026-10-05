@@ -126,6 +126,7 @@ export default function K3Model() {
   const mesh = useRef()
   const glass = useRef()
   const glassState = useRef({ value: 0, hovered: false })
+  const glassCompiled = useRef(false)
   const { material, uniforms } = useContrastMaterial()
   const viewport = useThree((s) => s.viewport)
   const size = useThree((s) => s.size)
@@ -142,6 +143,19 @@ export default function K3Model() {
     const { mouse, curtain } = store
     const g = group.current
     if (!g) return
+
+    // Précompile le shader « liquid glass » (lourd : 8 échantillons × 3 canaux)
+    // une fois l'environnement prêt, en tâche de fond (KHR_parallel_shader_compile),
+    // pour éviter un gel au premier survol. compile() ne parcourt que les objets
+    // visibles : le mesh est rendu visible le temps de la collecte (synchrone),
+    // il n'est donc jamais dessiné.
+    if (!glassCompiled.current && glass.current && state.scene.environment) {
+      glassCompiled.current = true
+      const gm = glass.current
+      gm.visible = true
+      state.gl.compileAsync(gm, state.camera, state.scene).catch(() => {})
+      gm.visible = false
+    }
 
     // Uniforms du shader de contraste
     uniforms.uCurtain.value.set(curtain.cx, curtain.cy, curtain.r)
@@ -214,6 +228,9 @@ export default function K3Model() {
             clearcoatRoughness={0.05}
             envMapIntensity={0.6}
             samples={8}
+            // Le décor réfracté est fourni par `buffer` : les deux FBO internes
+            // (taille écran × dpr) ne servent jamais, on les réduit à 1 px
+            resolution={1}
             color="#ffffff"
             side={THREE.DoubleSide}
           />

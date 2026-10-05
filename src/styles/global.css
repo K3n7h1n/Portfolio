@@ -93,6 +93,23 @@ button {
   will-change: transform;
 }
 
+/* Flou précalculé dans un <canvas> enfant (lib/blobs.js) : même rendu,
+   sans recalcul du flou par le GPU à chaque image */
+.bg__blob.is-baked {
+  filter: none;
+  background: none;
+}
+
+/* Rideau noir entièrement monté (story.js) : le fond et ses halos animés
+   sont totalement recouverts, on arrête de les dessiner */
+.bg.is-covered {
+  visibility: hidden;
+}
+
+.bg.is-covered .bg__blob {
+  animation-play-state: paused;
+}
+
 .bg__blob--a {
   width: 60vw;
   height: 60vw;
@@ -159,10 +176,15 @@ button {
 
 .grain {
   position: fixed;
-  inset: -50%;
+  /* Calque réduit de 200 % à 120 % du viewport (≈ 2,8× moins de pixels à
+     rastériser et mélanger) : les décalages ci-dessous, exprimés en vw/vh,
+     sont les mêmes qu'avant (x % de 200vw), et background-position replace
+     la trame du bruit exactement où elle était (origine à -50vw / -50vh) */
+  inset: -10%;
   z-index: 30;
   pointer-events: none;
   background-image: var(--noise);
+  background-position: -40vw -40vh;
   opacity: 0.075;
   mix-blend-mode: overlay;
   animation: grain 0.9s steps(6) infinite;
@@ -170,11 +192,11 @@ button {
 
 @keyframes grain {
   0% { transform: translate(0, 0); }
-  20% { transform: translate(-3%, 2%); }
-  40% { transform: translate(2%, -4%); }
-  60% { transform: translate(-4%, -1%); }
-  80% { transform: translate(3%, 3%); }
-  100% { transform: translate(-1%, 4%); }
+  20% { transform: translate(-6vw, 4vh); }
+  40% { transform: translate(4vw, -8vh); }
+  60% { transform: translate(-8vw, -2vh); }
+  80% { transform: translate(6vw, 6vh); }
+  100% { transform: translate(-2vw, 8vh); }
 }
 
 .loader {
@@ -268,18 +290,31 @@ button {
 }
 
 .status__dot {
+  position: relative;
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 50%;
   background: var(--white);
-  box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+}
+
+/* Onde du point : même rendu qu'un box-shadow animé (0 → 0.6rem, alpha
+   0.7 → 0), mais en transform/opacity (composité, sans repeindre à chaque
+   image). Échelle : (0.25rem + 0.6rem) / 0.25rem = 3.4 */
+.status__dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--white);
+  opacity: 0.7;
   animation: ping 2s infinite;
 }
 
 @keyframes ping {
   70%,
   100% {
-    box-shadow: 0 0 0 0.6rem rgba(255, 255, 255, 0);
+    transform: scale(3.4);
+    opacity: 0;
   }
 }
 
@@ -980,6 +1015,14 @@ button {
 
 .cta:hover .cta__disc {
   animation-duration: 0.4s;
+}
+
+/* Section Contact hors écran (Contact.jsx) : la vibration (border-radius,
+   repeinte à chaque image) et les ondes sont mises en pause */
+.contact:not(.is-inview) .cta__disc,
+.contact:not(.is-inview) .cta__disc::before,
+.contact:not(.is-inview) .cta__disc::after {
+  animation-play-state: paused;
 }
 
 /* Ondes « vibrantes » autour du cercle */
@@ -2141,7 +2184,7 @@ html.has-lightbox {
   .cta__disc::before,
   .cta__disc::after,
   .hero__scroll,
-  .status__dot,
+  .status__dot::after,
   .loader span {
     animation: none;
   }
