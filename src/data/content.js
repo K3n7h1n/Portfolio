@@ -11,7 +11,7 @@ export const identity = {
   alias: 'K3nshin',
   location: 'Belfort, FR',
   year: '2026',
-  email: 'hello@ton-domaine.fr', // ← ton adresse de contact
+  email: 'enzort70290@gmail.com', // ← ton adresse de contact
   status: 'Recherche de stage',
   roles: {
     dev: ['Designer', 'Graphique'],
@@ -98,9 +98,8 @@ export const contact = {
   curveB: 'Parlons-en • Parlons-en • ',
   cta: ['Écris', 'moi'],
   socials: [
-    { label: 'Instagram', url: '#' },
-    { label: 'LinkedIn', url: '#' },
-    { label: 'GitHub', url: '#' },
-    { label: 'Behance', url: '#' },
+    { label: 'LinkedIn', url: 'https://www.linkedin.com/in/enzo-locatelli-a414b2337/' },
+    { label: 'TikTok', url: 'https://www.tiktok.com/@romance.wrld' },
+    { label: 'Discord', url: 'https://discord.gg/dyK6xyFvks' },
   ],
 }
