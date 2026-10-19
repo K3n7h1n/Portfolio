@@ -546,222 +546,317 @@ button {
   transform-origin: left;
 }
 
-/* ─── 03 · Toolkit (deck of cards) ──────────────────────────── */
+/* ─── 03 · Toolkit (domaines dépliables) ───────────────────── */
 .toolkit {
   position: relative;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.toolkit__inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100%;
-  padding-top: 11vh;
+  padding: 18vh var(--gutter) 16vh;
 }
 
 .toolkit__head {
-  text-align: center;
+  display: grid;
+  grid-template-columns: 1fr minmax(0, 26rem);
+  align-items: end;
+  gap: 1rem 3rem;
+  margin-bottom: 7vh;
+}
+
+.toolkit__head .eyebrow {
+  grid-column: 1 / -1;
 }
 
 .toolkit__title {
-  margin-top: 0.6rem;
-  font-size: 9.5vw;
+  font-size: clamp(4rem, 13vw, 15rem);
   font-weight: 600;
-  line-height: 0.9;
+  line-height: 0.85;
   letter-spacing: -0.06em;
 }
 
-.toolkit__sub {
-  margin-top: 0.5em;
-  font-size: clamp(1.1rem, 2.2vw, 2.4rem);
-  font-weight: 300;
-  letter-spacing: -0.02em;
-  min-height: 1.2em;
+.toolkit__intro {
+  font-size: clamp(0.95rem, 1.1vw, 1.1rem);
+  line-height: 1.6;
+  color: var(--muted);
+  padding-bottom: 0.6rem;
 }
 
-.deck {
-  --card-w: clamp(118px, 15.5vw, 250px);
+.toolkit__list {
+  border-top: 1px solid var(--line);
+}
+
+.domain {
+  border-bottom: 1px solid var(--line);
+}
+
+.domain__toggle {
   position: relative;
-  flex: 1;
-  width: 100%;
-  perspective: 1600px;
-}
-
-.deck__slot {
-  position: absolute;
-  left: 50%;
-  top: 48%;
-  width: var(--card-w);
-  aspect-ratio: 5 / 7;
-  margin-left: calc(var(--card-w) / -2);
-  margin-top: calc(var(--card-w) * -0.7);
-  transform-style: preserve-3d;
-  cursor: default;
-}
-
-/* Survol géré en JS (Toolkit.jsx) : une seule carte active, qui passe devant
-   ses voisines ; celle qui redescend garde un z-index élevé jusqu'au bout */
-.deck__slot.is-leaving {
-  z-index: 99 !important;
-}
-.deck__slot.is-active {
-  z-index: 100 !important;
-}
-
-/* Zone de hit stable : le slot lui-même ; élargie vers le haut uniquement
-   pour la carte active (soulevée), pour garder le curseur « dedans » */
-.deck__slot::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-}
-.deck__slot.is-active::before {
-  inset: -18% -4% 0;
-}
-
-.card {
-  --gx: 50%;
-  --gy: 50%;
-  position: relative;
-  display: flex;
-  flex-direction: column;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 3.5rem 1fr auto 2.5rem;
   align-items: center;
-  justify-content: center;
+  gap: 1.5rem;
   width: 100%;
-  height: 100%;
-  padding: 1rem;
-  border-radius: calc(var(--card-w) * 0.08);
+  padding: 2rem 1.25rem;
+  text-align: left;
   overflow: hidden;
-  background: #141414;
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.75);
-  /* soulèvement + inclinaison animés par GSAP (transform), pas de transition CSS */
-  transition: box-shadow 0.5s var(--ease-out);
-  backface-visibility: hidden;
-  will-change: transform;
-  /* la carte bouge au survol : c'est le slot qui reçoit le pointeur */
-  pointer-events: none;
+  cursor: pointer;
 }
 
-.deck__slot.is-active .card {
-  box-shadow: 0 50px 80px -20px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 0, 0, 0.5);
+.domain__toggle:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: -2px;
 }
 
-.card__name {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: calc(var(--card-w) * 0.19);
-  font-weight: 700;
-  line-height: 0.92;
-  letter-spacing: -0.05em;
-  color: var(--red);
-  text-align: center;
-}
-
-/* Logo du logiciel (remplace le nom en gros) */
-.card__logo {
-  display: block;
-  width: calc(var(--card-w) * 0.5);
-  height: calc(var(--card-w) * 0.5);
-  max-height: calc(var(--card-w) * 0.5);
-  object-fit: contain;
-  pointer-events: none;
-  user-select: none;
-  -webkit-user-drag: none;
-  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.35));
-}
-
-/* Logo carré sans transparence (ex. Astro) : on arrondit les coins */
-.card__logo[src$='.jpg'] {
-  border-radius: 22%;
-}
-
-.card__logo + .card__tag {
-  margin-top: calc(var(--card-w) * 0.12);
-}
-
-.card__tag {
-  margin-top: 1.1em;
-  padding: 0.45em 1.1em;
-  border-radius: 999px;
-  font-size: calc(var(--card-w) * 0.056);
-  font-weight: 600;
-  white-space: nowrap;
-  background: var(--red);
-  color: var(--white);
-}
-
-.card__glare {
+/* Même dégradé rouge texturé que la liste des projets */
+.domain__glow {
   position: absolute;
   inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(circle at var(--gx) var(--gy), rgba(255, 255, 255, 0.55), transparent 50%);
-  mix-blend-mode: overlay;
-  opacity: 0;
-  transition: opacity 0.5s;
-  pointer-events: none;
-}
-
-.deck__slot.is-active .card__glare {
-  opacity: 1;
-}
-
-.card--blood {
-  background: #2b0000;
-}
-.card--blood .card__name {
-  color: #ff2b2b;
-}
-
-.card--ember {
-  background: linear-gradient(160deg, #1b1b1b 20%, #4a0000);
-}
-.card--ember .card__name {
-  color: var(--white);
-}
-
-.card--paper {
-  background: #f3f0ec;
-}
-
-.card--ash {
-  background: linear-gradient(160deg, #e9e5e0 10%, #c9c2bb);
-}
-
-.card--red {
-  background: var(--red);
-}
-.card--red .card__name {
-  color: var(--black);
-}
-.card--red .card__tag {
-  background: var(--black);
-}
-
-.card--signature {
+  z-index: -1;
   background:
-    radial-gradient(120% 90% at 20% 0%, #ff5a2a 0%, transparent 55%),
-    radial-gradient(120% 100% at 100% 100%, #6b0010 0%, transparent 60%),
-    var(--red);
+    radial-gradient(ellipse 55% 160% at var(--mx, 50%) 50%, #ff0000 0%, rgba(210, 0, 0, 0.85) 35%, rgba(13, 13, 13, 0) 78%);
+  clip-path: inset(50% 0 50% 0);
+  transition: clip-path 0.7s var(--ease-out);
 }
-.card--signature::after {
+
+/* Grain limité à la tache rouge : hors du dégradé, il resterait gris */
+.domain__glow::after {
   content: '';
   position: absolute;
   inset: 0;
   background-image: var(--noise);
-  opacity: 0.35;
   mix-blend-mode: overlay;
+  opacity: 0.9;
+  -webkit-mask-image: radial-gradient(ellipse 55% 160% at var(--mx, 50%) 50%, #000 35%, transparent 78%);
+  mask-image: radial-gradient(ellipse 55% 160% at var(--mx, 50%) 50%, #000 35%, transparent 78%);
 }
-.card--signature .card__name {
-  font-size: calc(var(--card-w) * 0.42);
-  color: var(--white);
+
+.domain__index,
+.domain__count {
+  font-size: clamp(0.8rem, 0.95vw, 0.95rem);
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  transition: color 0.4s;
 }
-.card--signature .card__tag {
-  background: var(--white);
+
+.domain__name {
+  font-size: clamp(2rem, 5vw, 6rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  transition: transform 0.7s var(--ease-out), color 0.4s;
+}
+
+/* Plus → moins : deux traits, le vertical se couche à l'ouverture */
+.domain__icon {
+  position: relative;
+  justify-self: end;
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.domain__icon::before,
+.domain__icon::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 2px;
+  margin-top: -1px;
+  background: currentColor;
+  transition: transform 0.6s var(--ease-out), background 0.4s;
+}
+
+.domain__icon::after {
+  transform: rotate(90deg);
+}
+
+.domain.is-open .domain__icon::after {
+  transform: rotate(0deg);
+}
+
+.domain.is-open .domain__index {
   color: var(--red);
+}
+
+.domain.is-open .domain__icon::before,
+.domain.is-open .domain__icon::after {
+  background: var(--red);
+}
+
+@media (hover: hover) {
+  .domain__toggle:hover .domain__glow {
+    clip-path: inset(0 0 0 0);
+  }
+
+  .domain__toggle:hover .domain__name {
+    transform: translateX(1.5vw);
+  }
+
+  .domain__toggle:hover .domain__count,
+  .domain__toggle:hover .domain__index {
+    color: var(--white);
+  }
+
+  .domain__toggle:hover .domain__icon::before,
+  .domain__toggle:hover .domain__icon::after {
+    background: var(--white);
+  }
+}
+
+/* Ouverture en hauteur sans mesure JS : grille 0fr → 1fr */
+.domain__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.7s var(--ease-out);
+}
+
+.domain.is-open .domain__panel {
+  grid-template-rows: 1fr;
+}
+
+.domain__clip {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.domain__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 2rem 5vw;
+  padding: 0.5rem 1.25rem 2.6rem calc(1.25rem + 3.5rem + 1.5rem);
+  opacity: 0;
+  transform: translateY(-1rem);
+  transition: opacity 0.4s, transform 0.7s var(--ease-out);
+}
+
+.domain.is-open .domain__body {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0.15s;
+}
+
+.domain__text {
+  max-width: 46ch;
+  font-size: clamp(1rem, 1.2vw, 1.2rem);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.domain__tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.6rem;
+}
+
+.tool {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.5rem 0.95rem 0.5rem 0.55rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 0.92rem;
+  transition: border-color 0.35s, background 0.35s, opacity 0.35s, transform 0.5s var(--ease-out);
+  cursor: pointer;
+}
+
+.tool img {
+  width: 1.6rem;
+  height: 1.6rem;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.tool img[src$='.jpg'] {
+  border-radius: 22%;
+}
+
+/* Logos noirs (GitHub) : passés en blanc sur le fond sombre */
+.tool img[src$='github.svg'] {
+  filter: invert(1);
+}
+
+.tool--text {
+  padding-left: 0.95rem;
+}
+
+.tool--text::before {
+  content: '';
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: var(--red);
+}
+
+.tool sup {
+  font-size: 0.7em;
+  color: var(--red);
+  font-variant-numeric: tabular-nums;
+}
+
+.tool:focus-visible,
+.proof:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 3px;
+}
+
+/* Survol croisé : ce qui est relié s'allume, le reste s'efface */
+.is-filtering .tool:not(.is-lit),
+.is-filtering .proof:not(.is-lit) {
+  opacity: 0.28;
+}
+
+.tool.is-lit {
+  border-color: var(--red);
+  background: rgba(255, 0, 0, 0.14);
+  transform: translateY(-2px);
+}
+
+.domain__label {
+  display: block;
+  margin-bottom: 0.8rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.domain__projects {
+  border-top: 1px solid var(--line);
+}
+
+.proof {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.95rem 0;
+  border-bottom: 1px solid var(--line);
+  font-size: clamp(1.05rem, 1.4vw, 1.45rem);
+  letter-spacing: -0.02em;
+  transition: opacity 0.35s, color 0.35s, padding 0.5s var(--ease-out);
+}
+
+.proof__arrow {
+  color: var(--muted);
+  transition: color 0.35s, transform 0.5s var(--ease-out);
+}
+
+.proof.is-lit,
+.proof:hover {
+  color: var(--white);
+  padding-left: 0.6rem;
+}
+
+.proof.is-lit .proof__arrow,
+.proof:hover .proof__arrow {
+  color: var(--red);
+  transform: translate(3px, -3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .domain__panel,
+  .domain__body {
+    transition: none;
+  }
 }
 
 /* ─── 04 · Projets ──────────────────────────────────────────── */
@@ -2156,8 +2251,27 @@ html.has-lightbox {
     bottom: calc(5.5rem + var(--safe-bottom));
   }
 
+  .toolkit__head {
+    grid-template-columns: 1fr;
+  }
+
   .toolkit__title {
     font-size: 20vw;
+  }
+
+  .domain__toggle {
+    grid-template-columns: 2rem 1fr 1.6rem;
+    gap: 0.8rem;
+    padding: 1.6rem 0.4rem;
+  }
+
+  .domain__count {
+    display: none;
+  }
+
+  .domain__body {
+    grid-template-columns: 1fr;
+    padding: 0 0.4rem 2rem;
   }
 
   .project__link {
@@ -2313,13 +2427,6 @@ html.has-lightbox {
     columns: 1;
   }
 
-  .deck {
-    --card-w: clamp(92px, 27vw, 118px);
-  }
-
-  .toolkit__inner {
-    padding-top: 13vh;
-  }
 }
 
 @media (hover: none), (pointer: coarse) {

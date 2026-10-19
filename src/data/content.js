@@ -63,30 +63,49 @@ export const parcours = {
   outro: ['& la suite', 's’écrit ici'],
 }
 
-// Les cartes sont listées dans l'ordre de dévoilement au scroll :
-// la première (signature K3) est au sommet du paquet, à droite de l'éventail,
-// puis chaque carte suivante se pose à sa gauche.
-// logo : fichier dans /public/logo (name sert de texte alternatif)
-// theme : ink | ember | blood | paper | ash | red | signature
-// (les logos sombres vont sur paper, ash ou red pour rester lisibles)
+// Compétences rangées par domaine. Chaque outil est relié automatiquement
+// aux projets qui le citent dans leur champ `tools` (Supabase ou local) :
+// la comparaison ignore casse, accents et ponctuation (« after-effects »
+// = « After Effects »). `aliases` : autres noms acceptés pour un outil.
+// logo : fichier dans /public/logo ; sans logo, une pastille texte.
 export const toolkit = {
-  // sous-titre affiché pendant le dévoilement : groups[0] puis groups[1]
-  groups: ['Design & Motion', 'Développement web'],
-  // index de la première carte « dev » (le sous-titre bascule sur groups[1])
-  splitAt: 7,
-  cards: [
-    { name: 'K3', tag: 'K3nshin', theme: 'signature' },
-    { name: 'Figma', logo: '/logo/figma.svg', tag: 'UI / UX', theme: 'ink' },
-    { name: 'Photoshop', logo: '/logo/photoshop.svg', tag: 'Retouche', theme: 'paper' },
-    { name: 'Illustrator', logo: '/logo/illustrator.svg', tag: 'Vectoriel', theme: 'red' },
-    { name: 'InDesign', logo: '/logo/indesign.png', tag: 'Mise en page', theme: 'ash' },
-    { name: 'Premiere Pro', logo: '/logo/premiere.svg', tag: 'Montage vidéo', theme: 'paper' },
-    { name: 'After Effects', logo: '/logo/after-effects.svg', tag: 'Motion design', theme: 'red' },
-    { name: 'HTML & CSS', logo: '/logo/html-css.svg', tag: 'Intégration', theme: 'ink' },
-    { name: 'JavaScript', logo: '/logo/javascript.svg', tag: 'Langage', theme: 'blood' },
-    { name: 'Astro', logo: '/logo/astro.jpg', tag: 'Framework', theme: 'red' },
-    { name: 'Tailwind CSS', logo: '/logo/tailwind.svg', tag: 'CSS utilitaire', theme: 'ember' },
-    { name: 'GitHub', logo: '/logo/github.svg', tag: 'Versioning', theme: 'paper' },
+  intro: 'Quatre domaines, une même façon de travailler : de l’idée au rendu final. Ouvre un domaine, puis survole ou touche un outil pour voir où je l’ai utilisé.',
+  domains: [
+    {
+      title: 'Design graphique',
+      text: 'Affiches, identités visuelles, mise en page et retouche : des supports de communication pensés pour être lus en un regard.',
+      tools: [
+        { name: 'Photoshop', logo: '/logo/photoshop.svg' },
+        { name: 'Illustrator', logo: '/logo/illustrator.svg' },
+        { name: 'InDesign', logo: '/logo/indesign.png' },
+      ],
+    },
+    {
+      title: 'Motion & vidéo',
+      text: 'Montage, logos animés et contenus pour les réseaux : donner du rythme à une identité.',
+      tools: [
+        { name: 'After Effects', logo: '/logo/after-effects.svg' },
+        { name: 'Premiere Pro', logo: '/logo/premiere.svg', aliases: ['Premiere'] },
+      ],
+    },
+    {
+      title: 'Web & développement',
+      text: 'De la maquette à la mise en ligne : interfaces, intégration soignée et sites rapides, animés quand ça sert le propos.',
+      tools: [
+        { name: 'Figma', logo: '/logo/figma.svg' },
+        { name: 'HTML & CSS', logo: '/logo/html-css.svg', aliases: ['HTML', 'CSS'] },
+        { name: 'JavaScript', logo: '/logo/javascript.svg', aliases: ['JS'] },
+        { name: 'React', logo: '/logo/react.svg' },
+        { name: 'Astro', logo: '/logo/astro.jpg' },
+        { name: 'Tailwind CSS', logo: '/logo/tailwind.svg', aliases: ['Tailwind'] },
+        { name: 'GitHub', logo: '/logo/github.svg', aliases: ['Git'] },
+      ],
+    },
+    {
+      title: '3D & temps réel',
+      text: 'Modélisation, objets interactifs pour le web et habillages animés en direct.',
+      tools: [{ name: 'Blender' }, { name: 'Three.js' }, { name: 'Blockbench' }, { name: 'OBS Studio', aliases: ['OBS'] }],
+    },
   ],
 }
 

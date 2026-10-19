@@ -1,209 +1,170 @@
-import { useRef } from 'react'
-import { gsap, SplitText, useGSAP, SCRAMBLE_CHARS } from '../lib/gsap'
+import { useMemo, useRef, useState } from 'react'
+import { gsap, ScrollTrigger, SplitText, useGSAP, SCRAMBLE_CHARS } from '../lib/gsap'
 import { toolkit } from '../data/content'
-import Logo from '../components/Logo'
+import { projects } from '../lib/projects'
+import { normalize } from '../lib/project-model'
+import { TransitionLink } from '../components/PageTransition'
+
+const pad = (n) => String(n).padStart(2, '0')
+const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+// Domaines → outils → projets qui citent l'outil dans leur champ `tools`.
+// Calculé une fois au montage : les projets sont chargés avant l'accueil.
+function useDomains() {
+  return useMemo(
+    () =>
+      toolkit.domains.map((d) => {
+        const tools = d.tools.map((t) => {
+          const keys = new Set([t.name, ...(t.aliases || [])].map(normalize))
+          const used = projects.filter((p) => p.tools.some((pt) => keys.has(normalize(pt.name)))).map((p) => p.slug)
+          return { ...t, used }
+        })
+        const slugs = new Set(tools.flatMap((t) => t.used))
+        return { ...d, tools, projects: projects.filter((p) => slugs.has(p.slug)) }
+      }),
+    []
+  )
+}
 
 export default function Toolkit() {
   const root = useRef()
-  const { cards, groups, splitAt } = toolkit
-  // cards est dans l'ordre de dévoilement : on l'inverse pour la disposition
-  // (gauche → droite), la carte signature finit à droite, au sommet du paquet
-  const deck = [...cards].reverse()
+  const domains = useDomains()
+  const [open, setOpen] = useState(0)
+  // Survol croisé : un outil allume ses projets, un projet allume ses outils
+  const [lit, setLit] = useState(null) // { tool } | { slug } | null
 
   useGSAP(
     () => {
-      const slots = gsap.utils.toArray('.deck__slot', root.current)
-      const n = slots.length
-
-      // Positions de l'éventail (arc convexe + perspective)
-      const fan = (i) => {
-        const t = i / (n - 1) - 0.5 // -0.5 → 0.5
-        const vw = window.innerWidth
-        const small = vw < 768
-        // Sur mobile, l'éventail tient dans l'écran : les cartes des bords
-        // (largeur + rotation) ne sont plus coupées par le bord du viewport.
-        const spread = small ? Math.min(vw * 0.78, vw - slots[0].offsetWidth * 1.35) : Math.min(vw * 0.72, 1250)
-        return {
-          x: t * spread,
-          y: t * t * (small ? 120 : 200),
-          rotation: t * 34,
-          rotationY: t * -30,
-        }
-      }
-
-      // Paquet empilé au centre : le dernier slot (signature) est au-dessus
-      slots.forEach((s, i) => {
-        gsap.set(s, {
-          zIndex: i,
-          x: gsap.utils.random(-6, 6),
-          y: (n - i) * -2 + 30,
-          rotation: gsap.utils.random(-5, 5),
-          rotationY: 0,
-        })
-      })
-
       const title = SplitText.create('.toolkit__title', { type: 'chars', mask: 'chars' })
       gsap.from(title.chars, {
         yPercent: 110,
         duration: 1.2,
         ease: 'expo.out',
         stagger: 0.05,
-        scrollTrigger: { trigger: root.current, start: 'top 60%', toggleActions: 'play none none reverse' },
+        scrollTrigger: { trigger: root.current, start: 'top 70%', toggleActions: 'play none none reverse' },
       })
-
-      // Deck of cards : épinglé, les cartes se dévoilent une par une au scroll
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          id: 'toolkit-pin',
-          trigger: root.current,
-          start: 'top top',
-          end: () => '+=' + window.innerHeight * 1.8,
-          pin: true,
-          scrub: true,
-          invalidateOnRefresh: true,
-        },
+      gsap.from('.toolkit__intro, .domain', {
+        y: 50,
+        opacity: 0,
+        duration: 1.1,
+        ease: 'expo.out',
+        stagger: 0.08,
+        scrollTrigger: { trigger: '.toolkit__list', start: 'top 85%', toggleActions: 'play none none reverse' },
       })
-
-      const sub = root.current.querySelector('.toolkit__sub')
-      // Dévoilement de droite à gauche : du sommet du paquet vers le bas
-      for (let i = n - 1; i >= 0; i--) {
-        const step = n - 1 - i // rang dans toolkit.cards
-        const at = step * 0.45
-        // Valeurs fonctionnelles : recalculées au refresh (rotation, redimensionnement)
-        tl.to(slots[i], { x: () => fan(i).x, y: () => fan(i).y, rotation: fan(i).rotation, rotationY: fan(i).rotationY, duration: 1, ease: 'power3.inOut' }, at)
-        // Bascule du sous-titre sur le premier outil « dev »
-        if (step === splitAt) {
-          tl.to(sub, { duration: 0.6, scrambleText: { text: groups[1], chars: SCRAMBLE_CHARS } }, at)
-        }
-      }
-      tl.to({}, { duration: 0.4 })
-
-      // ─── Survol des cartes (géré en JS, une seule carte active) ───
-      // Le slot (animé par l'éventail) ne bouge pas au survol et sert de zone
-      // de hit ; la carte à l'intérieur (pointer-events: none) se soulève et
-      // s'incline via GSAP. Le z-index de la carte qui redescend reste élevé
-      // jusqu'à la fin de sa descente : plus de coupure brutale par la voisine.
-      const deckEl = root.current.querySelector('.deck')
-      const hover = slots.map((slot) => {
-        const card = slot.firstElementChild
-        return {
-          slot,
-          card,
-          rx: gsap.quickTo(card, 'rotationX', { duration: 0.5, ease: 'power3.out' }),
-          ry: gsap.quickTo(card, 'rotationY', { duration: 0.5, ease: 'power3.out' }),
-        }
-      })
-      let active = null
-      let leaveTimer = null
-
-      const lift = (h) => {
-        h.slot.classList.remove('is-leaving')
-        h.slot.classList.add('is-active')
-        gsap.to(h.card, { yPercent: -14, scale: 1.06, duration: 0.5, ease: 'power3.out', overwrite: 'auto' })
-      }
-      const drop = (h) => {
-        h.slot.classList.remove('is-active')
-        h.slot.classList.add('is-leaving')
-        h.rx(0)
-        h.ry(0)
-        gsap.to(h.card, {
-          yPercent: 0,
-          scale: 1,
-          duration: 0.55,
-          ease: 'power3.out',
-          overwrite: 'auto',
-          onComplete: () => h.slot.classList.remove('is-leaving'),
-        })
-      }
-      const setActive = (h) => {
-        clearTimeout(leaveTimer)
-        if (h === active) return
-        if (active) drop(active)
-        active = h
-        if (h) lift(h)
-      }
-
-      // Slot sous le curseur : on garde la carte active tant que le curseur
-      // reste dans sa zone (élargie vers le haut), sinon le slot le plus haut
-      const pick = (x, y) => {
-        const els = document.elementsFromPoint(x, y)
-        if (active && els.includes(active.slot)) return active
-        const el = els.find((e) => e.classList?.contains('deck__slot'))
-        return el ? hover[slots.indexOf(el)] : null
-      }
-
-      const onMove = (e) => {
-        const h = pick(e.clientX, e.clientY)
-        if (!h) {
-          // léger délai avant de relâcher : absorbe un passage bref hors zone
-          clearTimeout(leaveTimer)
-          leaveTimer = setTimeout(() => setActive(null), 90)
-          return
-        }
-        setActive(h)
-        // Inclinaison + reflet relatifs au slot (qui ne bouge pas au survol)
-        const r = h.slot.getBoundingClientRect()
-        const px = gsap.utils.clamp(0, 1, (e.clientX - r.left) / r.width)
-        const py = gsap.utils.clamp(0, 1, (e.clientY - r.top) / r.height)
-        h.ry((px - 0.5) * 22)
-        h.rx((0.5 - py) * 22)
-        h.card.style.setProperty('--gx', `${px * 100}%`)
-        h.card.style.setProperty('--gy', `${py * 100}%`)
-      }
-      const onLeave = () => {
-        clearTimeout(leaveTimer)
-        leaveTimer = setTimeout(() => setActive(null), 90)
-      }
-
-      // Au scroll, l'éventail bouge sous le curseur : on relâche la carte
-      const onScroll = () => active && setActive(null)
-
-      deckEl.addEventListener('pointermove', onMove)
-      deckEl.addEventListener('pointerleave', onLeave)
-      window.addEventListener('scroll', onScroll, { passive: true })
-      return () => {
-        clearTimeout(leaveTimer)
-        deckEl.removeEventListener('pointermove', onMove)
-        deckEl.removeEventListener('pointerleave', onLeave)
-        window.removeEventListener('scroll', onScroll)
-      }
     },
     { scope: root }
   )
 
+  const toggle = (i) => {
+    setLit(null)
+    setOpen((o) => (o === i ? -1 : i))
+    // Le nom du domaine ouvert se recompose (scramble), comme les titres du Hero
+    const name = root.current.querySelectorAll('.domain__name')[i]
+    if (name && open !== i && !reducedMotion()) {
+      gsap.to(name, { duration: 0.7, scrambleText: { text: domains[i].title, chars: SCRAMBLE_CHARS, speed: 0.6 } })
+    }
+  }
+
+  // La hauteur de la section change : les déclencheurs suivants (Projets, Contact,
+  // chorégraphie 3D) sont recalculés une fois l'ouverture terminée
+  const onPanelEnd = (e) => {
+    if (e.target === e.currentTarget && e.propertyName === 'grid-template-rows') ScrollTrigger.refresh()
+  }
+
+  const toolLit = (t) => lit && (lit.tool ? lit.tool === t.name : t.used.includes(lit.slug))
+  const projectLit = (p, d) => lit && (lit.slug ? lit.slug === p.slug : d.tools.find((t) => t.name === lit.tool)?.used.includes(p.slug))
+
   return (
     <section id="toolkit" className="toolkit" ref={root}>
-      <div className="toolkit__inner">
-        <header className="toolkit__head">
-          <span className="eyebrow">(03) Compétences</span>
-          <h2 className="toolkit__title">Toolkit</h2>
-          <p className="toolkit__sub">{groups[0]}</p>
-        </header>
+      <header className="toolkit__head">
+        <span className="eyebrow">(03) Compétences</span>
+        <h2 className="toolkit__title">Toolkit</h2>
+        <p className="toolkit__intro">{toolkit.intro}</p>
+      </header>
 
-        <div className="deck">
-          {deck.map((c) => (
-            <div className="deck__slot" key={c.name}>
-              <article className={`card card--${c.theme}`}>
-                {c.logo ? (
-                  <img className="card__logo" src={c.logo} alt={c.name} draggable={false} />
-                ) : c.name === 'K3' ? (
-                  <h3 className="card__name card__name--k3">
-                    <Logo className="k3-logo card__k3-logo" title="K3" />
-                  </h3>
-                ) : (
-                  <h3 className="card__name">
-                    {c.name.split(/[\s-]/).map((part) => (
-                      <span key={part}>{part}</span>
-                    ))}
-                  </h3>
-                )}
-                <span className="card__tag">{c.tag}</span>
-                <span className="card__glare" aria-hidden="true" />
-              </article>
-            </div>
-          ))}
-        </div>
-      </div>
+      <ul className="toolkit__list">
+        {domains.map((d, i) => {
+          const isOpen = open === i
+          const id = `domain-${i}`
+          return (
+            <li className={`domain ${isOpen ? 'is-open' : ''}`} key={d.title}>
+              <h3 className="domain__heading">
+                <button
+                  className="domain__toggle"
+                  aria-expanded={isOpen}
+                  aria-controls={id}
+                  onClick={() => toggle(i)}
+                  onPointerMove={(e) => {
+                    const r = e.currentTarget.getBoundingClientRect()
+                    e.currentTarget.style.setProperty('--mx', `${((e.clientX - r.left) / r.width) * 100}%`)
+                  }}
+                >
+                  <span className="domain__glow" aria-hidden="true" />
+                  <span className="domain__index">{pad(i + 1)}</span>
+                  <span className="domain__name">{d.title}</span>
+                  <span className="domain__count">
+                    {d.tools.length} outils
+                    {d.projects.length > 0 && ` · ${d.projects.length} projet${d.projects.length > 1 ? 's' : ''}`}
+                  </span>
+                  <span className="domain__icon" aria-hidden="true" />
+                </button>
+              </h3>
+
+              <div className="domain__panel" id={id} role="region" aria-label={d.title} inert={!isOpen} onTransitionEnd={onPanelEnd}>
+                <div className="domain__clip">
+                  <div className="domain__body" onPointerLeave={() => setLit(null)}>
+                    <div className="domain__about">
+                      <p className="domain__text">{d.text}</p>
+                      <ul className={`domain__tools ${lit ? 'is-filtering' : ''}`} aria-label={`Outils · ${d.title}`}>
+                        {d.tools.map((t) => (
+                          <li key={t.name}>
+                            <button
+                              type="button"
+                              className={`tool ${t.logo ? '' : 'tool--text'} ${toolLit(t) ? 'is-lit' : ''}`}
+                              aria-pressed={lit?.tool === t.name}
+                              onPointerEnter={(e) => e.pointerType === 'mouse' && setLit({ tool: t.name })}
+                              onFocus={() => setLit({ tool: t.name })}
+                              onClick={() => setLit((l) => (l?.tool === t.name ? null : { tool: t.name }))}
+                            >
+                              {t.logo && <img src={t.logo} alt="" loading="lazy" draggable={false} />}
+                              <span>{t.name}</span>
+                              {t.used.length > 0 && <sup>{t.used.length}</sup>}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {d.projects.length > 0 && (
+                      <div className="domain__proof">
+                        <span className="domain__label">Vu dans</span>
+                        <ul className={`domain__projects ${lit ? 'is-filtering' : ''}`}>
+                          {d.projects.map((p) => (
+                            <li key={p.slug}>
+                              <TransitionLink
+                                className={`proof ${projectLit(p, d) ? 'is-lit' : ''}`}
+                                to={`/projets/${p.slug}`}
+                                onPointerEnter={(e) => e.pointerType === 'mouse' && setLit({ slug: p.slug })}
+                                onFocus={() => setLit({ slug: p.slug })}
+                                onClick={() => window.history.replaceState(window.history.state, '', '/#toolkit')}
+                              >
+                                <span className="proof__name">{p.title}</span>
+                                <span className="proof__arrow" aria-hidden="true">
+                                  ↗
+                                </span>
+                              </TransitionLink>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </li>
+          )
+        })}
+      </ul>
     </section>
   )
 }
