@@ -12,7 +12,7 @@ const SOURCE = (import.meta.env.VITE_PROJECTS_SOURCE || 'supabase').trim().toLow
 const TIMEOUT = 5000 // au-delà, on passe au repli local
 
 const COLUMNS =
-  'slug,title,sort_order,category,short,tag,role,client,year,tools,links,videos,cover,gallery,body,draft'
+  'slug,title,sort_order,category,short,tag,role,client,year,tools,links,videos,cover,gallery,model,body,draft'
 
 // Liaison vivante : les composants qui importent `projects` voient la liste chargée
 export let projects = []
@@ -56,6 +56,7 @@ function fromRow(row) {
     videos: list(row.videos).map(videoFromRow).filter(Boolean),
     cover: mediaUrl(row.cover) || gallery[0] || null,
     gallery,
+    model: mediaUrl(row.model),
     html: row.body?.trim() ? renderMarkdown(row.body) : '',
     draft: row.draft === true,
   }

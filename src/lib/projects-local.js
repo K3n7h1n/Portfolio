@@ -61,6 +61,7 @@ function buildProject(path, raw) {
     videos: list(data.videos).map((v) => toVideo(v, files)).filter(Boolean),
     cover,
     gallery,
+    model: data.model ? pick(String(data.model)) : null,
     html: body.trim() ? renderMarkdown(body) : '',
     draft: data.draft === true,
   }

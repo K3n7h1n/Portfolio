@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 import { gsap, ScrollTrigger, SplitText, useGSAP } from '../lib/gsap'
 import { initLenis, lenis } from '../lib/lenis'
@@ -8,6 +8,9 @@ import { TransitionLink } from '../components/PageTransition'
 import Logo from '../components/Logo'
 
 const pad = (n) => String(n).padStart(2, '0')
+
+// three.js et le .glb ne sont chargés que si le projet a un modèle 3D
+const ModelViewer = lazy(() => import('../components/ModelViewer'))
 
 const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
 const FOCUSABLE = 'button:not([disabled]), [href], [tabindex]:not([tabindex="-1"])'
@@ -304,13 +307,43 @@ function Video({ video, title }) {
   )
 }
 
+// ─── Modèle 3D : monté à l'approche de l'écran (le .glb peut peser plusieurs Mo) ───
+function ModelSection({ url, title }) {
+  const ref = useRef()
+  const [near, setNear] = useState(false)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const io = new IntersectionObserver(([e]) => e.isIntersecting && (setNear(true), io.disconnect()), { rootMargin: '600px 0px' })
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+  return (
+    <section className="pp-model" aria-label="Modèle 3D">
+      <header className="pp-section-head pp-scroll-reveal">
+        <span className="eyebrow">Objet</span>
+        <h2 className="pp-section-title">
+          En 3D<sup>(360°)</sup>
+        </h2>
+      </header>
+      <div className="pp-model__frame pp-scroll-reveal" ref={ref}>
+        {near && (
+          <Suspense fallback={<p className="pp-model__loading">Chargement du modèle…</p>}>
+            <ModelViewer url={url} title={title} />
+          </Suspense>
+        )}
+      </div>
+    </section>
+  )
+}
+
 function ProjectView({ project }) {
   const root = useRef()
   const next = getNextProject(project.slug)
   const [open, setOpen] = useState(-1)
   const [landscape, setLandscape] = useState(false) // couverture paysage : colonne image plus large
   const [coverFailed, setCoverFailed] = useState(false) // image injoignable : pas de cadre vide
-  const { title, category, short, role, client, year, tools, links, videos, cover, gallery, html } = project
+  const { title, category, short, role, client, year, tools, links, videos, cover, gallery, model, html } = project
   const infos = [
     ['Rôle', role],
     ['Client', client],
@@ -465,6 +498,8 @@ function ProjectView({ project }) {
             )}
           </div>
         )}
+
+        {model && <ModelSection url={model} title={title} />}
 
         {rest.length > 0 && (
           <section className="pp-gallery">
