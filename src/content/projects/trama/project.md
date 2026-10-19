@@ -14,6 +14,8 @@ tools:
   - HTML/CSS
   - Photoshop
   - After Effects
+  - Claude Code
+  - ChatGPT
 links:
   - label: Voir le site démo
     url: https://trama-demo.netlify.app/

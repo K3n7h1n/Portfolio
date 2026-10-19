@@ -14,6 +14,8 @@ tools:
   - Three.js
   - OBS Studio
   - Node.js
+  - Claude Code
+  - ChatGPT
 cover: 01-affiche-reunion-ouverture.webp
 ---
 

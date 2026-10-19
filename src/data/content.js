@@ -69,7 +69,7 @@ export const parcours = {
 // = « After Effects »). `aliases` : autres noms acceptés pour un outil.
 // logo : fichier dans /public/logo ; sans logo, une pastille texte.
 export const toolkit = {
-  intro: 'Quatre domaines, une même façon de travailler : de l’idée au rendu final. Ouvre un domaine, puis survole ou touche un outil pour voir où je l’ai utilisé.',
+  intro: 'Cinq domaines, une même façon de travailler : de l’idée au rendu final. Ouvre un domaine, puis survole ou touche un outil pour voir où je l’ai utilisé.',
   domains: [
     {
       title: 'Design graphique',
@@ -105,6 +105,15 @@ export const toolkit = {
       title: '3D & temps réel',
       text: 'Modélisation, objets interactifs pour le web et habillages animés en direct.',
       tools: [{ name: 'Blender' }, { name: 'Three.js' }, { name: 'Blockbench' }, { name: 'OBS Studio', aliases: ['OBS'] }],
+    },
+    {
+      title: 'IA & assistants',
+      text: 'Des assistants pour coder, déboguer et explorer des pistes plus vite. Je garde la direction artistique et je relis tout ce qui sort.',
+      tools: [
+        { name: 'Claude Code', logo: '/logo/claude.svg', aliases: ['Claude'] },
+        { name: 'ChatGPT', logo: '/logo/chatgpt-icon.svg', aliases: ['OpenAI'] },
+        { name: 'Gemini', logo: '/logo/gemini-icon.svg' },
+      ],
     },
   ],
 }

@@ -32,9 +32,10 @@ export const LOGOS = {
   github: 'github.svg',
   vscode: 'vscode.svg',
   visualstudiocode: 'vscode.svg',
-  chatgpt: 'chatgpt.svg',
+  chatgpt: 'chatgpt-icon.svg',
   claude: 'claude.svg',
-  gemini: 'gemini.svg',
+  claudecode: 'claude.svg',
+  gemini: 'gemini-icon.svg',
 }
 
 // Couleurs du visuel généré quand un projet n'a pas encore d'image

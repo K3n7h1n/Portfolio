@@ -15,6 +15,8 @@ tools:
   - Astro
   - Tailwind
   - PocketBase
+  - Claude Code
+  - ChatGPT
 links:
   - label: Voir le site
     url: https://romance-world.netlify.app

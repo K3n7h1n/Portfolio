@@ -771,8 +771,9 @@ button {
   border-radius: 22%;
 }
 
-/* Logos noirs (GitHub) : passés en blanc sur le fond sombre */
-.tool img[src$='github.svg'] {
+/* Logos noirs (GitHub, ChatGPT) : passés en blanc sur le fond sombre */
+.tool img[src$='github.svg'],
+.tool img[src$='chatgpt-icon.svg'] {
   filter: invert(1);
 }
 
