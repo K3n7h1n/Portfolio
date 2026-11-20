@@ -22,14 +22,9 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
-    # Site statique Vite : les variables VITE_* sont injectées au build.
-    # Clé publique (anon / publishable) uniquement, jamais la service_role.
+    # Site 100 % statique : contenu dans src/data/projects.json, médias dans public/projects/
     - name: Build project
       run: npm run build
-      env:
-        VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
-        VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
-        VITE_PROJECTS_SOURCE: supabase
 
     # Dossier dédié au nouveau site : l'ancien (/var/www/portfolio, PM2 « etudiant »)
     # n'est pas touché tant que nginx n'est pas basculé.

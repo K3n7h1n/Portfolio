@@ -1,44 +1,30 @@
 // ─────────────────────────────────────────────────────────────
-//  Projets : Supabase si configuré, sinon (ou en cas d'erreur)
-//  les dossiers locaux src/content/projects/<slug>/.
-//  loadProjects() est appelé une fois, pendant le loader (App.jsx).
-//  Ensuite projects / getProject / getNextProject sont synchrones.
-//  VITE_PROJECTS_SOURCE=local force les fichiers locaux.
+//  Projets : contenu statique, src/data/projects.json
+//  (export de l'ancienne table Supabase `projects`, 2026-11-20).
+//  Les médias sont dans public/projects/<slug>/… (servis tels quels),
+//  les modèles 3D dans public/models/.
+//
+//  Ajouter / modifier un projet : éditer projects.json et déposer
+//  les fichiers dans public/projects/<slug>/.
+//  Champs : slug, title, sort_order, category, short, tag, role,
+//  client, year, tools[], links[{label,url}], videos[{src,title}],
+//  cover, gallery[], model, body (Markdown), draft.
 // ─────────────────────────────────────────────────────────────
-import { BUCKET, supabase } from './supabase'
+import rows from '../data/projects.json'
 import { finalize, list, renderMarkdown, toTool, toVideo } from './project-model'
 
-const SOURCE = (import.meta.env.VITE_PROJECTS_SOURCE || 'supabase').trim().toLowerCase()
-const TIMEOUT = 5000 // au-delà, on passe au repli local
+const media = (path) => (path && typeof path === 'string' ? path : null)
 
-const COLUMNS =
-  'slug,title,sort_order,category,short,tag,role,client,year,tools,links,videos,cover,gallery,model,body,draft'
-
-// Liaison vivante : les composants qui importent `projects` voient la liste chargée
-export let projects = []
-export let projectsSource = 'none' // 'supabase' | 'local' | 'none'
-let loading = null
-
-// Chemin du bucket (slug/fichier) → URL publique ; URL et chemins absolus (/logo/…) gardés tels quels
-const mediaUrl = (path) => {
-  if (!path || typeof path !== 'string') return null
-  if (/^(https?:)?\//.test(path)) return path
-  return supabase.publicUrl(BUCKET, path)
-}
-
-// Une vidéo de la table : fichier du bucket → URL publique, puis même logique
-// qu'en local (YouTube, TikTok, fichier). Le 2e argument sert de table des
-// fichiers connus, pour accepter aussi les chemins de public/ (/videos/…).
+// Fichier local (/projects/…), YouTube ou TikTok
 function videoFromRow(v) {
-  const src = mediaUrl(typeof v === 'string' ? v : v?.src)
+  const src = media(typeof v === 'string' ? v : v?.src)
   if (!src) return null
   return toVideo({ src, title: (typeof v === 'object' && v?.title) || '' }, { [src]: src })
 }
 
-// Une ligne de la table → le même objet que buildProject() en local
 function fromRow(row) {
   const tools = list(row.tools).map(toTool).filter(Boolean)
-  const gallery = list(row.gallery).map(mediaUrl).filter(Boolean)
+  const gallery = list(row.gallery).map(media).filter(Boolean)
   return {
     slug: row.slug,
     title: row.title ? String(row.title) : row.slug,
@@ -54,76 +40,19 @@ function fromRow(row) {
       .filter((l) => l && l.url)
       .map((l) => ({ label: l.label || 'Voir le projet', url: l.url })),
     videos: list(row.videos).map(videoFromRow).filter(Boolean),
-    cover: mediaUrl(row.cover) || gallery[0] || null,
+    cover: media(row.cover) || gallery[0] || null,
     gallery,
-    model: mediaUrl(row.model),
+    model: media(row.model),
     html: row.body?.trim() ? renderMarkdown(row.body) : '',
     draft: row.draft === true,
   }
 }
 
-async function fetchRemote() {
-  // Délai maximum : un projet en pause peut laisser la requête pendue
-  const ctrl = new AbortController()
-  let timer
-  const timeout = new Promise((_, reject) => {
-    timer = setTimeout(() => {
-      ctrl.abort()
-      reject(new Error(`délai de ${TIMEOUT / 1000} s dépassé`))
-    }, TIMEOUT)
-  })
-  // Mêmes paramètres que supabase.from('projects').select(COLUMNS).eq('draft', false).order('sort_order')
-  // (le filtre draft est utile si on est connecté en admin : la RLS montrerait aussi les brouillons)
-  const query = supabase.select(
-    'projects',
-    { select: COLUMNS, draft: 'eq.false', order: 'sort_order.asc' },
-    { signal: ctrl.signal }
-  )
-  query.catch(() => {}) // délai dépassé : l'abandon de la requête n'est pas une erreur non gérée
-  try {
-    const data = await Promise.race([query, timeout])
-    return (data || []).map(fromRow)
-  } finally {
-    clearTimeout(timer)
-  }
-}
+export const projects = finalize(rows.map(fromRow))
+export const projectsSource = 'static'
 
-async function fetchLocal() {
-  const { localProjects } = await import('./projects-local')
-  return localProjects
-}
-
-// Appelé une seule fois (la promesse est gardée) : Supabase, sinon repli local
-export function loadProjects() {
-  loading ??= (async () => {
-    if (SOURCE !== 'local') {
-      if (!supabase) {
-        console.warn('[projets] VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY absents : repli sur les fichiers locaux')
-      } else {
-        try {
-          const remote = await fetchRemote()
-          if (remote.length) {
-            projects = finalize(remote)
-            projectsSource = 'supabase'
-            return projects
-          }
-          console.warn('[projets] Supabase ne renvoie aucun projet : repli sur les fichiers locaux')
-        } catch (err) {
-          console.warn('[projets] Supabase indisponible (erreur, pause ou délai dépassé) : repli sur les fichiers locaux', err)
-        }
-      }
-    }
-    try {
-      projects = finalize(await fetchLocal())
-      projectsSource = 'local'
-    } catch (err) {
-      console.error('[projets] Impossible de charger les projets', err)
-      projects = []
-    }
-    return projects
-  })()
-  return loading
-}
+// Gardé pour App.jsx (attendu avec le loader) : déjà prêt
+export const loadProjects = () => Promise.resolve(projects)
 
 export const getProject = (slug) => projects.find((p) => p.slug === slug) || null
 

@@ -1,0 +1,323 @@
+[
+  {
+    "slug": "romance-world",
+    "title": "Romance World",
+    "sort_order": 1,
+    "category": "Communauté & site dédiés aux animes de romance",
+    "short": "Catalogue et communauté dédiés aux animes de romance, entre découvertes, fiches détaillées et échanges sur Discord.",
+    "tag": "Communication · Astro",
+    "role": "Adjoint du créateur, responsable de la stratégie de communication",
+    "client": "Communauté Romance World",
+    "year": "",
+    "tools": [
+      "TikTok",
+      "Notion",
+      "Photoshop",
+      "Premiere Pro",
+      "Astro",
+      "Tailwind",
+      "PocketBase",
+      "Claude Code",
+      "ChatGPT"
+    ],
+    "links": [
+      {
+        "url": "https://romance-world.netlify.app",
+        "label": "Voir le site"
+      },
+      {
+        "url": "https://www.tiktok.com/@romance.wrld/video/7572897702518721825",
+        "label": "Voir sur TikTok"
+      }
+    ],
+    "videos": [
+      {
+        "src": "https://www.tiktok.com/embed/v2/7572897702518721825",
+        "title": ""
+      }
+    ],
+    "cover": "/projects/romance-world/01-accueil.jpg",
+    "gallery": [
+      "/projects/romance-world/01-accueil.jpg",
+      "/projects/romance-world/02-planning-sorties.jpg",
+      "/projects/romance-world/03-actualites.jpg",
+      "/projects/romance-world/04-article.jpg"
+    ],
+    "body": "## Contexte & rôle\n\nRomance World est une communauté engagée autour des animes de romance, principalement active sur **Discord** et **TikTok**. En tant qu'adjoint du créateur, je suis responsable de la **stratégie de communication globale** de la communauté.\n\n## Missions\n\nJe gère l'ensemble de la communication digitale de Romance World :\n\n- la planification stratégique du contenu sur plusieurs plateformes ;\n- la création et le suivi d'un calendrier éditorial ;\n- l'analyse des données de croissance et d'engagement ;\n- la coordination des publications sur TikTok, YouTube et Discord.\n\nEn parallèle, je crée des bots pour automatiser certaines tâches, et j'assure la création et la maintenance du site de la communauté.\n\n## Gestion multi-plateforme\n\nLe projet demande une coordination précise entre plusieurs canaux de communication. Je m'assure que chaque contenu est publié au bon moment, sur la bonne plateforme, pour maximiser l'engagement de la communauté.\n\nDes notifications automatiques sur Discord tiennent la communauté informée en temps réel des nouvelles publications et des actualités.\n\n## Le site de la communauté\n\n### Architecture & choix techniques\n\n- **Astro** pour un front statique, rapide et bien référencé.\n- **Tailwind CSS** pour une interface réactive.\n- **PocketBase** comme backend léger, pour stocker les animes et les médias.\n- Chargement des listes côté client, pour fluidifier les transitions de page et prévoir des données de secours locales si le service est indisponible.\n- Animations CSS et Intersection Observer pour un affichage progressif et accessible.\n\n### Fonctionnalités principales\n\n- Catalogue dynamique d'animes avec affiches et métadonnées (épisodes, saisons, genres).\n- Fiches anime détaillées.\n- Intégration Discord pour la communauté.\n- Données de démonstration et solutions de repli en cas d'indisponibilité du backend.\n- Animations et optimisations pour la performance.\n\n## Côté communication\n\n### Suivi des données\n\nLe suivi des métriques est au cœur de ma mission. Je surveille chaque jour l'évolution du nombre de membres et les taux d'engagement sur chaque plateforme, puis j'ajuste la stratégie de contenu en conséquence.\n\n### Planification\n\nJ'utilise un planning rigoureux pour organiser les publications. Chaque contenu est prévu à l'avance, avec des objectifs clairs d'engagement et de portée.\n\n### Plateformes gérées\n\n- **TikTok** : publication régulière de contenus courts et engageants.\n- **YouTube** : contenus longs et discussions approfondies.\n- **Discord** : notifications automatiques et animation de la communauté.",
+    "draft": false,
+    "model": null
+  },
+  {
+    "slug": "trama",
+    "title": "TRAMA — Follow the Thread",
+    "sort_order": 2,
+    "category": "Lancement produit · Direction artistique, 3D & web",
+    "short": "Lancement fictif d'un fauteuil Vitra autour d'un fil rouge, de la stratégie de communication au modèle 3D, en passant par les affiches, le motion et un site en scrollytelling.",
+    "tag": "3D · Direction artistique",
+    "role": "Stratégie de communication, direction artistique, modélisation 3D et développement web",
+    "client": "Vitra (projet étudiant fictif)",
+    "year": "2026",
+    "tools": [
+      "Blender",
+      "Three.js",
+      "JavaScript",
+      "HTML/CSS",
+      "Photoshop",
+      "After Effects",
+      "Claude Code",
+      "ChatGPT"
+    ],
+    "links": [
+      {
+        "url": "https://trama-demo.netlify.app/",
+        "label": "Voir le site démo"
+      }
+    ],
+    "videos": [
+      {
+        "src": "/projects/trama/teaser-trama.mp4",
+        "title": "Teaser TRAMA"
+      },
+      {
+        "src": "/projects/trama/motion-logo-trama.mp4",
+        "title": "Logo animé : le fil écrit TRAMA"
+      }
+    ],
+    "cover": "/projects/trama/01-affiche-follow-the-thread.jpg",
+    "gallery": [
+      "/projects/trama/01-affiche-follow-the-thread.jpg",
+      "/projects/trama/02-affiche-coming-soon.jpg",
+      "/projects/trama/03-affiche-sold-out.jpg",
+      "/projects/trama/04-site-intro.jpg",
+      "/projects/trama/05-site-vue-eclatee.jpg",
+      "/projects/trama/06-site-le-fil-s-allume.jpg",
+      "/projects/trama/07-site-revelation.jpg"
+    ],
+    "body": "## Le projet\n\n**TRAMA** est un fauteuil lounge imaginé pour Vitra : coque en bois moulé, textile tissé en fibres recyclées, démontable et réparable. Un seul **fil de trame rouge** traverse le tissage et ressort en couture visible. En italien, *trama* désigne à la fois la trame d'un tissu et l'intrigue d'un récit.\n\nLe brief : lancer ce fauteuil sur le Vitra Campus le 26 novembre 2026, en s'appuyant sur l'héritage de la marque (Eames, Panton, Prouvé) sans paraître tourné vers le passé.\n\n## Le concept : Follow the Thread\n\nUn fil rouge relie tout le lancement et change de rôle à chaque temps du parcours :\n\n- **Passé** : il trace un trait continu entre les icônes de la collection ;\n- **Présent** : il se tisse et devient la couture du fauteuil ;\n- **Futur** : il s'allume, les fils convergent et la lumière révèle TRAMA.\n\nSignature : *Past shaped us. Now we shape what comes next.* La charte reste volontairement sobre : noir, blanc et un seul rouge, toujours en ligne, jamais en fond.\n\n## Ce que j'ai réalisé\n\n- **Stratégie de communication** : benchmark, cibles, message, déroulé de la soirée et calendrier de diffusion (teaser, révélation, ouverture publique).\n- **Affiches** : pré-lancement « Coming soon », affiche « Follow the Thread » et visuel « Sold out » pour l'après-lancement.\n- **Motion design** : logo animé où le fil rouge écrit TRAMA, et teaser vidéo.\n- **Modèle 3D** sous Blender, entièrement généré par scripts Python : coque, piètement, garnissage, coussins et passepoil. Chaque pièce est séparée et porte son décalage de vue éclatée. Export web compressé en Draco (≈ 4,5 Mo, textures 1K).\n- **Site démo** en three.js : un seul fil rouge SVG se dessine au scroll à travers toute la page, le fauteuil s'ouvre pièce par pièce, puis le fil se détache seul avant la révélation.\n\nLe modèle ci-dessous est celui du site : fais-le tourner, puis écarte ses pièces avec le curseur « Vue éclatée ».",
+    "draft": false,
+    "model": "/models/trama-fauteuil.glb"
+  },
+  {
+    "slug": "esport-ucc",
+    "title": "Esport UCC — Communication & stream",
+    "sort_order": 3,
+    "category": "Projet collectif · Affiche, overlays OBS et régie de stream",
+    "short": "Projet collectif mené pendant ma formation autour du club esport : l'affiche de la réunion d'ouverture, puis tout l'habillage des lives (overlays OBS animés, transition et régie en direct).",
+    "tag": "Esport · Stream",
+    "role": "Projet collectif · affiche, design et développement des overlays",
+    "client": "Club esport UCC · BUT MMI",
+    "year": "2026",
+    "tools": [
+      "Photoshop",
+      "HTML/CSS",
+      "JavaScript",
+      "Three.js",
+      "OBS Studio",
+      "Node.js",
+      "Claude Code",
+      "ChatGPT"
+    ],
+    "links": [],
+    "videos": [
+      {
+        "src": "/projects/esport-ucc/transition-stinger.webm",
+        "title": "Transition entre les scènes (stinger OBS)"
+      }
+    ],
+    "cover": "/projects/affiche-reunion-esport-mmi/01-affiche-reunion-esport-mmi-projetco21-5znslr3p9c.webp",
+    "gallery": [
+      "/projects/affiche-reunion-esport-mmi/01-affiche-reunion-esport-mmi-projetco21-5znslr3p9c.webp",
+      "/projects/esport-ucc/02-scene-starting-soon.jpg",
+      "/projects/esport-ucc/03-scene-be-right-back.jpg",
+      "/projects/esport-ucc/04-scene-equipes.jpg",
+      "/projects/esport-ucc/05-scene-pick-ban.jpg",
+      "/projects/esport-ucc/06-scene-mi-temps.jpg",
+      "/projects/esport-ucc/07-scene-resultat.jpg",
+      "/projects/esport-ucc/08-scene-probleme-technique.jpg",
+      "/projects/esport-ucc/09-scene-fin-de-stream.jpg"
+    ],
+    "body": "## Le projet\n\nUn projet collectif réalisé au cours de ma formation, pour donner une identité cohérente au club esport : de l'affiche qui lance l'année jusqu'à l'habillage complet des matchs diffusés en direct sur Twitch.\n\n## L'affiche de la réunion d'ouverture\n\nPour annoncer la réunion d'ouverture de l'année, j'ai réalisé une affiche dynamique et immédiatement identifiable à l'univers de l'esport : une ambiance sombre dominée par le violet et le rose, des effets lumineux et une photographie centrale. La hiérarchie met d'abord en avant le titre de l'événement, puis les informations pratiques (date, heure, lieu). Réalisée sur **Photoshop** : traitement de l'image, effets lumineux, composition et typographie.\n\n## Les overlays de stream\n\nDans la continuité de cette direction artistique, nous avons conçu l'habillage des lives du club : **treize scènes animées** pour OBS au style HUD / tech, aux couleurs de la charte.\n\n- **Avant et après le live** : Starting Soon avec compte à rebours, Be Right Back, Fin de stream avec le prochain live.\n- **Pendant le match** : scène de jeu avec score, jeu + caméra du joueur, plateau des commentateurs avec le chat Twitch.\n- **Temps forts** : présentation des équipes, pick & ban des maps Valorant (images récupérées via une API publique), mi-temps, écran Victoire / Défaite automatique avec MVP et statistiques, écran « Problème technique ».\n- **Alertes** follow, sub, bits, raid et don, avec file d'attente, sons et particules.\n- **Transition** exportée en vidéo avec transparence (stinger OBS), et logo du club en 3D (three.js).\n\n## Une régie pour piloter le live\n\nPour que n'importe quel membre du club puisse gérer un stream sans toucher au code, les overlays se pilotent depuis **une régie locale** : une page de formulaires (score, textes, timers, équipes, maps, réseaux…) avec aperçu en direct. Un petit serveur Node.js enregistre chaque réglage, et les scènes l'appliquent dans OBS en quelques secondes, sans recharger. La régie peut aussi s'intégrer directement à OBS comme panneau.\n\n## La charte\n\nTout respecte la charte du club : six couleurs, des dégradés d'au moins trois teintes dans un ordre imposé, jamais de passage direct du cyan au magenta et jamais de blanc, y compris dans les shaders et les canvas.",
+    "draft": false,
+    "model": null
+  },
+  {
+    "slug": "magazine-animation-japonaise",
+    "title": "Magazine d'Animation Japonaise ( Frame )",
+    "sort_order": 4,
+    "category": "design",
+    "short": "Conception graphique, direction artistique et mise en page complète d'un magazine culturel dédié à l'animation japonaise.",
+    "tag": "illustration",
+    "role": "Maquettiste & Graphiste",
+    "client": "Projet Académique",
+    "year": "2025",
+    "tools": [
+      "InDesign"
+    ],
+    "links": [],
+    "videos": [],
+    "cover": null,
+    "gallery": [
+      "/projects/magazine-animation-japonaise/01-enzo-locatelli-chemin-de-fer-pages-to-jpg-0003-jca9je6ygg.jpg",
+      "/projects/magazine-animation-japonaise/02-enzo-locatelli-chemin-de-fer-pages-to-jpg-0004-m3rhzuawxx.jpg",
+      "/projects/magazine-animation-japonaise/03-enzo-locatelli-chemin-de-fer-pages-to-jpg-0002-el82ootbnu.jpg"
+    ],
+    "body": "<p data-path-to-node=\"15,0\"><strong data-path-to-node=\"15,0,0\" data-index-in-node=\"0\">Le Projet :</strong> Dans le cadre du module de cr&eacute;ation graphique&nbsp;, j'ai r&eacute;alis&eacute; la maquette d'un magazine sp&eacute;cialis&eacute; dans les animes.&nbsp;<span data-path-to-node=\"15,0,6\"><span class=\"citation-39\">Contrairement &agrave; un journal quotidien, ce magazine a &eacute;t&eacute; pens&eacute; comme un objet visuel qualitatif, avec un papier et une couverture soign&eacute;s</span></span><sup data-turn-source-index=\"4\"><!----></sup><sup data-turn-source-index=\"4\"><!----></sup><sup data-turn-source-index=\"4\"><!----></sup><sup data-turn-source-index=\"4\"><!----></sup>.<!----></p>\n<div><!----><!----><!----><!----><!----><!----></div>\n<p><!----><!----><!----><!----></p>\n<div><!----><!----><!----><!----><!----><!----></div>\n<p><!----><!----><!----><!----></p>\n<div><!----><!----><!----><!----><!----><!----></div>\n<p><!----><!----><!----><!----></p>\n<div><!----><!----><!----><!----><!----><!----></div>\n<p><!----><!----><!----><!----><!----><!----><!----><!----><!----></p>\n<p>&nbsp;</p>\n<p data-path-to-node=\"15,1\"><strong data-path-to-node=\"15,1,0\" data-index-in-node=\"0\">La D&eacute;marche Cr&eacute;ative :</strong>&nbsp;<br><strong data-path-to-node=\"15,1,2\" data-index-in-node=\"2\"><span class=\"citation-38\">- Ligne &Eacute;ditoriale :</span></strong> J'ai d'abord d&eacute;fini l'identit&eacute; du m&eacute;dia pour m'adresser sp&eacute;cifiquement aux passionn&eacute;s de culture japonaise<sup data-turn-source-index=\"5\"><!----></sup><sup data-turn-source-index=\"5\"><!----></sup><sup data-turn-source-index=\"5\"><!----></sup><sup data-turn-source-index=\"5\"><!----></sup>. <br><span data-path-to-node=\"15,1,6\"><span class=\"citation-37\">- </span><strong data-path-to-node=\"15,1,6\" data-index-in-node=\"2\"><span class=\"citation-37\">Structure :</span></strong><span class=\"citation-37\"> J'ai &eacute;labor&eacute; un \"chemin de fer\" pour visualiser le rythme du magazine et l'encha&icirc;nement des rubriques sur l'ensemble des pages</span></span><sup data-turn-source-index=\"6\"><!----></sup><sup data-turn-source-index=\"6\"><!----></sup><sup data-turn-source-index=\"6\"><!----></sup><sup data-turn-source-index=\"6\"><!----></sup>.<br><span data-path-to-node=\"15,1,10\"><span class=\"citation-36\">- </span><strong data-path-to-node=\"15,1,10\" data-index-in-node=\"2\"><span class=\"citation-36\">Mise en page :</span></strong><span class=\"citation-36\"> Le travail s'est concentr&eacute; sur la hi&eacute;rarchie du texte (titres, chap&ocirc;s, exergues) pour guider l'&oelig;il du lecteur et cr&eacute;er une harmonie entre les illustrations d'animes et les articles</span></span><sup data-turn-source-index=\"7\"><!----></sup><sup data-turn-source-index=\"7\"><!----></sup><sup data-turn-source-index=\"7\"><!----></sup><sup data-turn-source-index=\"7\"><!----></sup>.<!----></p>\n<div><!----><!----><!----><!----><!----><!----></div>\n<p><!----><!----><!----><!----></p>\n<div><!----><!----><!----><!----><!----><!----></div>\n<p><!----><!----><!----><!----></p>\n<div><!----><!----><!----><!----><!----><!----></div>\n<p><!----><!----><!----><!----></p>\n<div><!----><!----><!----><!----><!----><!----></div>\n<p><!----><!----><!----><!----></p>\n<div><!----><!----><!----><!----><!----><!----></div>\n<p><!----><!----><!----><!----><!----><!----><!----><!----><!----></p>\n<p>&nbsp;</p>\n<p data-path-to-node=\"15,2\"><strong data-path-to-node=\"15,2,0\" data-index-in-node=\"0\">Comp&eacute;tences acquises :</strong> Gestion des grilles de composition, choix typographiques strat&eacute;giques <span data-path-to-node=\"15,2,3\"><span class=\"citation-35 citation-end-35\"><sup class=\"superscript\" data-turn-source-index=\"8\"><!----></sup></span></span>&nbsp;et pr&eacute;paration des fichiers pour l'impression.</p>\n\nConception d'un magazine spécialisé dans l'animation japonaise. Ce projet a nécessité l'élaboration d'un chemin de fer rigoureux pour organiser le contenu et un travail approfondi sur la hiérarchie typographique. L'objectif était de créer une relation harmonieuse entre les textes et les images  tout en respectant une grille de composition stricte",
+    "draft": false,
+    "model": null
+  },
+  {
+    "slug": "journee-impulsion-cse-stellantis",
+    "title": "Journée IMPULSION — CSE Stellantis Sochaux",
+    "sort_order": 5,
+    "category": "design",
+    "short": "Campagne de communication complète pour la 4e édition de la Journée IMPULSION du CSE Stellantis Sochaux : affiche, visuel web et post réseaux sociaux.",
+    "tag": "reseaux-sociaux · illustration",
+    "role": "",
+    "client": "CSE Stellantis Sochaux",
+    "year": "2026",
+    "tools": [
+      "illustrator"
+    ],
+    "links": [],
+    "videos": [],
+    "cover": null,
+    "gallery": [
+      "/projects/journee-impulsion-cse-stellantis/01-plan-de-travail-1-copie-2-100-7t4iloc7sr.jpg",
+      "/projects/journee-impulsion-cse-stellantis/02-plan-de-travail-1-copie-3-100-hw8c91gn5y.jpg",
+      "/projects/journee-impulsion-cse-stellantis/03-plan-de-travail-1-copie-100-138wrsw9jk.jpg",
+      "/projects/journee-impulsion-cse-stellantis/04-plan-de-travail-1-100-ikmrta8qd6.jpg",
+      "/projects/journee-impulsion-cse-stellantis/05-plan-de-travail-10-100-y9dcp9k6u3.jpg",
+      "/projects/journee-impulsion-cse-stellantis/06-plan-de-travail-4-copie-100-s3cah4aa2f.jpg",
+      "/projects/journee-impulsion-cse-stellantis/07-plan-de-travail-7-100-8exkl4th7t.jpg",
+      "/projects/journee-impulsion-cse-stellantis/08-plan-de-travail-9-100-ddildxjusk.jpg"
+    ],
+    "body": "<p>Dans le cadre d'un test d'alternance, j'ai con&ccedil;u l'identit&eacute; visuelle compl&egrave;te de la Journ&eacute;e IMPULSION, &eacute;v&eacute;nement annuel du CSE Stellantis Sochaux r&eacute;unissant salari&eacute;s et partenaires locaux autour du sport et de la culture.</p>\n<p>Le brief imposait deux mots-cl&eacute;s : dynamisme et convivialit&eacute;. J'ai r&eacute;pondu par un univers graphique fort palette bleu/orange/framboise, typographies impactantes (Peace Sans + Inter), mise en sc&egrave;ne de personnages en mouvement d&eacute;clin&eacute; sur trois supports : affiche A3, visuel 16/9 et post Facebook.</p>\n\nConception de A à Z brief, recherche de concept, itérations graphiques, livraison des 3 formats finaux.",
+    "draft": false,
+    "model": null
+  },
+  {
+    "slug": "carte-postale-mer-morte",
+    "title": "Mer Morte – Hommage à Cassandre",
+    "sort_order": 6,
+    "category": "design",
+    "short": "Création d'une carte postale de sensibilisation sur la disparition du corail, réalisée dans le style Art Déco du graphiste A.M. Cassandre.",
+    "tag": "illustration",
+    "role": "Direction Artistique & Illustration",
+    "client": "Projet Académique",
+    "year": "2025",
+    "tools": [
+      "illustrator"
+    ],
+    "links": [],
+    "videos": [],
+    "cover": null,
+    "gallery": [
+      "/projects/carte-postale-mer-morte/01-image-2025-12-17-154218662-d1rhh5n9k2.png",
+      "/projects/carte-postale-mer-morte/02-image-2025-12-17-154247971-zl09dnfbip.png"
+    ],
+    "body": "<p data-path-to-node=\"14,0\"><strong>Le Projet :</strong> Dans le cadre d'un exercice de graphisme, l'objectif &eacute;tait de concevoir une carte postale illustrant un animal en voie de disparition en s'appropriant le style embl&eacute;matique d'A.M. Cassandre (1901-1968).</p>\n<p data-path-to-node=\"14,1\"><strong>La D&eacute;marche Cr&eacute;ative :</strong> J'ai choisi de repr&eacute;senter le <strong>corail</strong>, un animal marin essentiel &agrave; la biodiversit&eacute; mais gravement menac&eacute; par le r&eacute;chauffement climatique. Le titre \"Mer MORTE\" joue sur un double sens : il ne d&eacute;signe pas la mer g&eacute;ographique, mais lance un avertissement sur l'&eacute;tat futur de nos oc&eacute;ans (une mer morte, vid&eacute;e de vie).</p>\n<p data-path-to-node=\"14,2\"><strong>R&eacute;f&eacute;rences Stylistiques :</strong> Pour respecter la \"mani&egrave;re de Cassandre\", j'ai travaill&eacute; sur :</p>\n<ul data-path-to-node=\"14,3\">\n<li>\n<p data-path-to-node=\"14,3,0,0\"><strong>La g&eacute;om&eacute;trisation :</strong> Les vagues et les coraux sont trait&eacute;s en formes synth&eacute;tiques et &eacute;pur&eacute;es.</p>\n</li>\n<li>\n<p data-path-to-node=\"14,3,1,0\"><strong>La texture :</strong> Utilisation d'un grain prononc&eacute; (bruit) dans les d&eacute;grad&eacute;s pour imiter l'a&eacute;rographe et l'impression lithographique des ann&eacute;es 30.</p>\n</li>\n<li>\n<p data-path-to-node=\"14,3,2,0\"><strong>La composition :</strong> Une perspective en contre-plong&eacute;e et une typographie sans empattement, lourde et int&eacute;gr&eacute;e &agrave; l'image, typique de ses affiches publicitaires ferroviaires et maritimes.</p>\n</li>\n</ul>\n\nIllustration vectorielle réalisée en hommage au style d'A.M. Cassandre, afin de sensibiliser à la disparition des coraux en alliant message écologique fort et esthétique Art Déco des années 30.",
+    "draft": false,
+    "model": null
+  },
+  {
+    "slug": "planning-animes-romance",
+    "title": "Planning semaine — Animes de romance",
+    "sort_order": 7,
+    "category": "design",
+    "short": "Création d’un planning hebdomadaire d’animes de romance, réalisé sur Photoshop, avec une mise en page douce et colorée inspirée de l’esthétique shōjo.",
+    "tag": "identite-visuelle · reseaux-sociaux",
+    "role": "",
+    "client": "projet communautaire",
+    "year": "2025",
+    "tools": [
+      "photoshop"
+    ],
+    "links": [],
+    "videos": [],
+    "cover": null,
+    "gallery": [
+      "/projects/planning-animes-romance/01-image-2025-10-23-091907122-ghtrf5fmhf.png",
+      "/projects/planning-animes-romance/02-image-2025-10-23-091912282-x8otb1fxtk.png",
+      "/projects/planning-animes-romance/03-image-2025-10-23-091917861-lo5ysue9t3.png",
+      "/projects/planning-animes-romance/04-image-2025-10-23-092313116-g56skt3x4n.png"
+    ],
+    "body": "<p>Ce projet consiste en la cr&eacute;ation d&rsquo;un <strong data-start=\"725\" data-end=\"804\">planning graphique regroupant les sorties d&rsquo;animes de romance de la semaine</strong>.<br><br data-start=\"805\" data-end=\"808\">R&eacute;alis&eacute; int&eacute;gralement sur <strong data-start=\"834\" data-end=\"847\">Photoshop</strong>, il combine une palette pastel et des &eacute;l&eacute;ments visuels l&eacute;gers pour transmettre une ambiance romantique et d&eacute;tendue.<br data-start=\"963\" data-end=\"966\">Chaque jour met en avant les &eacute;pisodes &agrave; venir avec les visuels officiels des animes, les horaires de diffusion et un design harmonieux.<br><br data-start=\"1101\" data-end=\"1104\">Le projet a &eacute;galement permis de travailler sur la <strong data-start=\"1154\" data-end=\"1182\">hi&eacute;rarchisation visuelle</strong>, la <strong data-start=\"1187\" data-end=\"1226\">lisibilit&eacute; du texte sur fond color&eacute;</strong>, et la <strong data-start=\"1234\" data-end=\"1269\">coh&eacute;rence entre plusieurs pages</strong>.</p>\n\nTravail graphique réalisé pour les réseaux sociaux du serveur Discord d’animes de romance, afin de rendre les publications hebdomadaires plus esthétiques et engageantes.",
+    "draft": false,
+    "model": null
+  },
+  {
+    "slug": "projets-motion-design-ae",
+    "title": "Projets Motion Design",
+    "sort_order": 8,
+    "category": "video",
+    "short": "Une compilation de mes créations réalisées sous After Effects, allant de l'animation de logo à la conception de génériques, en solo ou en équipe.",
+    "tag": "motion-design",
+    "role": "",
+    "client": "Enseignants",
+    "year": "2026",
+    "tools": [
+      "after-effects",
+      "illustrator"
+    ],
+    "links": [
+      {
+        "url": "https://drive.google.com/drive/folders/1H4yKoLrNhj3bwXClMS3esWgRz6K4bpAE?usp=sharing",
+        "label": "Voir le projet"
+      }
+    ],
+    "videos": [
+      {
+        "src": "/projects/motion-design/FINAL-DJ_HOUSE-Enzo-Locatelli.mp4",
+        "title": "DJ House"
+      },
+      {
+        "src": "/projects/motion-design/iUT-NFC-logo-2025-Enzo-Locatelli.mp4",
+        "title": "Logo IUT NFC 2025"
+      },
+      {
+        "src": "/projects/motion-design/logosaeanimationSAE.mp4",
+        "title": "Logo SAE animé"
+      },
+      {
+        "src": "/projects/motion-design/Micro-animation-enzo-locatelli.mp4",
+        "title": "Micro-animation"
+      }
+    ],
+    "cover": null,
+    "gallery": [],
+    "body": "<p>Durant ma formation, j'ai eu l'opportunit&eacute; de d&eacute;couvrir et d'approfondir le motion design &agrave; travers diff&eacute;rents exercices pratiques. Ce projet regroupe l'ensemble des travaux r&eacute;alis&eacute;s sur After Effects, un outil que j'ai appris &agrave; ma&icirc;triser au fil des mois.<br>J'ai travaill&eacute; sur plusieurs types de formats :</p>\n<ul>\n<li><strong>Projets en solo :</strong> Apprentissage des bases de l'animation, gestion des images cl&eacute;s, utilisation des courbes de vitesse et cr&eacute;ation d'assets simples.</li>\n<li><strong>Projets en groupe :</strong> Collaboration sur des projets plus ambitieux comme des vid&eacute;os explicatives ou des g&eacute;n&eacute;riques, o&ugrave; il a fallu harmoniser nos styles et respecter une charte graphique pr&eacute;cise.</li>\n</ul>\n<p>Cette exp&eacute;rience m'a permis de devenir autonome sur le logiciel, de comprendre les principes fondamentaux de l'animation et de d&eacute;velopper une r&eacute;elle sensibilit&eacute; pour le rythme et le sound design.</p>\n\nMaîtrise des expressions de base.\n•\tWorkflow entre la suite Adobe.\n•\tAnimation de texte et de formes (Shape layers).",
+    "draft": false,
+    "model": null
+  },
+  {
+    "slug": "scp-mmi-enquete-anomalie",
+    "title": "SCP-MMI : Rapport d'Anomalie",
+    "sort_order": 9,
+    "category": "design",
+    "short": "Création d'un dossier d'enquête paranormal complet incluant un rapport officiel, des pièces à conviction audio et un \"found footage\" en motion design.",
+    "tag": "motion-design · illustration",
+    "role": "",
+    "client": "Enseignant",
+    "year": "2026",
+    "tools": [
+      "after-effects"
+    ],
+    "links": [
+      {
+        "url": "https://drive.google.com/drive/folders/1rsMdErpR9uO6tlszdeWi1327PTb72uNH?usp=sharing",
+        "label": "Voir le projet"
+      }
+    ],
+    "videos": [
+      {
+        "src": "/projects/Mmi-scp/SCP-animation.mp4",
+        "title": "SCP animation"
+      }
+    ],
+    "cover": null,
+    "gallery": [],
+    "body": "<p>Dans le cadre du module R408, nous avons d&ucirc; imaginer et sc&eacute;nariser une 'anomalie' s'inscrivant dans l'univers de la Fondation SCP, adapt&eacute;e au d&eacute;partement MMI. L'objectif &eacute;tait de construire une narration plurim&eacute;diatique cr&eacute;dible &agrave; travers plusieurs documents officiels et preuves mat&eacute;rielles.<br>Mon r&ocirc;le s'est concentr&eacute; sur la production des preuves techniques :</p>\n<ul>\n<li><strong>Found Footage (Motion Design) :</strong> R&eacute;alisation d'une s&eacute;quence de vid&eacute;o-surveillance montrant la disparition inexpliqu&eacute;e d'un sujet. J'ai utilis&eacute; After Effects pour cr&eacute;er un effet cam&eacute;ra (tracking, glitch, grain) et travaill&eacute; sur les masques pour g&eacute;rer la disparition de mani&egrave;re fluide.</li>\n<li><strong>Post-production Audio :</strong> Travail sur Adobe Audition pour renforcer l'ambiance angoissante. J'ai appliqu&eacute; des effets de r&eacute;verb&eacute;ration, de distorsion et de spatialisation pour rendre l'enregistrement sonore plus immersif et coh&eacute;rent avec l'aspect 'archive retrouv&eacute;e'.</li>\n</ul>\n\nModalités : Vidéo (found footage), Audio (enregistrement), Papier (rapport d'enquête).\n\nTechniques : Masquage, Tracking, Sound Design, Rédaction narrative.",
+    "draft": false,
+    "model": null
+  }
+]
