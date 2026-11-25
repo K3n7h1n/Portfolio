@@ -88,7 +88,10 @@ export default function Projects() {
               <span className="project__index">{String(i + 1).padStart(2, '0')}</span>
               <span className="project__title">
                 <span className="project__name">{p.title}</span>
-                <span className="project__cat">{p.category}</span>
+                <span className="project__cat">
+                  {p.inProgress && <span className="status-badge">En cours</span>}
+                  {p.category}
+                </span>
               </span>
               <span className="project__tag">{p.tag}</span>
             </TransitionLink>

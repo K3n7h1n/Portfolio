@@ -8,7 +8,8 @@
 //  les fichiers dans public/projects/<slug>/.
 //  Champs : slug, title, sort_order, category, short, tag, role,
 //  client, year, tools[], links[{label,url}], videos[{src,title}],
-//  cover, gallery[], model, body (Markdown), draft.
+//  cover, gallery[], model, body (Markdown), draft,
+//  status ("en-cours" : badge « En cours » dans la liste et la page).
 // ─────────────────────────────────────────────────────────────
 import rows from '../data/projects.json'
 import { finalize, list, renderMarkdown, toTool, toVideo } from './project-model'
@@ -45,6 +46,7 @@ function fromRow(row) {
     model: media(row.model),
     html: row.body?.trim() ? renderMarkdown(row.body) : '',
     draft: row.draft === true,
+    inProgress: row.status === 'en-cours',
   }
 }
 

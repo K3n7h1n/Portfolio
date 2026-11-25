@@ -98,9 +98,39 @@
     "model": "/models/trama-fauteuil.glb"
   },
   {
+    "slug": "fauteuil-barcelona",
+    "title": "Fauteuil Barcelona — Modélisation 3D",
+    "sort_order": 3,
+    "category": "Modélisation 3D · Blender, texturing & rendu",
+    "short": "Reproduction à la main du fauteuil Barcelona sous Blender, du châssis en X aux coussins capitonnés, jusqu'aux rendus et à une version légère pour le web.",
+    "tag": "3D · Blender",
+    "role": "Modélisation, texturing, éclairage et rendu",
+    "client": "Projet académique",
+    "year": "2026",
+    "tools": [
+      "Blender"
+    ],
+    "links": [],
+    "videos": [],
+    "cover": "/projects/fauteuil-barcelona/01-packshot-trois-quarts.jpg",
+    "gallery": [
+      "/projects/fauteuil-barcelona/01-packshot-trois-quarts.jpg",
+      "/projects/fauteuil-barcelona/02-detail-coutures.jpg",
+      "/projects/fauteuil-barcelona/03-technique-face.jpg",
+      "/projects/fauteuil-barcelona/04-technique-cote.jpg",
+      "/projects/fauteuil-barcelona/05-technique-dessus.jpg",
+      "/projects/fauteuil-barcelona/06-technique-perspective.jpg",
+      "/projects/fauteuil-barcelona/07-plongee.jpg"
+    ],
+    "body": "## Le projet\n\nReproduire en 3D une icône du mobilier : le **fauteuil Barcelona**. Le point de départ est un simple plan coté (face, profil, dessus : 74,9 × 76,2 × 76,8 cm), et tout est **modélisé à la main** dans Blender, pièce par pièce, en respectant les proportions d'origine.\n\n## Ce que j'ai réalisé\n\n- **Châssis** en acier : les deux lames en X croisées, puis l'arrondi des courbes pour retrouver la souplesse du dessin.\n- **Coussins capitonnés** d'assise et de dossier, avec leurs boutons, les sillons cousus entre chaque carré et le passepoil sur le pourtour.\n- **Sangles** sous l'assise et derrière le dossier.\n- **Matériaux PBR** : cuir noir, cuir des coutures, acier brossé et bois, à partir de textures 2K (couleur, rugosité, normal, displacement).\n- **Éclairage et caméras** : rendus Cycles (packshot et vues techniques orthographiques), plans Eevee pour l'affiche.\n- **Version low poly** (≈ 11 500 triangles) exportée en GLB pour le web : c'est celle que tu peux faire tourner ci-dessous.\n\n## La suite\n\nLe projet est **en cours** : la prochaine étape est l'affiche, construite à partir des plans détourés du fauteuil.",
+    "draft": false,
+    "model": "/models/fauteuil-barcelona.glb",
+    "status": "en-cours"
+  },
+  {
     "slug": "esport-ucc",
     "title": "Esport UCC — Communication & stream",
-    "sort_order": 3,
+    "sort_order": 4,
     "category": "Projet collectif · Affiche, overlays OBS et régie de stream",
     "short": "Projet collectif mené pendant ma formation autour du club esport : l'affiche de la réunion d'ouverture, puis tout l'habillage des lives (overlays OBS animés, transition et régie en direct).",
     "tag": "Esport · Stream",
@@ -138,12 +168,13 @@
     ],
     "body": "## Le projet\n\nUn projet collectif réalisé au cours de ma formation, pour donner une identité cohérente au club esport : de l'affiche qui lance l'année jusqu'à l'habillage complet des matchs diffusés en direct sur Twitch.\n\n## L'affiche de la réunion d'ouverture\n\nPour annoncer la réunion d'ouverture de l'année, j'ai réalisé une affiche dynamique et immédiatement identifiable à l'univers de l'esport : une ambiance sombre dominée par le violet et le rose, des effets lumineux et une photographie centrale. La hiérarchie met d'abord en avant le titre de l'événement, puis les informations pratiques (date, heure, lieu). Réalisée sur **Photoshop** : traitement de l'image, effets lumineux, composition et typographie.\n\n## Les overlays de stream\n\nDans la continuité de cette direction artistique, nous avons conçu l'habillage des lives du club : **treize scènes animées** pour OBS au style HUD / tech, aux couleurs de la charte.\n\n- **Avant et après le live** : Starting Soon avec compte à rebours, Be Right Back, Fin de stream avec le prochain live.\n- **Pendant le match** : scène de jeu avec score, jeu + caméra du joueur, plateau des commentateurs avec le chat Twitch.\n- **Temps forts** : présentation des équipes, pick & ban des maps Valorant (images récupérées via une API publique), mi-temps, écran Victoire / Défaite automatique avec MVP et statistiques, écran « Problème technique ».\n- **Alertes** follow, sub, bits, raid et don, avec file d'attente, sons et particules.\n- **Transition** exportée en vidéo avec transparence (stinger OBS), et logo du club en 3D (three.js).\n\n## Une régie pour piloter le live\n\nPour que n'importe quel membre du club puisse gérer un stream sans toucher au code, les overlays se pilotent depuis **une régie locale** : une page de formulaires (score, textes, timers, équipes, maps, réseaux…) avec aperçu en direct. Un petit serveur Node.js enregistre chaque réglage, et les scènes l'appliquent dans OBS en quelques secondes, sans recharger. La régie peut aussi s'intégrer directement à OBS comme panneau.\n\n## La charte\n\nTout respecte la charte du club : six couleurs, des dégradés d'au moins trois teintes dans un ordre imposé, jamais de passage direct du cyan au magenta et jamais de blanc, y compris dans les shaders et les canvas.",
     "draft": false,
-    "model": null
+    "model": null,
+    "status": "en-cours"
   },
   {
     "slug": "magazine-animation-japonaise",
     "title": "Magazine d'Animation Japonaise ( Frame )",
-    "sort_order": 4,
+    "sort_order": 5,
     "category": "design",
     "short": "Conception graphique, direction artistique et mise en page complète d'un magazine culturel dédié à l'animation japonaise.",
     "tag": "illustration",
@@ -168,7 +199,7 @@
   {
     "slug": "journee-impulsion-cse-stellantis",
     "title": "Journée IMPULSION — CSE Stellantis Sochaux",
-    "sort_order": 5,
+    "sort_order": 6,
     "category": "design",
     "short": "Campagne de communication complète pour la 4e édition de la Journée IMPULSION du CSE Stellantis Sochaux : affiche, visuel web et post réseaux sociaux.",
     "tag": "reseaux-sociaux · illustration",
@@ -198,7 +229,7 @@
   {
     "slug": "carte-postale-mer-morte",
     "title": "Mer Morte – Hommage à Cassandre",
-    "sort_order": 6,
+    "sort_order": 7,
     "category": "design",
     "short": "Création d'une carte postale de sensibilisation sur la disparition du corail, réalisée dans le style Art Déco du graphiste A.M. Cassandre.",
     "tag": "illustration",
@@ -222,7 +253,7 @@
   {
     "slug": "planning-animes-romance",
     "title": "Planning semaine — Animes de romance",
-    "sort_order": 7,
+    "sort_order": 8,
     "category": "design",
     "short": "Création d’un planning hebdomadaire d’animes de romance, réalisé sur Photoshop, avec une mise en page douce et colorée inspirée de l’esthétique shōjo.",
     "tag": "identite-visuelle · reseaux-sociaux",
@@ -248,7 +279,7 @@
   {
     "slug": "projets-motion-design-ae",
     "title": "Projets Motion Design",
-    "sort_order": 8,
+    "sort_order": 9,
     "category": "video",
     "short": "Une compilation de mes créations réalisées sous After Effects, allant de l'animation de logo à la conception de génériques, en solo ou en équipe.",
     "tag": "motion-design",
@@ -292,7 +323,7 @@
   {
     "slug": "scp-mmi-enquete-anomalie",
     "title": "SCP-MMI : Rapport d'Anomalie",
-    "sort_order": 9,
+    "sort_order": 10,
     "category": "design",
     "short": "Création d'un dossier d'enquête paranormal complet incluant un rapport officiel, des pièces à conviction audio et un \"found footage\" en motion design.",
     "tag": "motion-design · illustration",

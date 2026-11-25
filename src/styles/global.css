@@ -927,6 +927,49 @@ button {
   text-align: right;
 }
 
+/* Badge « En cours » : pastille rouge qui pulse doucement */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  margin-right: 0.9em;
+  padding: 0.3em 0.75em 0.3em 0.65em;
+  border: 1px solid rgba(255, 0, 0, 0.55);
+  border-radius: 999px;
+  font-size: 0.78em;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--white);
+  vertical-align: 0.1em;
+  white-space: nowrap;
+}
+
+.status-badge::before {
+  content: '';
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background: var(--red);
+  animation: status-pulse 1.8s ease-in-out infinite;
+}
+
+.eyebrow .status-badge {
+  margin: 0 0 0 1em;
+}
+
+@keyframes status-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.6); }
+  50% { box-shadow: 0 0 0 0.35em rgba(255, 0, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-badge::before {
+    animation: none;
+  }
+}
+
 .project__title {
   display: flex;
   flex-direction: column;

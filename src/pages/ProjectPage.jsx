@@ -427,7 +427,10 @@ function ProjectView({ project }) {
 
       <main>
         <section className="pp-hero">
-          <span className="eyebrow reveal">(04) Projet · {pad(project.index + 1)}</span>
+          <span className="eyebrow reveal">
+            (04) Projet · {pad(project.index + 1)}
+            {project.inProgress && <span className="status-badge">En cours</span>}
+          </span>
           <h1 className="pp-hero__title">{title}</h1>
           <div className="pp-hero__sub">
             {category && <p className="pp-hero__cat reveal">{category}</p>}
