@@ -172,27 +172,35 @@
     "status": "en-cours"
   },
   {
-    "slug": "magazine-animation-japonaise",
-    "title": "Magazine d'Animation Japonaise ( Frame )",
+    "slug": "edition-mise-en-page",
+    "title": "Édition & mise en page",
     "sort_order": 5,
-    "category": "design",
-    "short": "Conception graphique, direction artistique et mise en page complète d'un magazine culturel dédié à l'animation japonaise.",
-    "tag": "illustration",
-    "role": "Maquettiste & Graphiste",
-    "client": "Projet Académique",
-    "year": "2025",
+    "category": "InDesign · Magazines, affiches, dépliant et annonce presse",
+    "short": "Une sélection de mes mises en page sous InDesign : la campagne de la place de la République à Belfort, le magazine Boarding, une annonce presse pour Le 19 CRAC, et mon premier magazine, Frame.",
+    "tag": "Print · InDesign",
+    "role": "Mise en page, direction artistique et préparation à l'impression",
+    "client": "Projets académiques",
+    "year": "2025 – 2026",
     "tools": [
-      "InDesign"
+      "InDesign",
+      "Photoshop",
+      "Illustrator"
     ],
     "links": [],
     "videos": [],
-    "cover": null,
+    "cover": "/projects/edition-mise-en-page/01-belfort-affiche-jardin.jpg",
     "gallery": [
-      "/projects/magazine-animation-japonaise/01-enzo-locatelli-chemin-de-fer-pages-to-jpg-0003-jca9je6ygg.jpg",
-      "/projects/magazine-animation-japonaise/02-enzo-locatelli-chemin-de-fer-pages-to-jpg-0004-m3rhzuawxx.jpg",
-      "/projects/magazine-animation-japonaise/03-enzo-locatelli-chemin-de-fer-pages-to-jpg-0002-el82ootbnu.jpg"
+      "/projects/edition-mise-en-page/01-belfort-affiche-jardin.jpg",
+      "/projects/edition-mise-en-page/02-belfort-affiche-prenez-le-temps.jpg",
+      "/projects/edition-mise-en-page/03-belfort-depliant-exterieur.jpg",
+      "/projects/edition-mise-en-page/04-belfort-depliant-interieur.jpg",
+      "/projects/edition-mise-en-page/05-boarding-couverture.jpg",
+      "/projects/edition-mise-en-page/06-boarding-changer-d-air.jpg",
+      "/projects/edition-mise-en-page/07-boarding-immersion-totale.jpg",
+      "/projects/edition-mise-en-page/08-annonce-presse-le-19-crac.jpg",
+      "/projects/edition-mise-en-page/09-frame-sommaire.jpg"
     ],
-    "body": "<p data-path-to-node=\"15,0\"><strong data-path-to-node=\"15,0,0\" data-index-in-node=\"0\">Le Projet :</strong> Dans le cadre du module de cr&eacute;ation graphique&nbsp;, j'ai r&eacute;alis&eacute; la maquette d'un magazine sp&eacute;cialis&eacute; dans les animes.&nbsp;<span data-path-to-node=\"15,0,6\"><span class=\"citation-39\">Contrairement &agrave; un journal quotidien, ce magazine a &eacute;t&eacute; pens&eacute; comme un objet visuel qualitatif, avec un papier et une couverture soign&eacute;s</span></span><sup data-turn-source-index=\"4\"><!----></sup><sup data-turn-source-index=\"4\"><!----></sup><sup data-turn-source-index=\"4\"><!----></sup><sup data-turn-source-index=\"4\"><!----></sup>.<!----></p>\n<div><!----><!----><!----><!----><!----><!----></div>\n<p><!----><!----><!----><!----></p>\n<div><!----><!----><!----><!----><!----><!----></div>\n<p><!----><!----><!----><!----></p>\n<div><!----><!----><!----><!----><!----><!----></div>\n<p><!----><!----><!----><!----></p>\n<div><!----><!----><!----><!----><!----><!----></div>\n<p><!----><!----><!----><!----><!----><!----><!----><!----><!----></p>\n<p>&nbsp;</p>\n<p data-path-to-node=\"15,1\"><strong data-path-to-node=\"15,1,0\" data-index-in-node=\"0\">La D&eacute;marche Cr&eacute;ative :</strong>&nbsp;<br><strong data-path-to-node=\"15,1,2\" data-index-in-node=\"2\"><span class=\"citation-38\">- Ligne &Eacute;ditoriale :</span></strong> J'ai d'abord d&eacute;fini l'identit&eacute; du m&eacute;dia pour m'adresser sp&eacute;cifiquement aux passionn&eacute;s de culture japonaise<sup data-turn-source-index=\"5\"><!----></sup><sup data-turn-source-index=\"5\"><!----></sup><sup data-turn-source-index=\"5\"><!----></sup><sup data-turn-source-index=\"5\"><!----></sup>. <br><span data-path-to-node=\"15,1,6\"><span class=\"citation-37\">- </span><strong data-path-to-node=\"15,1,6\" data-index-in-node=\"2\"><span class=\"citation-37\">Structure :</span></strong><span class=\"citation-37\"> J'ai &eacute;labor&eacute; un \"chemin de fer\" pour visualiser le rythme du magazine et l'encha&icirc;nement des rubriques sur l'ensemble des pages</span></span><sup data-turn-source-index=\"6\"><!----></sup><sup data-turn-source-index=\"6\"><!----></sup><sup data-turn-source-index=\"6\"><!----></sup><sup data-turn-source-index=\"6\"><!----></sup>.<br><span data-path-to-node=\"15,1,10\"><span class=\"citation-36\">- </span><strong data-path-to-node=\"15,1,10\" data-index-in-node=\"2\"><span class=\"citation-36\">Mise en page :</span></strong><span class=\"citation-36\"> Le travail s'est concentr&eacute; sur la hi&eacute;rarchie du texte (titres, chap&ocirc;s, exergues) pour guider l'&oelig;il du lecteur et cr&eacute;er une harmonie entre les illustrations d'animes et les articles</span></span><sup data-turn-source-index=\"7\"><!----></sup><sup data-turn-source-index=\"7\"><!----></sup><sup data-turn-source-index=\"7\"><!----></sup><sup data-turn-source-index=\"7\"><!----></sup>.<!----></p>\n<div><!----><!----><!----><!----><!----><!----></div>\n<p><!----><!----><!----><!----></p>\n<div><!----><!----><!----><!----><!----><!----></div>\n<p><!----><!----><!----><!----></p>\n<div><!----><!----><!----><!----><!----><!----></div>\n<p><!----><!----><!----><!----></p>\n<div><!----><!----><!----><!----><!----><!----></div>\n<p><!----><!----><!----><!----></p>\n<div><!----><!----><!----><!----><!----><!----></div>\n<p><!----><!----><!----><!----><!----><!----><!----><!----><!----></p>\n<p>&nbsp;</p>\n<p data-path-to-node=\"15,2\"><strong data-path-to-node=\"15,2,0\" data-index-in-node=\"0\">Comp&eacute;tences acquises :</strong> Gestion des grilles de composition, choix typographiques strat&eacute;giques <span data-path-to-node=\"15,2,3\"><span class=\"citation-35 citation-end-35\"><sup class=\"superscript\" data-turn-source-index=\"8\"><!----></sup></span></span>&nbsp;et pr&eacute;paration des fichiers pour l'impression.</p>\n\nConception d'un magazine spécialisé dans l'animation japonaise. Ce projet a nécessité l'élaboration d'un chemin de fer rigoureux pour organiser le contenu et un travail approfondi sur la hiérarchie typographique. L'objectif était de créer une relation harmonieuse entre les textes et les images  tout en respectant une grille de composition stricte",
+    "body": "## Le projet\n\nUne sélection de mes travaux d'**édition et de mise en page sous InDesign** : du magazine à l'affiche, en passant par le dépliant et l'annonce presse. À chaque fois, le même travail de fond : une grille, une hiérarchie typographique claire et des fichiers prêts pour l'impression.\n\n## Place de la République — Belfort\n\nCampagne pour l'inauguration de la nouvelle place de la République à Belfort, autour du message « Un jardin pour faire une pause et se retrouver ».\n\n- **Affiche recto / verso** : une illustration de la place au recto, et au verso un titre « Prenez le temps d'y vivre » en lettrage rétro sur un motif de cercles verts.\n- **Dépliant trois volets** : programme de la journée (concerts, promenades, atelier « cartes du jardin »), accès à pied, à vélo et en bus, stationnement. Des personnages-fleurs dessinés accompagnent la lecture.\n\n## Boarding — magazine (SAE 302)\n\nUn magazine sur la mobilité internationale des étudiants : « Votre passeport pour le monde de demain ». Couverture en collage (papier déchiré, béton, flèche rouge), puis des pages d'articles avec titres en capitales, chapô, citations, encadrés « Le saviez-vous ? » et un renvoi vers une interview WebTV par QR code.\n\n## Annonce presse — Le 19, CRAC\n\nEncart presse de 92 × 126 mm pour une visite commentée lors des Journées européennes du patrimoine : « La femme aux bras poissons ». Un rouge profond texturé pour l'aspect patrimonial, l'illustration héraldique en fond, et un bandeau bleu qui isole les informations pratiques et les logos.\n\n## Pour finir : Frame\n\nMon tout premier magazine sous InDesign, consacré à l'animation japonaise. Je le garde ici pour le chemin parcouru : la dernière image de la galerie, c'est son sommaire.",
     "draft": false,
     "model": null
   },
